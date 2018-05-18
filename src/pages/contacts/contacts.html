@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar hideBackButton="true">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ 'CONTACTS' | translate }}</ion-title>
+    <ion-buttons end>
+      <!-- <button ion-button secondary (click)="exportContacts()">
+        Export
+      </button>
+      <button ion-button secondary (click)="importContacts()">
+        Import
+      </button> -->
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding *ngIf="!guest">
+   <ion-list *ngIf="contacts != null">
+    <ion-item *ngFor="let contact of contacts">
+      <label *ngIf="contact.name != ''" (click)="presentPopover($event, contact.account, contact.name)">{{contact.name}}<br /><span class="smallTxt">{{contact.account}}</span> 
+        
+      </label>
+      <label *ngIf="contact.name == ''" (click)="presentPopover($event, contact.account, '')">{{contact.account}} 
+
+      </label>
+    </ion-item>
+  </ion-list> 
+  <h4 *ngIf="contacts == null" style="text-align: center;">{{ 'NO_CONTACTS' | translate }}</h4>
+  <ion-fab right bottom>
+    <button (click)="editContact('','','new')" ion-fab><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>
+
+<ion-content padding *ngIf="guest" style="text-align: center;">
+	<h4 style="text-align: center;">{{ 'CONTACTS_NOT_ALLOWED' | translate }}</h4>
+</ion-content>

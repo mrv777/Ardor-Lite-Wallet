@@ -1,0 +1,62 @@
+page-coin-exchange {
+	.header button {
+        font-size: 1.5em;
+    }
+
+    .select-md {
+        padding: 0 3px 0 0;
+        font-size: 1.2em;
+        display: inline-flex;
+        max-width: 100%;
+    }
+
+    .button {
+    	width: 100%;
+        background-color: #1162a1;
+    }
+
+    .ngx-pagination {
+    	padding: 0;
+    }
+
+    .ngx-pagination a, .ngx-pagination button, .ngx-pagination .current, .ngx-pagination .disabled {
+        padding: 0.1875rem 0.5rem
+    }
+
+    .ngx-pagination .current {
+        background-color: #1162a1;
+    }
+
+    .paginationCol {
+        padding: 5px 0;
+    }
+
+    .tableHeader {
+    	font-weight: bold;
+    	text-decoration: underline;
+    }
+
+    .grid {
+        padding: 0;
+    }
+
+    @media(max-width: 767px){
+        ion-app.md {
+        	font-size: 1.2rem;
+        }
+
+        .hidden-sm {
+            display:none;
+        }
+
+        .no-top-bottom-padding {
+            padding: 0 5px;
+        }
+        
+    }
+    @media(min-width: 768px){
+        .show-sm {
+            display:none;
+        }
+    }
+}

@@ -1,0 +1,24 @@
+page-receive-tab {
+	.qrcode img {
+		width: 60%;
+		margin: 0 -4% -4%-4%;
+		max-height: 50%;
+	}
+
+	#qrCode {
+		text-align: center;
+	}
+
+	h5 {
+		font-size: 22px;
+	}
+
+	.idIcon {
+        position: absolute;
+		right: 0;
+    }
+
+	.content-md .scroll-content {
+		padding-top: 0 !important;
+	}
+}

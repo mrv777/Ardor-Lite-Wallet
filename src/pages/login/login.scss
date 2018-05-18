@@ -1,0 +1,169 @@
+page-login {
+	#pinIcon, #qrIcon, #fingerIcon {
+        font-size: 1.75em;
+        margin: 0;
+        padding: 0 0.4em;
+        height: 100%;
+        color: #777;
+        top: 13px;
+    	position: relative;
+    }
+
+    .idIcon {
+        padding: 0 5px 0 0;
+        top: 5px;
+        position: relative;
+    }
+
+    .grid {
+        justify-content: center !important;
+        height: 90%;
+    }
+
+    #loginLogo {
+        background: #1162a1;
+        text-align: center;
+        margin: -16px -16px 2px -16px;
+        padding: 2em;
+    }
+
+    #loginText {
+        background: #1162a1;
+        text-align: left;
+        margin: -16px -16px 2px -16px;
+        padding: 2em;
+        font-size: 2rem;
+        font-weight: 500;
+        color: #fff;
+    }
+
+    button[ion-fab] {
+        overflow: visible;
+        position: relative;
+
+        ion-label {
+            position: absolute;
+            top: -8px;
+            right: 40px;
+
+            color: white;
+            background-color: rgba(0,0,0,0.7);
+            line-height: 24px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+    }
+    .fab {
+        contain: layout;
+    }
+    #langFabList {
+        margin: 54px 0;
+    }
+    #langFabList button[ion-fab] {
+
+        ion-label {
+            left: 45px;
+            right: inherit;
+        }
+    }
+    #langFabList .fab-in-list {
+        margin: 4px 0;
+    }
+
+    .currentLang {
+        background-color: black;
+        color: white;
+    }
+
+    #importButton {
+        background-color: #fff;
+        color: #1162a1;
+        font-weight: bold;
+    }
+
+    button#mainFab {
+        background-color: #f57c00;
+    }
+
+    #guestLogin, #offlineTx {
+        text-align: center;
+    }
+
+    #guestLogin a, #offlineTx a {
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    #newAccountButton {
+        background-color: #fff;
+        color: #58B802;
+        font-weight: bold;
+    }
+
+    .accountBalance {
+        float: right;
+        color: #3D4DB8;
+        font-size: 18px;
+    }
+    .ardrCurrency {
+        font-size: 14px;
+        color: #ccc;
+    }
+
+    .scroll-content {
+        background-color: #1162a1;
+    }
+
+    #loader {
+        margin: auto;
+        text-align: center;
+        color: #fff;
+        font-size: 24px;
+    }
+
+
+
+    #savePasswordBox .item-inner {
+        border: none;
+    }
+
+    .select-md {
+   		max-width: initial;
+    }
+
+    .item-button.toggleButtons {
+    	border: 1px solid #3d4db8;
+    	font-size: 1.6em;
+        margin: 0;
+        padding: 0.8em 0.4em;
+        top: 10px;
+    	position: relative;
+    	color: #777;
+    }
+
+    .item-button.toggleButtons.activeToggle {
+    	background-color: #3d4db8;
+    	color: #fff;
+    }
+
+    #passwordButton {
+    	border-radius: 2px 0 0 2px;
+    }
+    #accountButton {
+    	border-radius: 0 2px 2px 0;
+    }
+
+    @media(max-width: 1023px){
+        #headerLogo {
+            width: 192px;
+        }
+        
+    }
+    @media(min-width: 1024px){
+        #headerLogo {
+            width: 256px;
+        }
+    }
+}

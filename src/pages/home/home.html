@@ -1,0 +1,55 @@
+<ion-header id="homeHeader">
+  <ion-navbar hideBackButton="true">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+    <ion-select id="chainSelect" [(ngModel)]="chainName" name="chainName" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}" (ionChange)="changeChain()">
+      <ion-option *ngFor="let arrayChain of chains" [value]="arrayChain">
+        {{ arrayChain | uppercase }}
+      </ion-option>
+    </ion-select></ion-title>
+    <ion-buttons end *ngIf="!guest">
+      <button ion-button secondary (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding fixed>
+  <ion-grid id="homeGrid">
+    <ion-row id="homeTop">
+      <ion-col>
+        <div *ngIf="balance != null">
+          <h5>{{ 'BALANCE' | translate }} <ion-select [(ngModel)]="currency" name="currency" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}" (ionChange)="changeCurrency()">
+            <ion-option *ngFor="let arrayCurrency of currencies" [value]="arrayCurrency">
+              {{ arrayCurrency | uppercase }}
+            </ion-option>
+          </ion-select></h5>
+          <h4 *ngIf="balance.balanceNQT != null">
+            <b>{{balance.balanceNQT/decimals | number : '1.0-8'}}</b>
+          </h4>
+          <h4 *ngIf="balance.balanceNQT == null"><b><span class="lighterText">{{chainName}}</span> 0</b></h4>
+          <h6 *ngIf="balance.balanceNQT != null"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}} </h6>
+          <h6 *ngIf="balance.balanceNQT == null"> <span class="lighterText">{{symbol}}</span> 0 </h6>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row id="tabMenu">
+      <ion-col (click)="openPage(txPage)" [class.activeTab]="txSelected">
+        <ion-icon name="time"></ion-icon>
+      </ion-col>
+      <ion-col (click)="openPage(sendPage)" [class.activeTab]="sendSelected">
+        <ion-icon name="send"></ion-icon>
+      </ion-col>
+      <ion-col (click)="openPage(receivePage)" [class.activeTab]="receiveSelected">
+        <ion-icon name="barcode"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid id="txTable">
+    <ion-nav #content [root]="rootPage" style="top: 210px"></ion-nav>
+  </ion-grid>
+</ion-content>

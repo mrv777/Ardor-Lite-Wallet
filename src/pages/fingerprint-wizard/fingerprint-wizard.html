@@ -1,0 +1,57 @@
+<ion-header>
+	<ion-toolbar>
+        <ion-buttons left>
+            <button ion-button clear icon-only (click)="closeModal()">
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </button>
+        </ion-buttons>
+        <ion-title>{{ 'IMPORT' | translate }}</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+	<form [formGroup]="loginForm">
+		<ion-list>			
+			<ion-item>
+				<ion-input [(ngModel)]="accountName" name="accountName" maxlength="16" type="text" required formControlName="accountNameForm" placeholder="{{ 'CHOOSE_ACCOUNT_NAME' | translate }}">
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-input [(ngModel)]="account" name="account" type="text" required formControlName="accountForm" placeholder="{{ 'ACCOUNT' | translate }} (ARDOR-XXXX-XXXX-XXXX-XXXXX)">
+				</ion-input>
+				<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerAccount()"> <ion-icon name="barcode"> </ion-icon> </button>
+			</ion-item>
+			<ion-item *ngIf="!loginForm.controls.accountForm.valid && (loginForm.controls.accountForm.dirty|| submitAttempt)">
+                <p>Please enter a valid account address (ARDOR-XXXX-XXXX-XXXX-XXXXX).</p>
+            </ion-item>
+			<ion-item>
+				<ion-label item-start stacked color="primary">{{ 'DEFAULT_CHAIN' | translate }}</ion-label>
+				<ion-select class="chainSelect" [(ngModel)]="chainName" name="chainName" (ionChange)="changeChain()" formControlName="accountChainForm">
+			      <ion-option *ngFor="let arrayChain of chains" [value]="arrayChain">
+			        {{ arrayChain | uppercase }}
+			      </ion-option>
+			    </ion-select>
+			</ion-item>	
+			<ion-item>
+			    <ion-label>{{ 'SAVE_TO_DEVICE' | translate }}</ion-label>
+			    <ion-checkbox [(ngModel)]="savePassphrase" formControlName="saveForm"></ion-checkbox>
+			</ion-item>
+			<ion-item *ngIf="savePassphrase">
+				<ion-input [(ngModel)]="password" name="password" type="password" required formControlName="passwordForm" placeholder="{{ 'PASSPHRASE' | translate }}">
+				</ion-input>
+				<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerPassword()"> <ion-icon name="barcode"> </ion-icon> </button>
+			</ion-item>
+			<ion-item *ngIf="savePassphrase" text-wrap style="color: red">
+				If your device gets stolen or lost, it is recommended to transfer your balances out of all accounts that have saved passphrases on the device.
+			</ion-item>
+		</ion-list>
+
+		<ion-row responsive-sm>
+			<ion-col>
+				<button ion-button color="white" (click)="saveLogin()" type="submit" block>{{ 'SAVE' | translate }}</button>
+			</ion-col>
+		</ion-row>
+	</form>
+</ion-content>

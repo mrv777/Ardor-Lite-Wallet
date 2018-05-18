@@ -1,0 +1,33 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'GENERATE' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h6>{{ 'ACCOUNT' | translate }}:</h6> <h4>{{accountID}}</h4>
+  <h6>{{ 'PASSPHRASE' | translate }}:</h6> <h4>{{passphrase}}</h4>
+  <p style="color: rgba(255, 255, 255, 0.75)">{{ 'SECURE_LOCATION' | translate }} <br />
+  <span style="color:#FFBA33;text-transform: uppercase;">{{ 'CANNOT_RECOVER' | translate }}</span></p>
+  <form>
+	<ion-list no-lines>
+		<ion-item>
+		    <ion-label>{{ 'SAVE_TO_DEVICE' | translate }}</ion-label>
+		    <ion-checkbox [(ngModel)]="savePassphrase" name="savePassphrase"></ion-checkbox>
+		</ion-item>		
+		<ion-item>
+			<ion-input [(ngModel)]="accountName" name="accountName" type="text" required placeholder="{{ 'CHOOSE_ACCOUNT_NAME' | translate }}">
+			</ion-input>
+		</ion-item>
+	</ion-list>
+  </form>
+  <ion-row responsive-sm>
+    <ion-col>
+      <button ion-button id="closeButton" (click)="presentPrompt()" block>{{ 'DONE' | translate }}</button>
+    </ion-col>
+  </ion-row>
+</ion-content>
+

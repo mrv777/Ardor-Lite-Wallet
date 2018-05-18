@@ -1,0 +1,37 @@
+<ion-header>
+	<ion-toolbar>
+        <ion-title>{{ 'GUEST_LOGIN' | translate }}</ion-title>
+    </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+	<form>
+		<ion-list>
+			<ion-item>
+				<ion-input [(ngModel)]="accountID" name="account" type="text" required placeholder="{{ 'ACCOUNT_NUMBER' | translate }}">
+				</ion-input>
+				<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScanner()"> <ion-icon name="barcode"> </ion-icon> </button>
+			</ion-item>
+			<ion-item>
+				<ion-label item-start stacked color="primary">{{ 'NODE' | translate }}</ion-label>
+				<ion-select item-start name="nodeSelect" id="nodeSelect" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}" [(ngModel)]="nodeSelect" (ionChange)='changeNode()'>
+					<ion-option value="mainnet/">{{ 'MAINNET' | translate }}</ion-option>
+					<ion-option value="testnet/">{{ 'TESTNET' | translate }}</ion-option>
+					<ion-option value="">{{ 'CUSTOM' | translate }}</ion-option>
+				</ion-select>
+			</ion-item>			
+			<ion-item [class.hide]="hideCustom">
+				<ion-input [(ngModel)]="node" name="node" type="text" placeholder="URL:PORT of the custom node">
+				</ion-input>
+			</ion-item>
+		</ion-list>
+
+		<ion-row responsive-sm>
+			<ion-col>
+				<button ion-button color="white" (click)="closeModal()" type="submit" block>{{ 'LOGIN' | translate }}</button>
+			</ion-col>
+		</ion-row>
+	</form>
+</ion-content>

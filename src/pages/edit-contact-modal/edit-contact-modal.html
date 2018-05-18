@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+  <form>
+		<ion-list>
+			<ion-item>
+				<ion-label stacked color="primary">{{ 'NAME' | translate }}</ion-label>
+				<ion-input [(ngModel)]="name" name="recipient" type="text">
+        </ion-input>
+			</ion-item>
+    </ion-list>
+    <ion-list>
+			<ion-item>
+				<ion-label stacked color="primary">{{ 'ACCOUNT' | translate }}</ion-label>
+				<ion-input [(ngModel)]="account" [disabled]="startingAccount != ''" name="account" type="text">
+        		</ion-input>
+        		<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerAccount()"> <ion-icon name="barcode"> </ion-icon> </button>
+			</ion-item>
+    </ion-list>
+    {{message}}
+    
+
+    <ion-row responsive-sm>
+      <ion-col>
+				<button ion-button color="primary" (click)="editContact()" block>{{buttonText}}</button>
+			</ion-col>
+      <ion-col>
+				<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+			</ion-col>
+		</ion-row>
+	</form>
+</ion-content>

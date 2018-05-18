@@ -1,0 +1,113 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="tx != null && tx['fullHash'] != null">{{chainName}} Transaction</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+  <ion-grid *ngIf="tx == null">
+    <ion-row>
+      <ion-col col-12>
+        <h5>{{ 'LOADING_INFO' | translate }}</h5>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="tx != null && tx['fullHash'] == null">
+    <ion-row>
+      <ion-col col-12>
+        <h5>{{ 'LOADING_ERROR' | translate }}</h5>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+    <ion-grid *ngIf="tx != null && tx['fullHash'] != null">
+	    <ion-row *ngIf="tx['senderRS']">
+	      <ion-col col-4>
+	      	{{ 'FROM' | translate }}:
+	      </ion-col>
+	      <ion-col col-8>
+	      	<a target="_blank" href="https://ardor.tools/{{ tx['senderRS'] }}">{{tx['senderRS']}}</a>
+	      </ion-col>
+	    </ion-row>
+	    <ion-row *ngIf="tx['recipientRS']">
+	      <ion-col col-4>
+	      	{{ 'TO' | translate }}:
+	      </ion-col>
+	      <ion-col col-8>
+	      	<a target="_blank" href="https://ardor.tools/{{ tx['recipientRS'] }}">{{tx['recipientRS']}}</a>
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	      <ion-col col-4>
+	      	{{ 'TYPE' | translate }}: 
+	      </ion-col>
+	      <ion-col col-8>
+	      	{{tx['typeName']}}
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	      <ion-col col-4>
+	      	{{ 'AMOUNT' | translate }}: 
+	      </ion-col>
+	      <ion-col col-8>
+	      	{{tx['amountNQT']/100000000 | number : '1.0-8'}}
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	      <ion-col col-4>
+	      	{{ 'FEE' | translate }}: 
+	      </ion-col>
+	      <ion-col col-8>
+	      	{{tx['feeNQT']/100000000 | number : '1.0-8'}}	
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	      <ion-col col-4>
+	      	{{ 'BLOCK' | translate }}: 
+	      </ion-col>
+	      <ion-col col-8>
+	      	{{tx['block']}}	
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	      <ion-col col-4>
+	      	{{ 'HEIGHT' | translate }}: 
+	      </ion-col>
+	      <ion-col col-8>
+	      	{{tx['height']}}	
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	      <ion-col col-4>
+	      	{{ 'CONFIRMATIONS' | translate }}: 
+	      </ion-col>
+	      <ion-col col-8>
+	      	{{tx['confirmations']}}	
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	      <ion-col col-4>
+	      	{{ 'FULLHASH' | translate }}: 
+	      </ion-col>
+	      <ion-col col-8>
+	      	{{tx['fullHash']}}	
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+      	  <ion-col col-12>
+			<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+      	  </ion-col>
+    	</ion-row>
+	</ion-grid>
+</ion-content>

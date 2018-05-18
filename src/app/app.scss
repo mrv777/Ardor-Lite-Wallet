@@ -1,0 +1,59 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+@font-face {
+    font-family: nasalization;
+    src: url("../assets/fonts/nasalization/nasalization-rg.ttf");
+}
+
+@font-face {
+    font-family: SourceSansPro;
+    src: url("../assets/fonts/SourceSansPro/SourceSansPro-Regular.ttf");
+}
+
+@media(max-width: 575px){
+    ion-app.md {
+    	font-size: 1.3rem;
+    }
+}
+
+.menu-inner .scroll-content, .menu-inner .scroll-content .item-md, .menu-inner .scroll-content .item-ios {
+	background-color: #1162a1;
+	color: rgba(255, 255, 255, 0.75);
+	font-size: 18px;
+}
+
+#sideNav ion-icon {
+	padding: 15px;
+}
+
+.disable-scroll .ion-page { //Fix for model from popover in iOS
+    pointer-events: auto;
+}
+
+ion-app.md [padding] .scroll-content {
+    padding: 8px 4px;
+}
+
+.darkTheme, .darkTheme .content-md, .darkTheme .item-md, .darkTheme .content-md, .darkTheme .ngx-pagination a {
+    background-color: #333;
+    color: #fff;
+}
+
+.darkTheme .row {
+    border-bottom-color: #555 !important;
+}

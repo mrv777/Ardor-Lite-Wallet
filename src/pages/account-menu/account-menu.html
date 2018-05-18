@@ -1,0 +1,17 @@
+<ion-list>
+    <ion-item tappable (click)="accountSettings()">
+        <label>{{ 'SETTINGS' | translate }}</label>
+    </ion-item>
+    <ion-item tappable (click)="editAccount()">
+    	<label>{{ 'RENAME_ACCOUNT' | translate }}</label>
+    </ion-item>
+    <!-- <ion-item *ngIf="!hasPassphrase" (click)="savePassphrase()">
+    	<label>Save Passphrase</label>
+    </ion-item> -->
+    <ion-item tappable *ngIf="hasPassphrase" (click)="removePassphrase()">
+    	<label>{{ 'REMOVE_PASSPHRASE' | translate }}</label>
+    </ion-item>
+    <ion-item tappable (click)="removeAccount()">
+    	<label>{{ 'REMOVE_ACCOUNT' | translate }}</label>
+    </ion-item>
+</ion-list>

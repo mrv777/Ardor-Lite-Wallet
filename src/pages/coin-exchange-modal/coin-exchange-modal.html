@@ -1,0 +1,55 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title *ngIf="type == 'Buy'">Buy {{exchangeChain}} with {{chain}}</ion-title>
+    <ion-title *ngIf="type == 'Sell'">Sell {{exchangeChain}} for {{chain}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+  <form>
+		<ion-list *ngIf="status != 1">
+			<ion-item>
+				<ion-label stacked color="primary">{{exchangeChain}} {{ 'QUANTITY' | translate }} (Available at {{orginalRate}}: {{max | number}})</ion-label>
+				<ion-input [(ngModel)]="quantity" name="quantity" type="number" max="{{max}}" (keyup)="updateExchangeQuantity($event)"></ion-input>
+      </ion-item>
+      <ion-item>
+				<ion-label stacked color="primary">{{ 'RATE' | translate }}</ion-label>
+				<ion-input [(ngModel)]="rate" name="rate" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+				<ion-label stacked color="primary">{{ 'QUANTITY_OF' | translate }} {{chain}}</ion-label>
+				<ion-input [(ngModel)]="exchangeQuantity" name="exchangeQuantity" disabled type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+				<ion-label stacked color="primary">{{ 'FEE' | translate }} ({{feeChain}} {{ 'BALANCE' | translate }}: {{balance}})</ion-label>
+				<ion-input [(ngModel)]="fee" name="exchangeFee" disabled type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked color="primary">{{ 'PASSPHRASE' | translate }}</ion-label>
+        <ion-input [(ngModel)]="password" name="password" type="{{passwordType}}">
+        </ion-input>
+
+        <button id="eyeIcon" ion-button clear color="dark" type="button" item-right (click)="togglePassword()"> <ion-icon *ngIf="passwordType == 'password'" name="eye"> </ion-icon><ion-icon *ngIf="passwordType == 'text'" name="eye-off"> </ion-icon> </button>
+        <button id="fingerIcon" *ngIf="fingerAvailable === true && !guest" ion-button clear color="dark" type="button" item-right (click)="showFingerprint()"> <ion-icon name="finger-print"></ion-icon> </button>
+        <button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerPassword('password')"> <ion-icon name="barcode"> </ion-icon> </button>
+      </ion-item>
+    </ion-list>
+    
+    <ion-row responsive-sm>
+			<ion-col [ngClass]="{'successBox' : (status == 1), 'failedBox':(status == -1)}">
+        {{resultTxt}}
+      </ion-col>
+    </ion-row>
+    <ion-row responsive-sm>
+      <ion-col>
+				<button ion-button [disabled]="disableExchange" color="primary" (click)="exchange()" block>{{ 'EXCHANGE' | translate }}</button>
+			</ion-col>
+      <ion-col>
+				<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+			</ion-col>
+		</ion-row>
+	</form>
+</ion-content>

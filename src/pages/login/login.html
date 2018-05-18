@@ -1,0 +1,100 @@
+<ion-content padding *ngIf="accounts == null || accounts.length == 0">
+	<div id="loginLogo">
+		<img id="headerLogo" src="assets/headerLogo.png" />
+		<!-- Ardor A Lite (with white background)-->
+	</div>
+	<ion-grid>
+		<ion-row responsive-sm>
+			<ion-col>
+				<button ion-button id="importButton" (click)="openModal('fingerprint')" block >{{ 'IMPORT' | translate }}</button>
+			</ion-col>
+		</ion-row>
+		<ion-row responsive-sm>
+			<ion-col>
+				<button ion-button id="newAccountButton" (click)="openModal('newaccount')" block >{{ 'GENERATE' | translate }}</button>
+			</ion-col>
+		</ion-row>
+		<ion-row responsive-sm>
+			<ion-col id="guestLogin">
+				<a (click)="openModal('guest')">{{ 'GUEST_LOGIN' | translate }}</a>
+			</ion-col>
+		</ion-row>
+		<ion-row responsive-sm>
+			<ion-col id="offlineTx">
+				<a (click)="openModal('offlineTx')">{{ 'OFFLINE_TX' | translate }}</a>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	
+	<ion-fab left bottom #fab>
+	    <button ion-fab mini id="langFab"><ion-icon name="chatbubbles"></ion-icon></button>
+	    <ion-fab-list id="langFabList" side="top">
+	      	<button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Español</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'ru') ? 'currentLang' : ''" (click)="setLanguage('ru',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Pусский</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'pl') ? 'currentLang' : ''" (click)="setLanguage('pl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Polskie</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'ko') ? 'currentLang' : ''" (click)="setLanguage('ko',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>한국어</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'it') ? 'currentLang' : ''" (click)="setLanguage('it',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Italiano</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'de') ? 'currentLang' : ''" (click)="setLanguage('de',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Deutsche</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'fr') ? 'currentLang' : ''" (click)="setLanguage('fr',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Français</ion-label></button>
+	        <button ion-fab [ngClass]="(language == 'en') ? 'currentLang' : ''" (click)="setLanguage('en',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>English</ion-label></button>
+	        <button ion-fab [ngClass]="(language == 'nl') ? 'currentLang' : ''" (click)="setLanguage('nl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Nederlands</ion-label></button> 
+	        <button ion-fab [ngClass]="(language == 'zh') ? 'currentLang' : ''" (click)="setLanguage('zh',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>中文</ion-label></button> 
+	    </ion-fab-list>
+	  </ion-fab>
+
+</ion-content>
+
+<ion-content *ngIf="accounts != null && accounts.length > 0">
+	<div id="loginLogo">
+		<img id="headerLogo" src="assets/headerLogo.png" />
+	</div>
+	<div id="loader" *ngIf="!accountsLoaded && !error">
+		{{error}} <br />
+		<ion-spinner></ion-spinner>	<br />
+		{{ 'LOADING_ACCOUNTS' | translate }}
+	</div>
+	<div id="loader" *ngIf="!accountsLoaded && error">
+		{{error}} <br />
+		<button ion-button (click)="setBalances()">Retry</button>
+	</div>
+	<ion-list *ngIf="accountsLoaded">
+	  <button ion-item *ngFor="let account of accounts" (click)="onLogin(account.account)">
+	  	<!-- <svg width="10" height="10" data-jdenticon-value="{{account.account}}"></svg> -->
+	    <div *ngIf="account.name != 'undefined'">{{account.name}}
+	    <span class="accountBalance">{{account.balance/100000000 | number : '1.2-8' }} <span class="ardrCurrency">{{account.chainName}}</span></span>
+	    <br />
+	    <canvas class="idIcon" width="20" height="20" [attr.data-jdenticon-value]="account.account"></canvas>{{account.account}}</div>
+	    <div *ngIf="account.name == 'undefined'"><canvas class="idIcon" width="20" height="20" [attr.data-jdenticon-value]="account.account"></canvas>{{account.account}}
+	    	<span class="accountBalance">{{account.balance/100000000 | number : '1.2-8' }} <span class="ardrCurrency">{{account.chainName}}</span></span>
+	    </div>
+	  </button>  
+	</ion-list>
+
+	<ion-fab left bottom #fab>
+	    <button ion-fab mini id="langFab"><ion-icon name="chatbubbles"></ion-icon></button>
+	    <ion-fab-list id="langFabList" side="top">
+	    	<button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Español</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'ru') ? 'currentLang' : ''" (click)="setLanguage('ru',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Pусский</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'pl') ? 'currentLang' : ''" (click)="setLanguage('pl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Polskie</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'ko') ? 'currentLang' : ''" (click)="setLanguage('ko',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>한국어
+</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'it') ? 'currentLang' : ''" (click)="setLanguage('it',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Italiano</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'de') ? 'currentLang' : ''" (click)="setLanguage('de',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Deutsche</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'fr') ? 'currentLang' : ''" (click)="setLanguage('fr',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Français</ion-label></button>
+	        <button ion-fab [ngClass]="(language == 'en') ? 'currentLang' : ''" (click)="setLanguage('en',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>English</ion-label></button>
+	        <button ion-fab [ngClass]="(language == 'nl') ? 'currentLang' : ''" (click)="setLanguage('nl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Nederlands</ion-label></button> 
+	        <button ion-fab [ngClass]="(language == 'zh') ? 'currentLang' : ''" (click)="setLanguage('zh',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>中文</ion-label></button> 
+	    </ion-fab-list>
+	  </ion-fab>
+
+	<ion-fab right bottom>
+    <button ion-fab id="mainFab"><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="openModal('newaccount')"><ion-icon name="add"></ion-icon><ion-label>{{ 'GENERATE' | translate }}</ion-label></button>
+      <button ion-fab (click)="openModal('fingerprint')"><ion-icon name="cloud-download"></ion-icon><ion-label>{{ 'IMPORT' | translate }}</ion-label></button>
+      <button ion-fab (click)="openModal('guest')"><ion-icon name="contact"></ion-icon><ion-label>{{ 'GUEST_LOGIN' | translate }}</ion-label></button>
+      <button ion-fab (click)="openModal('offlineTx')"><ion-icon name="git-network"></ion-icon><ion-label>{{ 'OFFLINE_TX' | translate }}</ion-label></button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

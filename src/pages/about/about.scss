@@ -1,0 +1,30 @@
+page-about {
+	.header button {
+        font-size: 1.5em;
+    }
+
+    .scroll-content, .scroll-content a {
+        background-color: #1162a1;
+        text-align: center;
+        color: #fff;
+        text-decoration: none;
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
+
+    .scroll-content p {
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.75);
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
+
+    #donateButton {
+        background-color: #fff;
+        color: #1162a1;
+    }
+}

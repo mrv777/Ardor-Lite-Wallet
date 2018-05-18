@@ -1,0 +1,120 @@
+page-home {
+	#homeTop .col {
+		padding: 1em;
+	    text-align: center;
+	}
+
+    .idIcon {
+        float: left;
+    }
+
+    .toolbar-title-md {
+        padding: 0 12px 0 5px;
+    }
+
+    #homeTop {
+        color: #fff;
+        background-color: #1162a1;
+        text-align: center;
+        margin: -16px -16px 2px -16px;
+        padding: 2em;;
+    }
+
+    #chainSelect {
+        display: inline-flex;
+        padding: 5px 5px 0px;
+        color: #fff;
+    }
+
+    #homeGrid {
+        padding: 0;
+    }
+
+	#homeHeader button {
+        font-size: 1.5em;
+    }
+
+    h4 {
+    	margin: 0 0 0.4em 0;
+        font-size: 2.25em;
+    }
+
+    h6 {
+    	margin: 0;
+        font-size: 1.4em;
+    }
+
+    .lighterText {
+        opacity: 0.8;
+    }
+
+    #tabMenu {
+        text-align: center;
+        font-size: 1.75em;
+        background-color: #1162a1;
+        color: rgba(255, 255, 255, 0.51);
+        margin: -26px -21px 2px -21px;
+        padding: 0;
+        z-index: 1000;
+    }
+
+    #tabMenu .activeTab {
+        color: rgba(255, 255, 255, 1.0);
+        border-bottom: 2px solid #f57c00;
+    }
+
+    .select-md {
+    	padding: 0 8px;
+	    display: inline-flex;
+	}
+
+	.success {
+        color: #32db64;
+    }
+
+    .danger {
+        color: #f53d3d;
+    }
+
+    .feeTxt {
+   		font-size: 80%;
+    	opacity: 0.7;
+    }
+
+    .ngx-pagination {
+    	text-align: center;
+    }
+
+    .ngx-pagination .current {
+    	background: #3d4db8;
+    }
+
+    #txTable .row {
+    	border-bottom: 1px solid #eee;
+    	padding: 5px 0;
+    }
+
+	@media(max-width: 575px){
+        // #homeHeader .toolbar-title-md{
+        //     font-size: 1em;
+        // }
+
+        ion-app.md {
+        	font-size: 1.2rem;
+        }
+
+        .hidden-xs {
+            display:none;
+        }
+
+        .no-top-bottom-padding {
+            padding: 0 5px;
+        }
+        
+    }
+    @media(min-width: 576px){
+        .show-xs {
+            display:none;
+        }
+    }
+}

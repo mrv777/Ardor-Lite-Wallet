@@ -1,0 +1,34 @@
+page-send-offline-tx {
+	#qrIcon {
+        font-size: 1.75em;
+        margin: 0;
+        padding: 0 0.4em;
+        height: 100%;
+        color: #777;
+    	position: relative;
+    }
+
+    .successBox {
+    	background-color: #32db64;
+    	color: white;
+    	padding: 50px 10px;
+    	border-radius: 2px;
+    }
+
+    .failedBox {
+    	background-color: #f53d3d;
+    	color: white;
+    	padding: 10px;
+    	border-radius: 2px;
+    }
+
+    textarea {
+		max-width: 100%;
+		width: 100%;
+		height: 18vh;
+	}
+
+    ion-content {
+        background-color: #fff;
+    }
+}

@@ -1,0 +1,28 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'SETTINGS' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [ngClass]="{'darkTheme' : (darkMode == true)}">
+	<h5>{{ 'ACCOUNT_SETTINGS' | translate  }}</h5>
+	<ion-item>
+		<ion-label item-start stacked color="primary">{{ 'DEFAULT_CHAIN' | translate }}</ion-label>
+		<ion-select class="chainSelect" [(ngModel)]="chainName" name="chainName" (ionChange)="setChain()">
+	      <ion-option *ngFor="let arrayChain of chains" [value]="arrayChain">
+	        {{ arrayChain | uppercase }}
+	      </ion-option>
+	    </ion-select>
+	</ion-item>
+	<h5>{{ 'GLOBAL_SETTINGS' | translate  }}</h5>
+	<ion-item>
+      <ion-label>{{ 'ENABLE_DARK' | translate }}</ion-label>
+      <ion-toggle [(ngModel)]="darkMode" (ionChange)="setTheme()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+		<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+    </ion-item>
+</ion-content>

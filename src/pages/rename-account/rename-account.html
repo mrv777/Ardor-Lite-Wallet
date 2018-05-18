@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'RENAME_ACCOUNT' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+  <form [formGroup]="editForm">
+		<ion-list>
+			<ion-item>
+				<ion-label stacked color="primary">{{ 'NAME' | translate }}</ion-label>
+					<ion-input [(ngModel)]="name" maxlength="16" formControlName="accountNameForm" name="accountName" type="text">
+        		</ion-input>
+			</ion-item>
+    	</ion-list>
+    
+
+    	<ion-row responsive-sm>
+      		<ion-col>
+				<button ion-button color="primary" (click)="editAccount()" block>{{ 'RENAME' | translate }}</button>
+			</ion-col>
+      		<ion-col>
+				<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+			</ion-col>
+		</ion-row>
+	</form>
+</ion-content>
