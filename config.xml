@@ -86,4 +86,5 @@
     <plugin name="cordova-plugin-fingerprint-aio" spec="^1.3.4" />
     <plugin name="cordova-clipboard" spec="^1.1.1" />
     <engine name="android" spec="~6.4.0" />
+    <engine name="ios" spec="~4.5.4" />
 </widget>
