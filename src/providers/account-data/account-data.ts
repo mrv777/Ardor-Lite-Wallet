@@ -348,17 +348,8 @@ export class AccountDataProvider {
     return this.storage.set(`node`, this.NODE_URL);
   };
 
-  checkNode(): Observable<string> {
-    return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getBlockchainStatus`)
-      .map(data => {
-        if (data && data['blockchainState'] == "UP_TO_DATE") {
-          return "Success";
-        } else if (data) {
-          return "Outdated";
-        } else {
-          return "Offline";
-        }
-      });
+  checkNode(): Observable<object> {
+    return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getBlockchainStatus`);
   }
 
   getNode(): Promise<string> {

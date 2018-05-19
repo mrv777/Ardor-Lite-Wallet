@@ -32,6 +32,7 @@ export class LoginPage {
   language: string = "en";
   accountIcon: any;
   guest: boolean = false;
+  loading: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public shared: SharedProvider, public accountData: AccountDataProvider, private barcodeScanner: BarcodeScanner, public modalCtrl: ModalController, public platform: Platform, private menu: MenuController, public translate: TranslateService) {
 
@@ -57,24 +58,31 @@ export class LoginPage {
 
   setNode() {
     this.accountData.setNode("mainnet/").then(() => {
-      this.accountData.checkNode().subscribe((nodeStatus) => {
-        if (nodeStatus == "Success") {
-          this.error = null;
-          this.shared.getConstantsHttp().subscribe((sharedData) => {
-            this.shared.setConstants(sharedData);
-            
-           //Desktop Testing
-           //this.accounts = [{account: 'ARDOR-BK2J-ZMY4-93UY-8EM9V' , name: 'MrV', password: '', chain: 1},{account: 'ARDOR-2QHM-H99Q-8C9Y-C4XTN' , name: 'MrV2', password: '', chain: 2}];
-           //this.setBalances();
-           this.accounts = this.accountData.getSavedAccounts();
-            this.accountData.init().then(() => {
-              this.setBalances();
+      this.accountData.checkNode().subscribe(
+        (nodeStatus) => {
+          if (nodeStatus['blockchainState'] == "UP_TO_DATE") {
+            this.error = null;
+            this.shared.getConstantsHttp().subscribe((sharedData) => {
+              this.shared.setConstants(sharedData);
+              
+             //Desktop Testing
+             //this.accounts = [{account: 'ARDOR-BK2J-ZMY4-93UY-8EM9V' , name: 'MrV', password: '', chain: 1},{account: 'ARDOR-2QHM-H99Q-8C9Y-C4XTN' , name: 'MrV2', password: '', chain: 2}];
+             //this.setBalances();
+              this.accountData.init().then(() => {
+                this.accounts = this.accountData.getSavedAccounts();
+                this.setBalances();
+                this.loading = false;
+              });
             });
-          });
-        } else {
-          this.error = "Node not online or out of sync";
-        }
-      });
+          } else {
+            this.error = "Node error or out of sync";
+            this.loading = false;
+          }
+        },
+        (err) => {
+          this.error = "Node not online";
+          this.loading = false;
+        });
     });
   }
 
