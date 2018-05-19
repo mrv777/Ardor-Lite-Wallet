@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { StockChart } from 'angular-highcharts';
+import { TranslateService } from '@ngx-translate/core';
 
 import * as Big from 'big.js';
 
@@ -29,6 +30,9 @@ export class CoinExchangePage {
   data: any[] = [];
   volume: any[] = [];
 
+  volumeString: string = 'Volume';
+  priceString: string = 'Price';
+
   buyOrdersPage: number = 1;
   sellOrdersPage: number = 1;
   tradesOrdersPage: number = 1;
@@ -41,7 +45,7 @@ export class CoinExchangePage {
   buyOrders: object[];
   sellOrders: object[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public sharedProvider: SharedProvider, public coinExchangeProvider: CoinExchangeProvider, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public sharedProvider: SharedProvider, public coinExchangeProvider: CoinExchangeProvider, public modalCtrl: ModalController, public translate: TranslateService) {
   }
 
   ionViewWillEnter() {
@@ -52,6 +56,13 @@ export class CoinExchangePage {
 		  for (const key of this.chains) {
 		    this.chainNumbers.push(chainObjects[key]);
 		  }
+
+    this.translate.get('VOLUME').subscribe((res: string) => {
+        this.volumeString = res;
+    });
+    this.translate.get('PRICE').subscribe((res: string) => {
+        this.priceString = res;
+    });
 
 	  this.accountData.getTheme().then((theme) => {
         this.theme = theme;
@@ -224,7 +235,7 @@ export class CoinExchangePage {
                 }
             },
             title: {
-                text: 'Price',
+                text: this.priceString,
                 style: {
                   color: forColor
                 }
@@ -244,7 +255,7 @@ export class CoinExchangePage {
                 }
             },
             title: {
-                text: 'Volume',
+                text: this.volumeString,
                 style: {
                   color: forColor
                 }
@@ -271,7 +282,7 @@ export class CoinExchangePage {
 		}
 		, {
 			type: 'column',
-			name: 'Volume',
+			name: this.volumeString,
 			data: this.volume,
 			yAxis: 1,
 			// dataGrouping: {

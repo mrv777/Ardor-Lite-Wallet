@@ -51,24 +51,31 @@ export class LoginPage {
         }
       });
 
-      this.shared.getConstantsHttp('https://ardor.tools/ardor/').subscribe((shared) => {
-        this.shared.setConstants(shared);
-      
-       //Desktop Testing
-       //this.accounts = [{account: 'ARDOR-BK2J-ZMY4-93UY-8EM9V' , name: 'MrV', password: '', chain: 1},{account: 'ARDOR-2QHM-H99Q-8C9Y-C4XTN' , name: 'MrV2', password: '', chain: 2}];
-       // console.log(this.accounts);
-       //this.setBalances();
-  	    this.accountData.init().then(() => {
+      this.setNode();
+  	});
+  }
 
-          this.accounts = this.accountData.getSavedAccounts();
-          //this.accounts = [{account: '11380384760969655418L' , name: 'MrV', password: ''},{account: '1138038476069655418L' , name: 'MrV3', password: ''},{account: '11380384760969655418L' , name: 'MrV2', password: ''}];
-          
-          this.accountData.setNode("mainnet/").then(() => {  
-            this.setBalances();
+  setNode() {
+    this.accountData.setNode("mainnet/").then(() => {
+      this.accountData.checkNode().subscribe((nodeStatus) => {
+        if (nodeStatus == "Success") {
+          this.error = null;
+          this.shared.getConstantsHttp().subscribe((sharedData) => {
+            this.shared.setConstants(sharedData);
+            
+           //Desktop Testing
+           //this.accounts = [{account: 'ARDOR-BK2J-ZMY4-93UY-8EM9V' , name: 'MrV', password: '', chain: 1},{account: 'ARDOR-2QHM-H99Q-8C9Y-C4XTN' , name: 'MrV2', password: '', chain: 2}];
+           //this.setBalances();
+           this.accounts = this.accountData.getSavedAccounts();
+            this.accountData.init().then(() => {
+              this.setBalances();
+            });
           });
-        });
+        } else {
+          this.error = "Node not online or out of sync";
+        }
       });
-	 });
+    });
   }
 
   setBalances() {

@@ -16,9 +16,14 @@ page-receive-tab {
 	.idIcon {
         position: absolute;
 		right: 0;
+		top: -5px;
     }
 
 	.content-md .scroll-content {
 		padding-top: 0 !important;
+	}
+
+	.row {
+	   border-bottom: 0 !important;
 	}
 }

@@ -21,7 +21,7 @@
 				<ion-label stacked color="primary">{{ 'ACCOUNT' | translate }}</ion-label>
 				<ion-input [(ngModel)]="account" [disabled]="startingAccount != ''" name="account" type="text">
         		</ion-input>
-        		<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerAccount()"> <ion-icon name="barcode"> </ion-icon> </button>
+        		<button id="qrIcon" *ngIf="startingAccount == ''" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerAccount()"> <ion-icon name="barcode"> </ion-icon> </button>
 			</ion-item>
     </ion-list>
     {{message}}
