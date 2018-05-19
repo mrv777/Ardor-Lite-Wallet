@@ -8,7 +8,7 @@ page-home {
         float: left;
     }
 
-    .toolbar-title-md {
+    .toolbar-title-md, .toolbar-title-ios {
         padding: 0 12px 0 5px;
     }
 
@@ -63,7 +63,7 @@ page-home {
         border-bottom: 2px solid #f57c00;
     }
 
-    .select-md {
+    .select-md, .select-ios {
     	padding: 0 8px;
 	    display: inline-flex;
 	}

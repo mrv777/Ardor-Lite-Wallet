@@ -50,8 +50,8 @@ ion-app.md [padding] .scroll-content {
 }
 
 .darkTheme, .darkTheme .content-md, .darkTheme .item-md, .darkTheme .content-md, .darkTheme .ngx-pagination a {
-    background-color: #333;
-    color: #fff;
+    background-color: #333 !important;
+    color: #fff !important;
 }
 
 .darkTheme .row {
