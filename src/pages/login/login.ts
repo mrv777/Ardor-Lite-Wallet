@@ -70,8 +70,8 @@ export class LoginPage {
              //this.setBalances();
               this.accountData.init().then(() => {
                 this.accounts = this.accountData.getSavedAccounts();
-                this.setBalances();
                 this.loading = false;
+                this.setBalances();
               });
             });
           } else {
