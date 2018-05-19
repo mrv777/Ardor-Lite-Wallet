@@ -10,7 +10,7 @@
 </ion-content>
 
 <ion-content padding *ngIf="!loading && (accounts == null || accounts.length == 0)">
-	<div id="loginLogo">
+	<div id="loginLogo" *ngIf="error">
 		<img id="headerLogo" src="assets/headerLogo.png" />
 	</div>
 	<div id="loader" *ngIf="error">
