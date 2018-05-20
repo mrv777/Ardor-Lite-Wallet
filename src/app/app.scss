@@ -45,11 +45,11 @@
     pointer-events: auto;
 }
 
-ion-app.md [padding] .scroll-content {
+ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
     padding: 8px 4px;
 }
 
-.darkTheme, .darkTheme .content-md, .darkTheme .item-md, .darkTheme .content-md, .darkTheme .ngx-pagination a {
+.darkTheme, .darkTheme .content-md, .darkTheme .content-ios, .darkTheme .item-md, .darkTheme .item-ios, .darkTheme .ngx-pagination a {
     background-color: #333 !important;
     color: #fff !important;
 }

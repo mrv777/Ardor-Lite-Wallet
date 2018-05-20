@@ -3,7 +3,7 @@ page-coin-exchange {
         font-size: 1.5em;
     }
 
-    .select-md {
+    .select-md, .select-ios {
         padding: 0 3px 0 0;
         font-size: 1.2em;
         display: inline-flex;
@@ -41,7 +41,7 @@ page-coin-exchange {
     }
 
     @media(max-width: 767px){
-        ion-app.md {
+        ion-app.md, ion-app.ios {
         	font-size: 1.2rem;
         }
 
