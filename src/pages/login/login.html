@@ -24,9 +24,14 @@
 			<!-- Ardor A Lite (with white background)-->
 		</div>
 		<ion-grid>
-			<ion-row responsive-sm>
+			<ion-row responsive-sm *ngIf="cordovaAvailable">
 				<ion-col>
 					<button ion-button id="importButton" (click)="openModal('fingerprint')" block >{{ 'IMPORT' | translate }}</button>
+				</ion-col>
+			</ion-row>
+			<ion-row responsive-sm *ngIf="!cordovaAvailable">
+				<ion-col>
+					<button ion-button id="importButton" (click)="openModal('guest')" block >{{ 'GUEST_LOGIN' | translate }}</button>
 				</ion-col>
 			</ion-row>
 			<ion-row responsive-sm>
@@ -34,7 +39,7 @@
 					<button ion-button id="newAccountButton" (click)="openModal('newaccount')" block >{{ 'GENERATE' | translate }}</button>
 				</ion-col>
 			</ion-row>
-			<ion-row responsive-sm>
+			<ion-row responsive-sm *ngIf="cordovaAvailable">
 				<ion-col id="guestLogin">
 					<a (click)="openModal('guest')">{{ 'GUEST_LOGIN' | translate }}</a>
 				</ion-col>

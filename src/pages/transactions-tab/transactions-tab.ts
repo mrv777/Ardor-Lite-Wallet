@@ -108,7 +108,7 @@ export class TransactionsTabPage {
           this.contactNames = [''];
         }
       });
-  	this.accountData.getAccountTransactions(this.chain, this.accountID, this.numToDisplay, (this.numToDisplay * (this.p-1))).subscribe((transactions) => {
+  	this.subscriptionTx = this.accountData.getAccountTransactions(this.chain, this.accountID, this.numToDisplay, (this.numToDisplay * (this.p-1))).subscribe((transactions) => {
 	  	if (transactions['errorDescription']) {
         this.transactions = [];
       } else {
@@ -162,6 +162,7 @@ export class TransactionsTabPage {
   ionViewWillLeave() { 
     this.subscriptionUnconfirmedTxs.unsubscribe();
     this.subscriptionChain.unsubscribe();
+    this.subscriptionTx.unsubscribe();
   }
 
 }

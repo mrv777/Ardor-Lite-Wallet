@@ -10,7 +10,7 @@ import { SharedProvider } from '../../providers/shared/shared';
   templateUrl: 'account-settings.html',
 })
 export class AccountSettingsPage {
-
+  guest: boolean = false;
   darkMode: boolean;
   chains: string[] = [];
   chainNumbers: number[] = [];
@@ -21,6 +21,7 @@ export class AccountSettingsPage {
   }
 
   ionViewDidLoad() {
+    this.guest = this.accountData.isGuestLogin();
   	this.chain = this.sharedProvider.getChainOnce();
     this.chainName = this.sharedProvider.getChainNameOnce();
     const chainObjects = this.sharedProvider.getConstants()['chains'];

@@ -78,5 +78,8 @@
     "ACCOUNT_SETTINGS": "Account Settings",
     "GLOBAL_SETTINGS": "Global Settings",
     "ENABLE_DARK": "Enable Dark Mode",
-    "VOLUME": "Volume"
+    "VOLUME": "Volume",
+    "LEASE_BALANCE": "Lease Balance",
+    "PRIVATE_MESSAGE": "Private Message",
+    "DAYS": "Days"
 }

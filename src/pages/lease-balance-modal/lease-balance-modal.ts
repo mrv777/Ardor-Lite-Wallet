@@ -1,11 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ViewController, Select } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Select, ViewController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { Subscription } from 'rxjs/Subscription';
-
-import * as Big from 'big.js';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { SharedProvider } from '../../providers/shared/shared';
@@ -13,44 +11,42 @@ import { TransactionsProvider } from '../../providers/transactions/transactions'
 
 @IonicPage()
 @Component({
-  selector: 'page-send-tab',
-  templateUrl: 'send-tab.html',
+  selector: 'page-lease-balance-modal',
+  templateUrl: 'lease-balance-modal.html',
 })
-export class SendTabPage {
-  @ViewChild(Select) select: Select;
+export class LeaseBalanceModalPage {
+	@ViewChild(Select) select: Select;
 
-  private sendForm : FormGroup;
+  private leaseForm : FormGroup;
   recipient: string = '';
-  amount: number = 0;
-  chain: number = 1;
-  message: string;
-  decimals: number = 100000000;
+  password: string;
+  fingerAvailable: boolean = false;
+  passwordType: string = 'password';
   status: number;
+  days: number = 64800;
+  daysArray: number[] = [];
   disableSend: boolean = false;
   resultTxt: string = '';
   contacts: object[];
-  password: string;
-  fingerAvailable: boolean = false;
-  guest: boolean = false;
-  passwordType: string = 'password';
 
-  subscriptionChain: Subscription;
+  theme: string;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, public sharedProvider: SharedProvider, public transactions: TransactionsProvider) {
-  	this.sendForm = this.formBuilder.group({
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public viewCtrl: ViewController) {
+  	this.leaseForm = this.formBuilder.group({
       recipientForm: ['', Validators.required],
-      amountForm: ['', Validators.required],
-      messageForm: [''],
+      daysForm: ['', Validators.required],
       passwordForm: ['', Validators.required]
     });
-    if (navParams.get('address')) {
-      this.recipient = navParams.get('address');
-    }
   }
 
-  ionViewDidLoad() {
-    this.guest = this.accountData.isGuestLogin();
-  	 this.faio.isAvailable().then((available) => {
+  ionViewWillEnter() {
+  	this.accountData.getTheme().then((theme) => {
+      this.theme = theme;
+    });
+    for (let i=45;i > 0; i--) {
+    	this.daysArray.push(i);
+    }
+    this.faio.isAvailable().then((available) => {
 	    if (available == 'OK' || available == 'Available') {
 	      this.fingerAvailable = true;
 	    } else {
@@ -58,44 +54,31 @@ export class SendTabPage {
 	    }
 	  });
     this.loadContacts();
-    this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => { 
-      this.chain = sharedChain; 
-      this.decimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.chain]['decimals']);
-    });
   }
 
   onSend() {
     if (this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) {
       this.disableSend = true;
-      let amountBig = new Big(this.amount);
-      let convertedAmount = new Big(amountBig.times(this.decimals));
-      let chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
-      this.resultTxt = `Attempting to send ${this.recipient} ${amountBig} ${chainName}`;
+      this.resultTxt = `Attempting to send lease balance to ${this.recipient}`;
       this.status = 0;
       this.accountData.setPublicKeyPassword(this.password);
-      this.transactions.sendMoney(this.chain, this.recipient, convertedAmount, this.message)
+      this.transactions.leaseBalance(this.days, this.recipient)
       .subscribe(
         unsignedBytes => {
-          // console.log(unsignedBytes['unsignedTransactionBytes']);
-          // console.log(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes']));
-          let attachment = null;
-          if (this.message && this.message != '') {
-            attachment = unsignedBytes['transactionJSON']['attachment'];
-          }
           if (unsignedBytes['errorDescription']) {
               this.resultTxt = unsignedBytes['errorDescription'];
               this.disableSend = false;
               this.status = -1;
           } else {
-            this.transactions.broadcastTransaction(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes'], this.password), attachment)
+            this.transactions.broadcastTransaction(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes'], this.password))
             .subscribe(
               broadcastResults => {
                 console.log(broadcastResults);
                 if (broadcastResults['fullHash'] != null) {
-                  this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
+                  this.resultTxt = `Successfully leased! Transaction fullHash: ${broadcastResults['fullHash']}`;
                   this.status = 1;
                 } else {
-                  this.resultTxt = `Send Failed - ${broadcastResults['errorDescription']}`;
+                  this.resultTxt = 'Lease Failed';
                   this.status = -1;
                   this.disableSend = false;
                 }
@@ -160,8 +143,8 @@ export class SendTabPage {
     });
   }
 
-  ionViewDidLeave() { 
-    this.subscriptionChain.unsubscribe();
+  closeModal() {
+    this.viewCtrl.dismiss();
   }
 
 }

@@ -23,15 +23,21 @@ export class TransactionsProvider {
 
     let data;
     if (message != null && message != '') {
-      data = "chain=" + chain + "&recipient=" + recipient + "&amountNQT=" + amount + "&publicKey=" + publicKey + "&message=" + message;
+      data = "chain=" + chain + "&recipient=" + recipient + "&amountNQT=" + amount + "&publicKey=" + publicKey + "&message=" + message + "&messageIsPrunable=true";
     } else {
       data = "chain=" + chain + "&recipient=" + recipient + "&amountNQT=" + amount + "&publicKey=" + publicKey;
     }
-    // return this.http.post(this.API_URL + '/nxt?requestType=sendMoney', data, {headers: headers})
-    //       .map((res:Response) => res.json())
-    //       .catch((error:any) => Observable.throw(error.json().error|| 'Server Error'));
 
     return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=sendMoney`, data, {headers: headers});
+  }
+
+  leaseBalance(period: number, recipient:string): Observable<object> {
+    let publicKey = this.accountData.getPublicKey();
+    const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
+
+    let data = "chain=1&period=" + period + "&recipient=" + recipient + "&publicKey=" + publicKey;
+
+    return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=leaseBalance`, data, {headers: headers});
   }
 
   exchangeCoins(chain: string, exchangeChain:string, priceNQTPerCoin:number, quantityQNT:number): Observable<object> {
@@ -42,10 +48,15 @@ export class TransactionsProvider {
     return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=exchangeCoins`, data, {headers: headers});
   }
 
-  broadcastTransaction(transactionBytes: string): Observable<object> {
+  broadcastTransaction(transactionBytes: string, prunableAttachmentJSON: object = null): Observable<object> {
     const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
-
-    let data = "transactionBytes=" + transactionBytes;
+    let data;
+    if (prunableAttachmentJSON) {
+      let pruneableData = JSON.stringify(prunableAttachmentJSON);
+      data = "transactionBytes=" + transactionBytes + "&prunableAttachmentJSON=" + pruneableData;
+    } else {
+      data = "transactionBytes=" + transactionBytes;
+    }
     return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=broadcastTransaction`, data, {headers: headers});
   }
 

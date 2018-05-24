@@ -1,6 +1,15 @@
-<ion-content>
+<ion-header>
 
-  <form [formGroup]="sendForm">
+  <ion-navbar>
+    <ion-title>{{ 'LEASE_BALANCE' | translate }} - ARDOR</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+
+  <form [formGroup]="leaseForm">
 	<ion-list *ngIf="status != 1">
 		<ion-item>
 			<ion-label stacked color="primary">{{ 'TO' | translate }} <canvas class="idIcon" width="30" height="30" [attr.data-jdenticon-value]="recipient"></canvas></ion-label>
@@ -16,15 +25,11 @@
 	        </ion-select>
 		</ion-item>
 		<ion-item>
-			<ion-label stacked color="primary">{{ 'AMOUNT' | translate }}</ion-label>
-			<ion-input [(ngModel)]="amount" [disabled]="disableSend" name="amount" type="number" formControlName="amountForm">
-			</ion-input>
+			<ion-label color="primary">{{ 'DAYS' | translate }}</ion-label>
+			<ion-select [(ngModel)]="days" [disabled]="disableSend" formControlName="daysForm" name="days">
+			  <ion-option *ngFor="let day of daysArray" value="{{day*1440}}">{{day}}</ion-option>
+			</ion-select>
 		</ion-item>
-		<ion-item>
-          <ion-label stacked color="primary">{{ 'P_MESSAGE' | translate }} ({{ 'OPTIONAL' | translate }})</ion-label>
-          <ion-input [(ngModel)]="message" name="message" type="text" formControlName="messageForm">
-          </ion-input>
-        </ion-item>
 		<ion-item>
 			<ion-label stacked color="primary">{{ 'PASSPHRASE' | translate }}</ion-label>
 			<ion-input [(ngModel)]="password" [disabled]="disableSend" name="password" type="{{passwordType}}" formControlName="passwordForm">
@@ -43,9 +48,12 @@
 
 	<ion-row responsive-sm>
 		<ion-col>
-			<button ion-button [disabled]="disableSend || !sendForm.valid" (click)="onSend()" type="submit" block>{{ 'SEND' | translate }}</button>
+			<button ion-button [disabled]="disableSend || !leaseForm.valid" (click)="onSend()" type="submit" block>{{ 'SEND' | translate }}</button>
 		</ion-col>
     </ion-row>
+    <ion-item responsive-sm>
+		<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+    </ion-item>
 	</form>
 
 </ion-content>

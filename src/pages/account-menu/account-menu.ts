@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, ViewController, ModalController } 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { RenameAccountPage } from '../rename-account/rename-account';
 import { AccountSettingsPage } from '../account-settings/account-settings';
+import { LeaseBalanceModalPage } from '../lease-balance-modal/lease-balance-modal';
 
 @IonicPage()
 @Component({
@@ -11,13 +12,18 @@ import { AccountSettingsPage } from '../account-settings/account-settings';
   templateUrl: 'account-menu.html',
 })
 export class AccountMenuPage {
-  hasPassphrase: boolean;
+  hasPassphrase: boolean = false;
+  guest: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, public modalCtrl: ModalController,) {
   }
 
   ionViewDidLoad() {
-    this.hasPassphrase = this.accountData.hasSavedPassword();
+    this.guest = this.accountData.isGuestLogin();
+    if (!this.guest) {
+      this.hasPassphrase = this.accountData.hasSavedPassword();
+    }
+    
   }
 
   removeAccount() {
@@ -31,6 +37,14 @@ export class AccountMenuPage {
     myModal.present();
     myModal.onDidDismiss(data => {
       this.viewCtrl.dismiss('settings');
+    });
+  }
+
+  leaseBalance() {
+    let myModal = this.modalCtrl.create(LeaseBalanceModalPage);
+    myModal.present();
+    myModal.onDidDismiss(data => {
+      this.viewCtrl.dismiss('lease');
     });
   }
 

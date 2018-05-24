@@ -1,0 +1,35 @@
+page-lease-balance-modal {
+	.successBox {
+    	background-color: #32db64;
+    	color: white;
+    	padding: 50px 10px;
+    	border-radius: 2px;
+    }
+
+    .failedBox {
+    	background-color: #f53d3d;
+    	color: white;
+    	padding: 10px;
+    	border-radius: 2px;
+    }
+
+    .idIcon {
+        left: 35px;
+        top: 0px;
+        position: absolute;
+    }
+
+    #qrIcon, #fingerIcon, #contactsIcon, #eyeIcon {
+        font-size: 1.75em;
+        margin: 0;
+        padding: 0 0.4em;
+        height: 100%;
+        color: #777;
+        top: 13px;
+    	position: relative;
+    }
+
+    ion-content {
+		background-color: #fff;
+	}
+}

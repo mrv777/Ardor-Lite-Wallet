@@ -68,11 +68,18 @@ export class LoginPage {
              //Desktop Testing
              //this.accounts = [{account: 'ARDOR-BK2J-ZMY4-93UY-8EM9V' , name: 'MrV', password: '', chain: 1},{account: 'ARDOR-2QHM-H99Q-8C9Y-C4XTN' , name: 'MrV2', password: '', chain: 2}];
              //this.setBalances();
-              this.accountData.init().then(() => {
-                this.accounts = this.accountData.getSavedAccounts();
+              if (this.platform.is('cordova')) {
+                this.accountData.init().then(() => {
+                  this.accounts = this.accountData.getSavedAccounts();
+                  this.loading = false;
+                  this.setBalances();
+                });
+              } else {
+                this.accountData.getTheme().then((theme) => {
+                  this.accountData.setTheme(theme);
+                });
                 this.loading = false;
-                this.setBalances();
-              });
+              }
             });
           } else {
             this.error = "Node error or out of sync";

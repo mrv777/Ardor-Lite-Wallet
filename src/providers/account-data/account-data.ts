@@ -14,7 +14,7 @@ const ardorjs = require('ardorjs');
 
 @Injectable()
 export class AccountDataProvider {
-  SAVED_ACCOUNTS;
+  SAVED_ACCOUNTS = [];
   ACCOUNT_ID;
   ACCOUNT;
   PASSWORD;

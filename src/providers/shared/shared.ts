@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { ReplaySubject } from "rxjs/ReplaySubject";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 import { AccountDataProvider } from '../account-data/account-data';
 
@@ -32,15 +32,14 @@ export class SharedProvider {
       ['Coin Exchange Order Issue','Coin Exchange Order Cancel']
     ];
 
-  public conversionObservable = new ReplaySubject<number>();
-  public conversionSymbolObservable = new ReplaySubject<string>();
+  public conversionObservable = new BehaviorSubject<number>(2);
+  public conversionSymbolObservable = new BehaviorSubject<string>('$');
 
-  public chainObservable = new ReplaySubject<number>();
-  public chainNameObservable = new ReplaySubject<string>();
+  public chainObservable = new BehaviorSubject<number>(1);
+  public chainNameObservable = new BehaviorSubject<string>('ARDR');
 
   constructor(public http: HttpClient, public accountData: AccountDataProvider) {
-   this.chainObservable.next(1);
-   this.chainNameObservable.next('ARDR');
+
   }
 
   getConstantsHttp(network: string = null): Observable<object> {
