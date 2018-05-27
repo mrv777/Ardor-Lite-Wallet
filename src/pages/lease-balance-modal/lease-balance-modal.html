@@ -51,9 +51,11 @@
 			<button ion-button [disabled]="disableSend || !leaseForm.valid" (click)="onSend()" type="submit" block>{{ 'SEND' | translate }}</button>
 		</ion-col>
     </ion-row>
-    <ion-item responsive-sm>
-		<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
-    </ion-item>
+    <ion-row responsive-sm>
+    	<ion-col>
+			<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+		</ion-col>
+    </ion-row>
 	</form>
 
 </ion-content>

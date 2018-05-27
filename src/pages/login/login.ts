@@ -129,6 +129,10 @@ export class LoginPage {
   }
 
   onLogin(account: string, type: string = "Account") {
+    if (!this.platform.is('cordova')) {
+      this.accountData.setGuestLogin();
+      this.guest = true;
+    }
     this.disableLogin = true;
     account = account.toUpperCase();
     this.shared.getConstantsHttp().subscribe((shared) => {

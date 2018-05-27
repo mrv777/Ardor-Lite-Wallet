@@ -12,12 +12,12 @@
   <form>
 	<ion-list *ngIf="status != 1">
 		<ion-item>
-			<ion-label stacked color="primary">{{ 'TX' | translate }}</ion-label>
+			<ion-label stacked color="primary">Transaction Bytes</ion-label>
    			<ion-textarea [(ngModel)]="tx" name="tx" [disabled]="disableSend"></ion-textarea>
 
    			<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScanner()"> <ion-icon name="barcode"> </ion-icon> </button>
 		</ion-item>
-		<ion-item>
+		<ion-item id="nodeSelect">
 			<ion-label item-start stacked color="primary">Node</ion-label>
 			<ion-select item-start name="nodeSelect" id="nodeSelect" [(ngModel)]="nodeSelect" (ionChange)='changeNode()'>
 				<ion-option value="mainnet/">Mainnet</ion-option>
@@ -26,8 +26,7 @@
 			</ion-select>
 		</ion-item>			
 		<ion-item [class.hide]="hideCustom">
-			<ion-input [(ngModel)]="node" name="node" type="text" placeholder="URL:PORT of the custom node">
-			</ion-input>
+			<ion-input [(ngModel)]="node" name="node" type="text" placeholder="URL:PORT of the custom node"></ion-input>
 		</ion-item>
     </ion-list>
     <ion-row responsive-sm>

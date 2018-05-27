@@ -21,7 +21,6 @@
 	<ng-container *ngIf="!error">
 		<div id="loginLogo">
 			<img id="headerLogo" src="assets/headerLogo.png" />
-			<!-- Ardor A Lite (with white background)-->
 		</div>
 		<ion-grid>
 			<ion-row responsive-sm *ngIf="cordovaAvailable">
@@ -71,7 +70,7 @@
 
 </ion-content>
 
-<ion-content *ngIf="!loading && accounts != null && accounts.length > 0">
+<ion-content id="loginAccounts" *ngIf="!loading && accounts != null && accounts.length > 0">
 	<div id="loginLogo">
 		<img id="headerLogo" src="assets/headerLogo.png" />
 	</div>
@@ -86,7 +85,6 @@
 	</div>
 	<ion-list *ngIf="accountsLoaded">
 	  <button ion-item *ngFor="let account of accounts" (click)="onLogin(account.account)">
-	  	<!-- <svg width="10" height="10" data-jdenticon-value="{{account.account}}"></svg> -->
 	    <div *ngIf="account.name != 'undefined'">{{account.name}}
 	    <span class="accountBalance">{{account.balance/100000000 | number : '1.2-8' }} <span class="ardrCurrency">{{account.chainName}}</span></span>
 	    <br />

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController, Platform } from 'ionic-angular';
 // import { Screenshot } from '@ionic-native/screenshot';
 
 import * as bip39 from 'bip39';
@@ -18,7 +18,7 @@ export class NewAccountPage {
   accountName: string = '';
   savePassphrase: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public platform: Platform) {
   }
 
   ionViewDidLoad() {
@@ -73,7 +73,9 @@ export class NewAccountPage {
 	}
 
   closeModal() {
-  	this.accountData.saveSavedPassword(this.passphrase, this.accountID, this.accountName, 1, this.savePassphrase);
+  	if (this.platform.is('cordova')) {
+  		this.accountData.saveSavedPassword(this.passphrase, this.accountID.toUpperCase(), this.accountName, 1, this.savePassphrase);
+  	}
     this.viewCtrl.dismiss(this.accountID);
   }
 }

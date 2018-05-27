@@ -149,22 +149,23 @@ export class CoinExchangePage {
 
   createChart() {
 
-  	let groupingUnits = [[
-                						'day', 
-                						[1]
-                					], [
-										'week',                         // unit name
-										[1]                             // allowed multiples
+  	let groupingUnits = [
+                  [
+                    'day', 
+                			[1]
+                	], [
+										'week',
+										  [1]
 									], [
 										'month',
-										[1, 2, 3, 4, 6]
+										  [1, 2, 3, 4, 6]
 									]];
 
 	let bgColor = '#ffffff';
 	let forColor = '#333333';
 	if (this.theme == 'darkTheme') {
 		bgColor = '#333333';
-		forColor = '#ffffff';
+		forColor = '#bbbbbb';
 	}
 
   	this.chart = new StockChart(<any>{
@@ -177,11 +178,13 @@ export class CoinExchangePage {
 		},
 		plotOptions: {
 			candlestick: {
-				color: '#cc0000',
-				upColor: '#339933'
+				color: '#f43d3d',
+				upColor: '#26a335',
+        lineColor: '#f43d3d',
+        upLineColor: '#26a335'
 			},
 			column: {
-				color: '#1162a1'
+				color: 'rgba(17, 98, 161, 0.50)'
 			}
 		},
 		//tooltip: { enabled: false },
@@ -220,11 +223,17 @@ export class CoinExchangePage {
 	    //     minRange: 24 * 3600 * 1000 // one day
 	    // },
     xAxis: {
-        labels: {
-          style: {
-            color: forColor
-          } 
-        }
+      labels: {
+        style: {
+          color: forColor
+        } 
+      }
+    },
+    scrollbar: {
+      enabled: false
+    },
+    tooltip: {
+      shared: true
     },
 		yAxis: [{
             labels: {
@@ -234,15 +243,9 @@ export class CoinExchangePage {
                   color: forColor
                 }
             },
-            title: {
-                text: this.priceString,
-                style: {
-                  color: forColor
-                }
-            },
             tickColor: forColor,
-            height: '60%',
-            lineWidth: 2,
+            lineWidth: 1,
+            opposite: true,
             resize: {
                 enabled: true
             }
@@ -252,47 +255,43 @@ export class CoinExchangePage {
                 x: -3,
                 style: {
                   color: forColor
-                }
-            },
-            title: {
-                text: this.volumeString,
-                style: {
-                  color: forColor
-                }
+                },
+                enabled: false
             },
             tickColor: forColor,
-            top: '65%',
-            height: '35%',
+            //opposite: false,
             offset: 0,
-            lineWidth: 2
+            lineWidth: 1
         }],
-		series: [{
+		series: [
+    {
+      type: 'column',
+      name: this.volumeString,
+      data: this.volume,
+      yAxis: 1,
+      showInNavigator: false,
+      // dataGrouping: {
+      //   groupPixelWidth: 5
+      // }
+      dataGrouping: {
+        forced: true,
+        groupAll: false,
+        units: groupingUnits,
+        groupPixelWidth: 60
+      }
+    }, {
 			type: 'candlestick',
 			name: `${this.chainName} / ${this.exchangeChainName.toUpperCase()}`,
 			data: this.data,
 			// dataGrouping: {
 			// 	groupPixelWidth: 5
 			// }
+      showInNavigator: true,
 			dataGrouping: {
 				forced: true,
 				groupAll: false,
 				units: groupingUnits,
-				groupPixelWidth: 20
-			}
-		}
-		, {
-			type: 'column',
-			name: this.volumeString,
-			data: this.volume,
-			yAxis: 1,
-			// dataGrouping: {
-			// 	groupPixelWidth: 5
-			// }
-			dataGrouping: {
-				forced: true,
-				groupAll: false,
-				units: groupingUnits,
-				groupPixelWidth: 20
+				groupPixelWidth: 60
 			}
 		}
 		],

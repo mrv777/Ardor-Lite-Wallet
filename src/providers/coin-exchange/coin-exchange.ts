@@ -28,8 +28,7 @@ export class CoinExchangeProvider {
       this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeTrades&chain=${chain}&exchange=${exchangeChain}&firstIndex=200`),
       this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeTrades&chain=${chain}&exchange=${exchangeChain}&firstIndex=300`),
       this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeTrades&chain=${chain}&exchange=${exchangeChain}&firstIndex=400`),
-      this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeTrades&chain=${chain}&exchange=${exchangeChain}&firstIndex=500`),
-      this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeTrades&chain=${chain}&exchange=${exchangeChain}&firstIndex=600`)
+      this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeTrades&chain=${chain}&exchange=${exchangeChain}&firstIndex=500`)
     );
   }
 

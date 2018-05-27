@@ -17,12 +17,14 @@ export class TransactionsProvider {
     });
   }
 
-  sendMoney(chain: number, recipient:string, amount:number, message:string): Observable<object> {
+  sendMoney(chain: number, recipient:string, amount:number, message:string, privateMsg: boolean = false): Observable<object> {
     let publicKey = this.accountData.getPublicKey();
     const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
 
     let data;
-    if (message != null && message != '') {
+    if (message != null && message != '' && privateMsg) {
+      data = "chain=" + chain + "&recipient=" + recipient + "&amountNQT=" + amount + "&publicKey=" + publicKey + "&messageToEncrypt=" + message + "&encryptedMessageIsPrunable=true";
+    } else if (message != null && message != '') {
       data = "chain=" + chain + "&recipient=" + recipient + "&amountNQT=" + amount + "&publicKey=" + publicKey + "&message=" + message + "&messageIsPrunable=true";
     } else {
       data = "chain=" + chain + "&recipient=" + recipient + "&amountNQT=" + amount + "&publicKey=" + publicKey;

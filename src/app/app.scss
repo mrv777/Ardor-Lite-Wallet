@@ -57,3 +57,17 @@ ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
 .darkTheme .row {
     border-bottom-color: #555 !important;
 }
+
+.list-md .item-input:last-child, .list-ios .item-input:last-child {
+    border-bottom: 0;
+}
+
+.list-md > .item-block:last-child .item-inner, .list-ios > .item-block:last-child .item-inner {
+    border-bottom: 1px solid #dedede;
+}
+
+.menu-inner .list-md > .item-block:last-child .item-inner, .menu-inner .list-ios > .item-block:last-child .item-inner,
+#loginAccounts .list-md > .item-block:last-child .item-inner, #loginAccounts .list-ios > .item-block:last-child .item-inner,
+#nodeSelect .item-inner {
+    border-bottom: 0;
+}

@@ -12,6 +12,9 @@ export class CurrenciesProvider {
   }
 
   getPrice(chain, currency) : Observable<object> {
+  	if (chain == 'BITSWIFT') {
+  		chain = 'SWIFT';
+  	}
     return this.http.get(`https://min-api.cryptocompare.com/data/price?fsym=${chain}&tsyms=${currency}`);
   }
 

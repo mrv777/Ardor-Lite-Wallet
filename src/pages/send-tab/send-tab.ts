@@ -33,6 +33,7 @@ export class SendTabPage {
   fingerAvailable: boolean = false;
   guest: boolean = false;
   passwordType: string = 'password';
+  privateMsg: boolean = false;
 
   subscriptionChain: Subscription;
 
@@ -41,6 +42,7 @@ export class SendTabPage {
       recipientForm: ['', Validators.required],
       amountForm: ['', Validators.required],
       messageForm: [''],
+      msgTypeForm: [''],
       passwordForm: ['', Validators.required]
     });
     if (navParams.get('address')) {
@@ -130,6 +132,10 @@ export class SendTabPage {
   	} else {
   		this.passwordType = 'password';
   	}
+  }
+
+  setMsg() {
+    this.privateMsg = !this.privateMsg;
   }
 
   showFingerprint() {
