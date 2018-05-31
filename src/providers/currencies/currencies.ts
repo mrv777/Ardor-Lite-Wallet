@@ -8,7 +8,7 @@ import 'rxjs/add/operator/catch';
 export class CurrenciesProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello CurrenciesProvider Provider');
+
   }
 
   getPrice(chain, currency) : Observable<object> {

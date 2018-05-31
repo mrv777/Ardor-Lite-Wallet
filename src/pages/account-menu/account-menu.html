@@ -2,9 +2,9 @@
     <ion-item tappable (click)="accountSettings()">
         <label>{{ 'SETTINGS' | translate }}</label>
     </ion-item>
-    <ion-item tappable (click)="leaseBalance()">
+    <!-- <ion-item tappable (click)="leaseBalance()">
         <label>{{ 'LEASE_BALANCE' | translate }}</label>
-    </ion-item>
+    </ion-item> -->
     <ion-item *ngIf="!guest" tappable (click)="editAccount()">
     	<label>{{ 'RENAME_ACCOUNT' | translate }}</label>
     </ion-item>

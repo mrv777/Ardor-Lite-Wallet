@@ -36,7 +36,11 @@ export class AccountMenuPage {
     let myModal = this.modalCtrl.create(AccountSettingsPage);
     myModal.present();
     myModal.onDidDismiss(data => {
-      this.viewCtrl.dismiss('settings');
+      if (data == true) {
+        this.viewCtrl.dismiss('settings');
+      } else {
+        this.viewCtrl.dismiss('NoChange');
+      }
     });
   }
 

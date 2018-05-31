@@ -15,6 +15,7 @@ export class GuestLoginPage {
   node: string;
   nodeSelect: string;
   hideCustom: boolean = true;
+  error: string = '';
 
   theme: string;
 
@@ -47,8 +48,18 @@ export class GuestLoginPage {
   }
 
   closeModal() {
-  	this.accountData.setNode(this.node).then(() => {  
-    	this.viewCtrl.dismiss(this.accountID);
+  	this.accountData.setNode(this.node).then(() => {
+      this.accountData.checkNode().subscribe(
+        (nodeStatus) => {
+          if (nodeStatus['blockchainState'] == "UP_TO_DATE") {
+            this.viewCtrl.dismiss(this.accountID);
+          } else {
+            this.error = "Node error or out of sync. Please try again.";
+          }
+        },
+        (err) => {
+          this.error = "Node not online. Please try again.";
+        });
     });
   }
 

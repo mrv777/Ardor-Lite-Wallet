@@ -11,4 +11,11 @@ page-guest-login {
         color: #777;
     	position: relative;
     }
+
+    .failedBox {
+        background-color: #f53d3d;
+        color: white;
+        padding: 10px;
+        border-radius: 2px;
+    }
 }

@@ -28,6 +28,7 @@ export class LeaseBalanceModalPage {
   disableSend: boolean = false;
   resultTxt: string = '';
   contacts: object[];
+  disableRec: boolean = false;
 
   theme: string;
 
@@ -37,6 +38,10 @@ export class LeaseBalanceModalPage {
       daysForm: ['', Validators.required],
       passwordForm: ['', Validators.required]
     });
+    if (navParams.get('address')) {
+      this.recipient = navParams.get('address');
+      this.disableRec = true;
+    }
   }
 
   ionViewWillEnter() {

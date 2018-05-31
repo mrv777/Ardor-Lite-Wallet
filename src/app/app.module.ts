@@ -32,6 +32,7 @@ import { CoinExchangeModalPageModule } from '../pages/coin-exchange-modal/coin-e
 import { MessageModalPageModule } from '../pages/message-modal/message-modal.module';
 import { AccountSettingsPageModule } from '../pages/account-settings/account-settings.module';
 import { LeaseBalanceModalPageModule } from '../pages/lease-balance-modal/lease-balance-modal.module';
+import { LeaseMenuPageModule } from '../pages/lease-menu/lease-menu.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -86,7 +87,8 @@ jdenticon.config = {
     CoinExchangeModalPageModule,
     MessageModalPageModule,
     AccountSettingsPageModule,
-    LeaseBalanceModalPageModule
+    LeaseBalanceModalPageModule,
+    LeaseMenuPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -6,6 +6,7 @@ import { TransactionsTabPage } from '../transactions-tab/transactions-tab';
 import { ReceiveTabPage } from '../receive-tab/receive-tab';
 import { SendTabPage } from '../send-tab/send-tab';
 import { AccountMenuPage } from '../account-menu/account-menu';
+import { LeaseMenuPage } from '../lease-menu/lease-menu';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { SharedProvider } from '../../providers/shared/shared';
@@ -25,6 +26,7 @@ export class HomePage {
   chains: string[] = [];
   chainNumbers: number[] = [];
   decimals: number = 100000000;
+  leased: boolean = true;
 
   txSelected: boolean = true;
   sendSelected: boolean = false;
@@ -53,6 +55,17 @@ export class HomePage {
       this.accountID = this.accountData.getAccountID();
       this.chain = this.shared.getChainOnce();
       this.chainName = this.shared.getChainNameOnce();
+      if (this.chain == 1){ 
+        this.accountData.getAccount(this.accountID).subscribe((account) => {
+          if (!account['currentLessee']) {
+            this.leased = false;
+          } else {
+            this.leased = true;
+          }
+        });
+      } else {
+        this.leased = true;
+      }
       this.loadBalance();
       this.changeCurrency();     
       const chainObjects = this.shared.getConstants()['chains'];
@@ -101,6 +114,21 @@ export class HomePage {
 
     });
     popover.onDidDismiss(data => {
+      // if (!this.accountData.getAccount(this.accountID)['currentLessee']) {
+      //   this.leased = false;
+      // } else {
+      //   this.leased = true;
+      // }
+    });
+  }
+
+  presentPopoverLease(myEvent) {
+    let popover = this.popoverCtrl.create(LeaseMenuPage);
+    popover.present({
+      ev: myEvent,
+
+    });
+    popover.onDidDismiss(data => {
       if (data == 'remove') {
         this.logout();
       } else if (data == 'settings') {
@@ -127,6 +155,17 @@ export class HomePage {
   changeChain() {
   	this.chain = this.chainNumbers[this.chains.indexOf(this.chainName)];
     this.shared.emitChain(this.chainName,this.chain);
+    if (this.chain == 1){ 
+      this.accountData.getAccount(this.accountID).subscribe((account) => {
+        if (!account['currentLessee']) {
+          this.leased = false;
+        } else {
+          this.leased = true;
+        }
+      });
+    } else {
+      this.leased = true;
+    }
     this.changeCurrency();
   	this.loadBalance();
   }

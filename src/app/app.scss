@@ -25,8 +25,13 @@
     src: url("../assets/fonts/SourceSansPro/SourceSansPro-Regular.ttf");
 }
 
+@font-face {
+    font-family: SourceSansProLight;
+    src: url("../assets/fonts/SourceSansPro/SourceSansPro-Light.ttf");
+}
+
 @media(max-width: 575px){
-    ion-app.md {
+    ion-app.md, ion-app.ios {
     	font-size: 1.3rem;
     }
 }

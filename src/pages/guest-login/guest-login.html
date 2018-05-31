@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header no-border>
 	<ion-toolbar>
         <ion-title>{{ 'GUEST_LOGIN' | translate }}</ion-title>
     </ion-toolbar>
@@ -27,6 +27,11 @@
 				</ion-input>
 			</ion-item>
 		</ion-list>
+		<ion-row *ngIf="error" responsive-sm>
+	      <ion-col class="failedBox">
+	        {{error}}
+	      </ion-col>
+	    </ion-row>
 
 		<ion-row responsive-sm>
 			<ion-col>

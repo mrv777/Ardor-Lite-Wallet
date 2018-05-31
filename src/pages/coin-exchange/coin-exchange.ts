@@ -165,7 +165,7 @@ export class CoinExchangePage {
 	let forColor = '#333333';
 	if (this.theme == 'darkTheme') {
 		bgColor = '#333333';
-		forColor = '#bbbbbb';
+		forColor = '#aaaaaa';
 	}
 
   	this.chart = new StockChart(<any>{

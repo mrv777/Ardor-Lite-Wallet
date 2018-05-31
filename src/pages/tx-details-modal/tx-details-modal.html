@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header no-border>
 
   <ion-navbar>
     <ion-title *ngIf="tx != null && tx['fullHash'] != null">{{chainName}} Transaction</ion-title>
@@ -100,7 +100,7 @@
 	      	{{ 'FULLHASH' | translate }}: 
 	      </ion-col>
 	      <ion-col col-8>
-	      	{{tx['fullHash']}}	
+	      	<a target="_blank" href="https://ardor.tools/transaction/{{chainName}}/{{ tx['fullHash'] }}">{{tx['fullHash']}}	</a>
 	      </ion-col>
 	    </ion-row>
 

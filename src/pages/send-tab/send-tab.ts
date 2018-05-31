@@ -75,7 +75,7 @@ export class SendTabPage {
       this.resultTxt = `Attempting to send ${this.recipient} ${amountBig} ${chainName}`;
       this.status = 0;
       this.accountData.setPublicKeyPassword(this.password);
-      this.transactions.sendMoney(this.chain, this.recipient, convertedAmount, this.message)
+      this.transactions.sendMoney(this.chain, this.recipient, convertedAmount, this.message, this.privateMsg)
       .subscribe(
         unsignedBytes => {
           // console.log(unsignedBytes['unsignedTransactionBytes']);

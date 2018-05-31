@@ -26,8 +26,8 @@ export class AccountDataProvider {
   OPTIONS: object = { testnet: false };
   LOGIN_STORAGE: SecureStorageObject;
   FINGER_SECRET: string = "CHANGE";
-  MAINNET_NODES = ['https://ardor.tools/ardor/','https://enricoip.no-ip.biz:27876/'];
-  TESTNET_NODES = ['https://testardor.jelurida.com/','https://enricoip.no-ip.biz:26877/'];
+  MAINNET_NODES = ['https://ardor.tools/ardor/','https://enricoip.no-ip.biz:27876/','https://ardortools.com/ardor/'];
+  TESTNET_NODES = ['https://testardor.jelurida.com/','https://enricoip.no-ip.biz:26877/','https://ardortools.com/ardorTest/'];
 
   constructor(
   	public http: HttpClient,
@@ -349,7 +349,9 @@ export class AccountDataProvider {
   };
 
   checkNode(): Observable<object> {
-    return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getBlockchainStatus`);
+    return this.http
+      .get(`${this.getNodeFromMemory()}nxt?requestType=getBlockchainStatus`)
+      .timeout(5000);
   }
 
   getNode(): Promise<string> {

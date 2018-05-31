@@ -57,6 +57,8 @@ export class LoginPage {
   }
 
   setNode() {
+    this.error = null;
+    this.loading = true;
     this.accountData.setNode("mainnet/").then(() => {
       this.accountData.checkNode().subscribe(
         (nodeStatus) => {

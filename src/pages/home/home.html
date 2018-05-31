@@ -1,4 +1,4 @@
-<ion-header id="homeHeader">
+<ion-header id="homeHeader" no-border>
   <ion-navbar hideBackButton="true">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -10,6 +10,9 @@
       </ion-option>
     </ion-select></ion-title>
     <ion-buttons end>
+      <button ion-button secondary *ngIf="!leased" (click)="presentPopoverLease($event)">
+        <ion-icon name="warning"></ion-icon>
+      </button>
       <button ion-button secondary (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>
       </button>

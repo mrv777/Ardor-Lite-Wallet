@@ -24,7 +24,7 @@
           <ion-label *ngIf="!privateMsg" stacked color="primary">{{ 'P_MESSAGE' | translate }} ({{ 'OPTIONAL' | translate }})</ion-label>
           <ion-label *ngIf="privateMsg" stacked color="primary">{{ 'PRIVATE_MESSAGE' | translate }} ({{ 'OPTIONAL' | translate }})</ion-label>
           <ion-input [(ngModel)]="message" name="message" type="text" formControlName="messageForm"></ion-input>
-	      <ion-toggle [(ngModel)]="privateMsg" (click)="setMsg()" formControlName="msgTypeForm"></ion-toggle>
+	     <!--  <ion-toggle [(ngModel)]="privateMsg" (click)="setMsg()" formControlName="msgTypeForm"></ion-toggle> -->
         </ion-item>
 		<ion-item>
 			<ion-label stacked color="primary">{{ 'PASSPHRASE' | translate }}</ion-label>
