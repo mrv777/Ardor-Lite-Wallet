@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
 
 import { LeaseBalanceModalPage } from '../lease-balance-modal/lease-balance-modal';
+import { LeasingInfoPage } from '../leasing-info/leasing-info';
 
 @IonicPage()
 @Component({
@@ -28,6 +29,11 @@ export class LeaseMenuPage {
     myModal.onDidDismiss(data => {
       this.viewCtrl.dismiss('lease');
     });
+  }
+
+  moreInfo() {
+    let myModal = this.modalCtrl.create(LeasingInfoPage);
+    myModal.present();
   }
 
 }

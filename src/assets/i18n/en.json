@@ -79,7 +79,11 @@
     "GLOBAL_SETTINGS": "Global Settings",
     "ENABLE_DARK": "Enable Dark Mode",
     "VOLUME": "Volume",
-    "LEASE_BALANCE": "Lease Balance",
+    "LEASE_BALANCE": "Lease Forging Power",
     "PRIVATE_MESSAGE": "Private Message",
-    "DAYS": "Days"
+    "DAYS": "Days",
+    "LEASE_OTHER": "Lease to Other",
+    "MORE_INFO": "More Info",
+    "LEASE_INFO": "Leasing Information",
+    "POOLS": "Pools"
 }

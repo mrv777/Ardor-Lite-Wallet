@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'LEASE_INFO' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+	<ion-row responsive-sm>
+    <ion-col>
+    	<h6>Leasing gives another account your forging power, without giving them the ability to spend your coins.</h6>
+    	<h4>Your balance never leaves your account</h4>
+    		<p>
+          Your funds are still on your account after you lease them. They are still available for use: you can spend them, receive more etc. The only thing given is your forging power, by consequence while your balance is leased, you will not be able to forge on your own.<br />
+          If your funds vary, so will your forging power. If you lease 2000 Ardor to a forging pool and the next day you spend half of them, you are now leasing only 1000 Ardor.
+        </p>
+
+      <h4><u>{{ 'POOLS' | translate }}</u></h4>
+      <p>
+      	<a target="_blank" href="https://bitswift.network/">BitSwift pool</a>
+      </p>
+      <p>
+      	<a target="_blank" href="https://ardorpool.tezzigator.com/Status">Tezzigator pool</a>
+      </p>
+    </ion-col>
+  </ion-row>
+	<ion-row responsive-sm>
+    <ion-col>
+			<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+		</ion-col>
+	</ion-row>
+</ion-content>

@@ -1,7 +1,7 @@
 <ion-content padding>
 	<ion-row responsive-sm>
 		<ion-col>
-			It appears your balance is not leased out for staking.  If you do not run your own node, it is recommended to lease your balance to support the network.
+			It appears you have not leased out your forging power.  If you do not run your own node, it is recommended to lease your power to another account to support the network.
 		</ion-col>
 	</ion-row>
 
@@ -16,7 +16,10 @@
 			<button ion-button color="light" (click)="leaseBalance('ARDOR-K5KL-23DJ-3XLK-22222')" block>Lease to Tezzigator pool</button>
 		</ion-col>
 		<ion-col>
-			<button ion-button color="light" (click)="leaseBalance('none')" block>{{ 'LEASE_BALANCE' | translate }}</button>
+			<button ion-button color="light" (click)="leaseBalance('none')" block>{{ 'LEASE_OTHER' | translate }}</button>
+		</ion-col>
+		<ion-col>
+			<button ion-button color="light" (click)="moreInfo()" block>{{ 'MORE_INFO' | translate }}</button>
 		</ion-col>
 	</ion-row>
 </ion-content>
