@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 
@@ -21,17 +22,25 @@ export class EditContactModalPage {
   message: string;
   theme: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, private barcodeScanner: BarcodeScanner) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, private barcodeScanner: BarcodeScanner, public translate: TranslateService) {
     this.name = navParams.get('name');
     this.account = navParams.get('account');
     this.startingAccount = navParams.get('account');
     this.type = navParams.get('type');
     if (this.type == 'new') {
-      this.title = 'Add Contact';
-      this.buttonText = 'Add';
+      this.translate.get('ADD_CONTACT').subscribe((res: string) => {
+        this.title = res;
+      });
+      this.translate.get('ADD').subscribe((res: string) => {
+        this.buttonText = res;
+      });
     } else {
-      this.title = 'Edit Contact';
-      this.buttonText = 'Edit';
+      this.translate.get('EDIT_CONTACT').subscribe((res: string) => {
+        this.title = res;
+      });
+      this.translate.get('EDIT').subscribe((res: string) => {
+        this.buttonText = res;
+      });
     }
   }
 

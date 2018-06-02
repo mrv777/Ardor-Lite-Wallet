@@ -17,6 +17,7 @@ export class NewAccountPage {
   saved: boolean = false;
   accountName: string = '';
   savePassphrase: boolean = false;
+  blur: string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public platform: Platform) {
   }
@@ -27,13 +28,18 @@ export class NewAccountPage {
   }
 
   presentPrompt() {
+  	this.blur = 'blur';
+  	let words = this.passphrase.split(" ");
+  	let randomNum = Math.floor(Math.random() * 12);
+  	let word = words.splice(randomNum, 1);
+  	//let random = words.sort(() => .5 - Math.random()).slice(0,4)
 	  let alert = this.alertCtrl.create({
 	    title: 'Verify Passphrase',
-	    message: 'Please enter your passphrase to verify you have saved it correctly.',
+	    message: `Please enter word number ${randomNum+1} in your passphrase to verify you have saved it correctly.`,
 	    inputs: [
 	      {
 	        name: 'password',
-	        placeholder: 'Passphrase',
+	        placeholder: '',
 	        type: 'text'
 	      }
 	    ],
@@ -48,13 +54,13 @@ export class NewAccountPage {
 	      {
 	        text: 'Verify',
 	        handler: data => {
-	          if (data.password == this.passphrase) {
+	          if (data.password == word) {
 	            // Success
 	            this.closeModal();
 	            return true;
 	          } else {
 	            // invalid passphrase
-	            this.presentMessage("Incorrect Passphrase");
+	            this.presentMessage("Incorrect Word");
 	            return true;
 	          }
 	        }
@@ -62,6 +68,9 @@ export class NewAccountPage {
 	    ]
 	  });
 	  alert.present();
+	  alert.onDidDismiss(data => {
+	    this.blur = '';
+	  });
 	}
 
 	presentMessage(msg: string) {

@@ -33,6 +33,7 @@ export class HomePage {
   receiveSelected: boolean = false;
 
   price: number = 0;
+  change: number = 0;
   currency: string = 'USD';
   currencies: string[] = ['BTC','ETH','USD','EUR','CNY','AUD'];
   symbol: string = '$';
@@ -114,11 +115,12 @@ export class HomePage {
 
     });
     popover.onDidDismiss(data => {
-      // if (!this.accountData.getAccount(this.accountID)['currentLessee']) {
-      //   this.leased = false;
-      // } else {
-      //   this.leased = true;
-      // }
+      if (data == 'remove') {
+        this.logout();
+      } else if (data == 'settings') {
+        this.chainName = this.shared.getChainNameOnce();
+        this.changeChain();
+      }  
     });
   }
 
@@ -129,27 +131,39 @@ export class HomePage {
 
     });
     popover.onDidDismiss(data => {
-      if (data == 'remove') {
-        this.logout();
-      } else if (data == 'settings') {
-        this.chainName = this.shared.getChainNameOnce();
-        this.changeChain();
-      }
+      // if (!this.accountData.getAccount(this.accountID)['currentLessee']) {
+      //   this.leased = false;
+      // } else {
+      //   this.leased = true;
+      // }
     });
   }
 
   changeCurrency() {
   	this.symbol = this.currencySymbols[this.currencies.indexOf(this.currency)];
   	this.price = 0;
-  	this.currenciesProv.getPrice(this.chainName, this.currency)
+    this.change = 0;
+
+    this.currenciesProv.getPriceFull(this.chainName, this.currency)
     .subscribe(
       price => {
-      	if (price != null && price[`${this.currency}`] != null) {
-      		this.price = price[`${this.currency}`];
-      	}
+        if (price != null && price['RAW'][`${this.chainName}`] != null && price['RAW'][`${this.chainName}`][`${this.currency}`] != null) {
+          this.price = price['RAW'][`${this.chainName}`][`${this.currency}`]['PRICE'];
+          this.change = price['RAW'][`${this.chainName}`][`${this.currency}`]['CHANGEPCT24HOUR'];
+        }
         this.shared.emitConversion(this.price,this.currencySymbols[this.currencies.indexOf(this.currency)]);
       },
       err => { console.log(err); });
+    
+  	// this.currenciesProv.getPrice(this.chainName, this.currency)
+   //  .subscribe(
+   //    price => {
+   //    	if (price != null && price[`${this.currency}`] != null) {
+   //    		this.price = price[`${this.currency}`];
+   //    	}
+   //      this.shared.emitConversion(this.price,this.currencySymbols[this.currencies.indexOf(this.currency)]);
+   //    },
+   //    err => { console.log(err); });
   }
 
   changeChain() {

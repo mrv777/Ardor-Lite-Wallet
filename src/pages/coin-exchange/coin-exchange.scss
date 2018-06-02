@@ -40,6 +40,12 @@ page-coin-exchange {
         padding: 0;
     }
 
+    #loader {
+        margin: auto;
+        text-align: center;
+        font-size: 24px;
+    }
+
     @media(max-width: 767px){
         .hidden-sm {
             display:none;

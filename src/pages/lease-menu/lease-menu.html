@@ -1,13 +1,13 @@
 <ion-content padding>
 	<ion-row responsive-sm>
 		<ion-col>
-			It appears you have not leased out your forging power.  If you do not run your own node, it is recommended to lease your power to another account to support the network.
+			{{ 'BALANCE_NOT_LEASED' | translate }}
 		</ion-col>
 	</ion-row>
 
 	<ion-row responsive-sm>
 		<ion-col>
-			<button ion-button color="light" (click)="leaseBalance('ARDOR-2QHM-H99Q-8C9Y-C4XTN')" block>Lease to support this app</button>
+			<button ion-button color="light" (click)="leaseBalance('ARDOR-2QHM-H99Q-8C9Y-C4XTN')" block>{{ 'LEASE_SUPPORT' | translate }}</button>
 		</ion-col>
 		<ion-col>
 			<button ion-button color="light" (click)="leaseBalance('ARDOR-LZLZ-7PT2-7YRP-2QS2H')" block>Lease to BitSwift pool</button>

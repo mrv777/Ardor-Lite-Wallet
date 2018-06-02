@@ -83,7 +83,18 @@
     "PRIVATE_MESSAGE": "Private Message",
     "DAYS": "Days",
     "LEASE_OTHER": "Lease to Other",
+    "LEASE_SUPPORT": "Lease to support this app",
     "MORE_INFO": "More Info",
     "LEASE_INFO": "Leasing Information",
-    "POOLS": "Pools"
+    "POOLS": "Pools",
+    "LEASING_EXPLAIN": "Leasing gives another account your forging power, without giving them the ability to spend your coins.",
+    "BALANCE_NEVER_LEAVES": "Your balance never leaves your account",
+    "BALANCE_NOT_LEASED": "It appears you have not leased out your forging power.  If you do not run your own node, it is recommended to lease your power to another account to support the network.",
+    "RETRY": "Retry",
+    "EDIT": "Edit",
+    "ADD": "Add",
+    "ADD_CONTACT": "Add Contact",
+    "VERIFY": "Verify",
+    "VERIFY_PASS": "Verify Passphrase",
+    "VERIFY_WORD_NUMBER": "To verify you have saved your passphrase correctly, please enter word number:"
 }

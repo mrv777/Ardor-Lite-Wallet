@@ -1,6 +1,6 @@
 {
   "name": "ardor",
-  "version": "0.8.11",
+  "version": "0.8.13",
   "author": "MrV",
   "homepage": "",
   "private": true,
@@ -34,7 +34,6 @@
     "angular-highcharts": "^5.2.12",
     "ardorjs": "^0.1.1",
     "bip39": "^2.5.0",
-    "cordova-android": "~6.4.0",
     "cordova-clipboard": "^1.1.1",
     "cordova-ios": "~4.5.4",
     "cordova-plugin-add-swift-support": "^1.7.2",
@@ -55,7 +54,8 @@
     "phonegap-plugin-barcodescanner": "^7.1.0",
     "rxjs": "5.5.8",
     "sw-toolbox": "3.6.0",
-    "zone.js": "0.8.20"
+    "zone.js": "0.8.20",
+    "cordova-android": "~6.4.0"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.8",
@@ -76,8 +76,8 @@
       "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

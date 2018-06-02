@@ -1,4 +1,4 @@
-<ion-header no-border>
+<ion-header no-border [class]="blur">
 
   <ion-navbar>
     <ion-title>{{ 'GENERATE' | translate }}</ion-title>
@@ -7,7 +7,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding [class]="blur">
   <h6>{{ 'ACCOUNT' | translate }}:</h6> <h4>{{accountID}}</h4>
   <h6>{{ 'PASSPHRASE' | translate }}:</h6> <h4>{{passphrase}}</h4>
   <p style="color: rgba(255, 255, 255, 0.75)">{{ 'SECURE_LOCATION' | translate }} <br />

@@ -18,4 +18,11 @@ export class CurrenciesProvider {
     return this.http.get(`https://min-api.cryptocompare.com/data/price?fsym=${chain}&tsyms=${currency}`);
   }
 
+  getPriceFull(chain, currency) : Observable<object> {
+  	if (chain == 'BITSWIFT') {
+  		chain = 'SWIFT';
+  	}
+    return this.http.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${chain}&tsyms=${currency}`);
+  }
+
 }

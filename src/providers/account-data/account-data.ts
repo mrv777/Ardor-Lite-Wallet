@@ -39,9 +39,11 @@ export class AccountDataProvider {
   }
 
   init(): Promise<void> {
-     this.getTheme().then((theme) => {
-        this.THEME.next(theme);
-      });
+    this.getTheme().then((theme) => {
+      this.THEME.next(theme);
+    });
+    this.SAVED_ACCOUNTS = []; //Initialize saved accounts to empty array before fetching them
+    
     this.secureStorage.create('ardor_lite_pin')
       .then((storage: SecureStorageObject) => {
         storage.get(`pin`) // Get pin if it's saved
@@ -49,9 +51,10 @@ export class AccountDataProvider {
           data => { this.PIN = data; },
           error => console.log('Pin Error: ' + error)
         );
+      }).catch((err) => {
+          console.error('The device is not secured!');
       });
 
-    this.SAVED_ACCOUNTS = []; //Initialize saved accounts to empty array before fetching them
     
     return this.secureStorage.create('ardor_lite_accounts')
       .then((storageArdor: SecureStorageObject) => { 
@@ -77,7 +80,9 @@ export class AccountDataProvider {
             },
             error => console.log('Accounts Error ' + error)
           );
-      });
+      }).catch((err) => {
+          console.error('The device is not secured!!');
+      });;
   }
 
   login(password: string, loginType: string): void {

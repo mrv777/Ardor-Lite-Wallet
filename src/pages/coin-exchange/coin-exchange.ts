@@ -40,6 +40,7 @@ export class CoinExchangePage {
   chart: StockChart;
   chartOptions: object;
   theme: string;
+  loaded: boolean = false;
 
   trades: object[];
   buyOrders: object[];
@@ -49,6 +50,7 @@ export class CoinExchangePage {
   }
 
   ionViewWillEnter() {
+    this.loaded = false;
 	  this.chain = this.sharedProvider.getChainOnce();
 	  this.chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
 	  const chainObjects = this.sharedProvider.getConstants()['chains'];
@@ -143,7 +145,7 @@ export class CoinExchangePage {
 		this.trades.sort(function(b,a) {return (a['date'] > b['date']) ? 1 : ((b['date'] > a['date']) ? -1 : 0);} ); 
 
 		this.createChart();
-
+    this.loaded = true;
       });
   }
 
@@ -299,6 +301,7 @@ export class CoinExchangePage {
         	enabled: false
         }
 	}); //End of Chart
+
   }
 
   roundDate(timeStamp){
