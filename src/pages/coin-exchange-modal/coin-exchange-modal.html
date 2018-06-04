@@ -21,7 +21,7 @@
       </ion-item>
       <ion-item>
 				<ion-label stacked color="primary">{{ 'QUANTITY_OF' | translate }} {{chain}}</ion-label>
-				<ion-input [(ngModel)]="exchangeQuantity" name="exchangeQuantity" disabled type="number"></ion-input>
+				<ion-input [(ngModel)]="exchangeQuantity" name="exchangeQuantity" type="number" (keyup)="updateExchangeQuantityExchange($event)"></ion-input>
       </ion-item>
       <ion-item>
 				<ion-label stacked color="primary">{{ 'FEE' | translate }} ({{feeChain}} {{ 'BALANCE' | translate }}: {{balance}})</ion-label>

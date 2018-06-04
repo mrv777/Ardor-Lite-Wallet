@@ -155,6 +155,12 @@ page-login {
     	border-radius: 0 2px 2px 0;
     }
 
+    .noCordova {
+        font-style: italic;
+        text-align: center;
+        color: #fff;
+    }
+
     @media(max-width: 1023px){
         #headerLogo {
             width: 192px;

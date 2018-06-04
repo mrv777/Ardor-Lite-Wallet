@@ -20,7 +20,11 @@ export class AccountDataProvider {
   PASSWORD;
   PUBLIC_KEY;
   NODE_URL;
+  CURRENT_NETWORK: string;
+  CURRENT_MAIN_NODE = -1;
+  CURRENT_TEST_NODE = -1;
   PIN;
+  DEVICE_SECURE: boolean = false;
   THEME: ReplaySubject<string>;
   GUEST_LOGIN: boolean = false;
   OPTIONS: object = { testnet: false };
@@ -48,13 +52,12 @@ export class AccountDataProvider {
       .then((storage: SecureStorageObject) => {
         storage.get(`pin`) // Get pin if it's saved
         .then(
-          data => { this.PIN = data; },
+          data => { this.PIN = data; this.DEVICE_SECURE = true; },
           error => console.log('Pin Error: ' + error)
         );
       }).catch((err) => {
           console.error('The device is not secured!');
       });
-
     
     return this.secureStorage.create('ardor_lite_accounts')
       .then((storageArdor: SecureStorageObject) => { 
@@ -63,6 +66,7 @@ export class AccountDataProvider {
           .then(
             data => { 
               let ssData = data;
+              this.DEVICE_SECURE = true;
               var promises = [];
               for (let i=0;i<ssData.length; i++) {
                   promises.push(storageArdor.get(ssData[i]));
@@ -99,13 +103,17 @@ export class AccountDataProvider {
 	    this.PASSWORD = password;
 	    this.setPublicKeyPassword(password);
 
-	    let accountID = ardorjs.secretPhraseToAccountId(password);
+	    let accountID = this.getAccountFromPassword(password);
 	    this.ACCOUNT_ID = accountID;
 	    this.setAccountID(accountID);
 	}
     
     this.events.publish('user:login');
   };
+
+  getAccountFromPassword(password: string): string {
+    return ardorjs.secretPhraseToAccountId(password);
+  }
 
   setGuestLogin() {
     this.GUEST_LOGIN = true;
@@ -176,6 +184,10 @@ export class AccountDataProvider {
 
   getSavedAccounts(): object[] {
     return this.SAVED_ACCOUNTS;
+  }
+
+  isDeviceSecure(): boolean {
+    return this.DEVICE_SECURE;
   }
 
   checkPin(pin: string): boolean {
@@ -344,14 +356,32 @@ export class AccountDataProvider {
 
   setNode(node: string): Promise<void> {
     if (node == 'mainnet/'){
-      this.NODE_URL = this.MAINNET_NODES[Math.floor(Math.random() * (this.MAINNET_NODES.length) )];
+      this.CURRENT_NETWORK = 'mainnet/';
+
+      let randomNum = Math.floor(Math.random() * (this.MAINNET_NODES.length));
+      while (randomNum == this.CURRENT_MAIN_NODE){ //Make sure to not keep trying the same node
+        randomNum = Math.floor(Math.random() * (this.MAINNET_NODES.length));
+      }
+      this.CURRENT_MAIN_NODE = randomNum;
+      this.NODE_URL = this.MAINNET_NODES[randomNum];
     } else if (node == 'testnet/') {
+      this.CURRENT_NETWORK = 'testnet/';
+
+      let randomNum = Math.floor(Math.random() * (this.MAINNET_NODES.length));
+      while (randomNum == this.CURRENT_TEST_NODE){ //Make sure to not keep trying the same node
+        randomNum = Math.floor(Math.random() * (this.MAINNET_NODES.length));
+      }
+      this.CURRENT_TEST_NODE = randomNum;
       this.NODE_URL = this.TESTNET_NODES[Math.floor(Math.random() * (this.TESTNET_NODES.length) )];
     } else {
       this.NODE_URL = node.replace(/\/?$/, '/');
     }
     return this.storage.set(`node`, this.NODE_URL);
   };
+
+  getCurrentNetwork() {
+    return this.CURRENT_NETWORK;
+  }
 
   checkNode(): Observable<object> {
     return this.http

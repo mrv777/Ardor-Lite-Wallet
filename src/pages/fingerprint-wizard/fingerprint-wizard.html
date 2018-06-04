@@ -39,8 +39,10 @@
 			    <ion-checkbox [(ngModel)]="savePassphrase" formControlName="saveForm"></ion-checkbox>
 			</ion-item>
 			<ion-item *ngIf="savePassphrase">
-				<ion-input [(ngModel)]="password" name="password" type="password" required formControlName="passwordForm" placeholder="{{ 'PASSPHRASE' | translate }}">
+				<ion-input [(ngModel)]="password" name="password" type="{{passwordType}}" formControlName="passwordForm" placeholder="{{ 'PASSPHRASE' | translate }}">
 				</ion-input>
+
+				<button id="eyeIcon" ion-button clear color="dark" type="button" item-right (click)="togglePassword()"> <ion-icon *ngIf="passwordType == 'password'" name="eye"> </ion-icon><ion-icon *ngIf="passwordType == 'text'" name="eye-off"> </ion-icon> </button>
 				<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerPassword()"> <ion-icon name="barcode"> </ion-icon> </button>
 			</ion-item>
 			<ion-item *ngIf="savePassphrase" text-wrap style="color: red">
@@ -48,6 +50,11 @@
 			</ion-item>
 		</ion-list>
 
+		<ion-row *ngIf="message" responsive-sm>
+	      <ion-col class="failedBox">
+	        {{message}}
+	      </ion-col>
+	    </ion-row>
 		<ion-row responsive-sm>
 			<ion-col>
 				<button ion-button color="white" (click)="saveLogin()" type="submit" block>{{ 'SAVE' | translate }}</button>

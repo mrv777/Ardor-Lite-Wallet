@@ -10,6 +10,10 @@ import { TransactionsProvider } from '../../providers/transactions/transactions'
 import { CoinExchangeProvider } from '../../providers/coin-exchange/coin-exchange';
 import { SharedProvider } from '../../providers/shared/shared';
 
+/**
+  Exchange Chain and chain got switched!!  Should be rewritten so variable names are consistant
+**/
+
 @IonicPage()
 @Component({
   selector: 'page-coin-exchange-modal',
@@ -173,10 +177,37 @@ export class CoinExchangeModalPage {
   updateExchangeQuantity(ev) {
     if (ev.target.value !='' && !isNaN(ev.target.value)) {
       this.rate = new Big(this.rate);
-      this.exchangeQuantity = new Big(this.rate.times(ev.target.value));
+      let sellChain;
+      if (this.type == "Buy") {
+        sellChain = this.chain;
+      } else {
+        sellChain = this.exchangeChain;
+      }
+      this.exchangeQuantity = new Big(this.rate.times(ev.target.value).round(this.sharedProvider.getConstants()['chainProperties'][this.chainNumber]['decimals']));
       if (this.balance < this.exchangeQuantity.plus(this.fee)) {
         this.disableExchange = true;
-        this.resultTxt = `Not enough ${this.chain} to exchange`;
+        this.resultTxt = `Not enough ${sellChain} to exchange`;
+      } else {
+        this.disableExchange = false;
+        this.resultTxt = '';
+      }
+    }
+  }
+
+  updateExchangeQuantityExchange(ev) {
+    if (ev.target.value !='' && !isNaN(ev.target.value)) {
+      let exQuantity = new Big(this.exchangeQuantity);
+      let val = new Big(ev.target.value);
+      let sellChain;
+      if (this.type == "Buy") {
+        sellChain = this.chain;
+      } else {
+        sellChain = this.exchangeChain;
+      }
+      this.quantity = new Big(val.div(this.rate).round(this.sharedProvider.getConstants()['chainProperties'][this.exchangeChainNumber]['decimals']));
+      if (this.balance < exQuantity.plus(this.fee)) {
+        this.disableExchange = true;
+        this.resultTxt = `Not enough ${sellChain} to exchange`;
       } else {
         this.disableExchange = false;
         this.resultTxt = '';

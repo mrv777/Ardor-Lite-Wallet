@@ -96,5 +96,7 @@
     "ADD_CONTACT": "Add Contact",
     "VERIFY": "Verify",
     "VERIFY_PASS": "Verify Passphrase",
-    "VERIFY_WORD_NUMBER": "To verify you have saved your passphrase correctly, please enter word number:"
+    "VERIFY_WORD_NUMBER": "To verify you have saved your passphrase correctly, please enter word number:",
+    "TRY_DIFFERENT": "Try a different node",
+    "NO_CORDOVA": "Account saving only works on mobile devices with the device secured"
 }

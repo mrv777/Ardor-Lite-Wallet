@@ -42,6 +42,10 @@
 			<ion-spinner></ion-spinner>	<br />
 			{{ 'LOADING_INFO' | translate }}
 		</div>
+		<div id="loader" *ngIf="error">
+			{{error}} <br />
+			<button ion-button (click)="changeNode()">{{ 'RETRY' | translate }}</button>
+		</div>
 	</ng-container>
 	<ng-container *ngIf="loaded">
 		<div id="chart">

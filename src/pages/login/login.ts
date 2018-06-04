@@ -71,11 +71,13 @@ export class LoginPage {
              //this.accounts = [{account: 'ARDOR-BK2J-ZMY4-93UY-8EM9V' , name: 'MrV', password: '', chain: 1},{account: 'ARDOR-2QHM-H99Q-8C9Y-C4XTN' , name: 'MrV2', password: '', chain: 2}];
              //this.setBalances();
               if (this.platform.is('cordova')) {
-                this.cordovaAvailable = true;
                 this.accountData.init().then(() => {
                   this.loading = false;
-                  this.accounts = this.accountData.getSavedAccounts();
-                  this.setBalances();
+                  this.cordovaAvailable = this.accountData.isDeviceSecure(); // Account saving only works on mobile devices with the device secured
+                  if (this.cordovaAvailable) {
+                    this.accounts = this.accountData.getSavedAccounts();
+                    this.setBalances();
+                  }
                 });
               } else {
                 this.accountData.getTheme().then((theme) => {

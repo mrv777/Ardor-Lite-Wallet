@@ -3,17 +3,24 @@ page-fingerprint-wizard {
 		background-color: #1162a1;
 	}
 
-	#qrIcon {
-        font-size: 1.75em;
+    #qrIcon, #fingerIcon, #contactsIcon, #eyeIcon {
+        font-size: 1.5em;
         margin: 0;
         padding: 0 0.4em;
         height: 100%;
         color: #777;
-    	position: relative;
+        position: relative;
     }
 
     .item-md {
     	border-radius: 2px;
    		margin: 20px 0;
+    }
+
+    .failedBox {
+        background-color: #f53d3d;
+        color: white;
+        padding: 10px;
+        border-radius: 2px;
     }
 }

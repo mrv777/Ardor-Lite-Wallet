@@ -31,9 +31,9 @@
             </ion-option>
           </ion-select></h5>
           <h4 *ngIf="balance.balanceNQT != null">
-            <b>{{balance.balanceNQT/decimals | number : '1.0-8'}}</b>
+            <b>{{balance.balanceNQT/decimals | number : '1.0-8'}}</b> <span class="lighterText smallerText">{{chainName}}</span>
           </h4>
-          <h4 *ngIf="balance.balanceNQT == null"><b><span class="lighterText">{{chainName}}</span> 0</b></h4>
+          <h4 *ngIf="balance.balanceNQT == null"><b>0</b> <span class="lighterText smallerText">{{chainName}}</span></h4>
 
           <h6 *ngIf="balance.balanceNQT != null && change > 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}}  <span class="change24 success">&uarr;{{change | number : '1.2-2'}}%</span></h6>
           <h6 *ngIf="balance.balanceNQT != null && change < 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}}  <span class="change24 danger">&darr;{{change | number : '1.2-2'}}%</span></h6>
