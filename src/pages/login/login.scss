@@ -47,7 +47,7 @@ page-login {
             right: 40px;
 
             color: white;
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(0,0,0,0.85);
             line-height: 24px;
             padding: 4px 8px;
             border-radius: 4px;
@@ -57,7 +57,7 @@ page-login {
         contain: layout;
     }
     #langFabList {
-        margin: 54px 0;
+        margin: 52px 0;
     }
     #langFabList button[ion-fab] {
 
@@ -67,7 +67,7 @@ page-login {
         }
     }
     #langFabList .fab-in-list {
-        margin: 4px 0;
+        margin: 2px 0;
     }
 
     .currentLang {

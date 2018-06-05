@@ -2,6 +2,7 @@ page-new-account {
 	.scroll-content {
 		background-color: #1162a1;
 		color: white;
+        text-align: center;
 	}
 
 	#closeButton {
@@ -27,11 +28,29 @@ page-new-account {
         filter: blur(4px);
     }
 
+    // .secureLoc {
+    //     color: rgba(255, 255, 255, 0.8)
+    // }
+
+    .cannotRecover, .secureLoc {
+        color:#FFBA33;
+        text-transform: uppercase;
+        font-size: 1.5rem;
+    }
+
     p, h4, h6 {
     	text-align: center;
     }
 
-    h4 {
+    #passphraseParent {
+        display: inline-block;
+    }
+
+    .passphrase {
     	font-weight: bold;
+        border: 1px solid;
+        border-radius: 3px;
+        padding: 5px;
+        max-width: 750px;
     }
 }

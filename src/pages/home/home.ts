@@ -144,12 +144,19 @@ export class HomePage {
   	this.price = 0;
     this.change = 0;
 
-    this.currenciesProv.getPriceFull(this.chainName, this.currency)
+    let currencyChain;
+    if (this.chainName == 'BITSWIFT') {
+      currencyChain = 'SWIFT';
+    } else {
+      currencyChain = this.chainName;
+    }
+
+    this.currenciesProv.getPriceFull(currencyChain, this.currency)
     .subscribe(
       price => {
-        if (price != null && price['RAW'][`${this.chainName}`] != null && price['RAW'][`${this.chainName}`][`${this.currency}`] != null) {
-          this.price = price['RAW'][`${this.chainName}`][`${this.currency}`]['PRICE'];
-          this.change = price['RAW'][`${this.chainName}`][`${this.currency}`]['CHANGEPCT24HOUR'];
+        if (price != null && price['RAW'][`${currencyChain}`] != null && price['RAW'][`${currencyChain}`][`${this.currency}`] != null) {
+          this.price = price['RAW'][`${currencyChain}`][`${this.currency}`]['PRICE'];
+          this.change = price['RAW'][`${currencyChain}`][`${this.currency}`]['CHANGEPCT24HOUR'];
         }
         this.shared.emitConversion(this.price,this.currencySymbols[this.currencies.indexOf(this.currency)]);
       },

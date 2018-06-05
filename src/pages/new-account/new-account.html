@@ -8,10 +8,10 @@
 
 
 <ion-content padding [class]="blur">
-  <h6>{{ 'ACCOUNT' | translate }}:</h6> <h4>{{accountID}}</h4>
-  <h6>{{ 'PASSPHRASE' | translate }}:</h6> <h4>{{passphrase}}</h4>
-  <p style="color: rgba(255, 255, 255, 0.75)">{{ 'SECURE_LOCATION' | translate }} <br />
-  <span style="color:#FFBA33;text-transform: uppercase;">{{ 'CANNOT_RECOVER' | translate }}</span></p>
+  <h6>{{ 'ACCOUNT' | translate }}:</h6> <h4 class="account">{{accountID}}</h4>
+  <h6>{{ 'PASSPHRASE' | translate }}:</h6> <div id="passphraseParent"><h4 class="passphrase">{{passphrase}}</h4></div>
+  <p class="secureLoc">{{ 'SECURE_LOCATION' | translate }} <br />
+  <span class="cannotRecover">{{ 'CANNOT_RECOVER' | translate }}</span></p>
   <form>
 	<ion-list no-lines>
 		<ion-item>

@@ -54,35 +54,6 @@
 		<ion-grid>
 			<ion-row>
 				<ion-col col-6>
-					<h3>Sell Orders</h3>
-					<button *ngIf="sellOrders != null && sellOrders.length != 0" ion-button type="button" (click)="showExchange(buyOrders[0].askNQTPerCoin/exchangeDecimals,(buyOrders[0].quantityQNT/decimals)/(buyOrders[0].askNQTPerCoin/decimals),'Buy')">{{ 'BUY' | translate }}</button>
-					<ion-grid *ngIf="buyOrders != null && buyOrders.length != 0">
-						<ion-row class="tableHeader">
-							<ion-col col-0 col-md-4 class="hidden-sm">{{ 'ACCOUNT' | translate }}</ion-col>
-							<ion-col col-5 col-md-2>{{ 'PRICE' | translate }}</ion-col>
-							<ion-col col-7 col-md-3>{{chainName}}</ion-col>
-							<ion-col col-0 col-md-3 class="hidden-sm">{{exchangeChainName}}</ion-col>
-						</ion-row>
-						<ion-row *ngFor="let order of buyOrders | paginate: { id: 'bOrders_pages',
-	                                                      itemsPerPage: '10',
-	                                                      currentPage: buyOrdersPage }">
-							<ion-col col-0 col-md-4 class="hidden-sm">{{order.accountRS}}</ion-col>
-							<ion-col col-5 col-md-2><a (click)="showExchange(order.askNQTPerCoin/exchangeDecimals,order.sum,'Buy')">{{order.askNQTPerCoin/exchangeDecimals | number : '1.0-6'}}</a></ion-col>
-							<ion-col col-7 col-md-3 *ngIf="order.exchangeQNT/decimals >= 0.001">{{order.exchangeQNT/decimals | number : '1.0-3'}}</ion-col>
-							<ion-col col-7 col-md-3 *ngIf="order.exchangeQNT/decimals < 0.001"><0.001</ion-col>
-							<ion-col col-0 col-md-3 class="hidden-sm" *ngIf="order.quantityQNT/exchangeDecimals >= 0.001">{{order.quantityQNT/exchangeDecimals | number : '1.0-3'}}</ion-col>
-							<ion-col col-0 col-md-3 class="hidden-sm" *ngIf="order.quantityQNT/exchangeDecimals < 0.001"><0.001</ion-col>
-						</ion-row>
-						<ion-row>
-							<ion-col class="paginationCol">
-								<div style="text-align: center;">
-									<pagination-controls (pageChange)="buyOrdersPage = $event" previousLabel="" nextLabel="" id="bOrders_pages" maxSize="5"></pagination-controls>
-								</div>
-							</ion-col>
-						</ion-row>
-					</ion-grid>
-				</ion-col>
-				<ion-col col-6>
 					<h3>Buy Orders</h3>			
 					<button *ngIf="buyOrders != null && buyOrders.length != 0" ion-button type="button" (click)="showExchange(1/(sellOrders[0].askNQTPerCoin/decimals),sellOrders[0].quantityQNT/decimals,'Sell')">{{ 'SELL' | translate }}</button> 
 					<ion-grid *ngIf="sellOrders != null && sellOrders.length != 0">
@@ -106,6 +77,35 @@
 							<ion-col class="paginationCol">
 								<div style="text-align: center;">
 									<pagination-controls (pageChange)="sellOrdersPage = $event" previousLabel="" nextLabel="" id="sOrders_pages" maxSize="5"></pagination-controls>
+								</div>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-col>
+				<ion-col col-6>
+					<h3>Sell Orders</h3>
+					<button *ngIf="sellOrders != null && sellOrders.length != 0" ion-button type="button" (click)="showExchange(buyOrders[0].askNQTPerCoin/exchangeDecimals,(buyOrders[0].quantityQNT/decimals)/(buyOrders[0].askNQTPerCoin/decimals),'Buy')">{{ 'BUY' | translate }}</button>
+					<ion-grid *ngIf="buyOrders != null && buyOrders.length != 0">
+						<ion-row class="tableHeader">
+							<ion-col col-0 col-md-4 class="hidden-sm">{{ 'ACCOUNT' | translate }}</ion-col>
+							<ion-col col-5 col-md-2>{{ 'PRICE' | translate }}</ion-col>
+							<ion-col col-7 col-md-3>{{chainName}}</ion-col>
+							<ion-col col-0 col-md-3 class="hidden-sm">{{exchangeChainName}}</ion-col>
+						</ion-row>
+						<ion-row *ngFor="let order of buyOrders | paginate: { id: 'bOrders_pages',
+	                                                      itemsPerPage: '10',
+	                                                      currentPage: buyOrdersPage }">
+							<ion-col col-0 col-md-4 class="hidden-sm">{{order.accountRS}}</ion-col>
+							<ion-col col-5 col-md-2><a (click)="showExchange(order.askNQTPerCoin/exchangeDecimals,order.sum,'Buy')">{{order.askNQTPerCoin/exchangeDecimals | number : '1.0-6'}}</a></ion-col>
+							<ion-col col-7 col-md-3 *ngIf="order.exchangeQNT/decimals >= 0.001">{{order.exchangeQNT/decimals | number : '1.0-3'}}</ion-col>
+							<ion-col col-7 col-md-3 *ngIf="order.exchangeQNT/decimals < 0.001"><0.001</ion-col>
+							<ion-col col-0 col-md-3 class="hidden-sm" *ngIf="order.quantityQNT/exchangeDecimals >= 0.001">{{order.quantityQNT/exchangeDecimals | number : '1.0-3'}}</ion-col>
+							<ion-col col-0 col-md-3 class="hidden-sm" *ngIf="order.quantityQNT/exchangeDecimals < 0.001"><0.001</ion-col>
+						</ion-row>
+						<ion-row>
+							<ion-col class="paginationCol">
+								<div style="text-align: center;">
+									<pagination-controls (pageChange)="buyOrdersPage = $event" previousLabel="" nextLabel="" id="bOrders_pages" maxSize="5"></pagination-controls>
 								</div>
 							</ion-col>
 						</ion-row>

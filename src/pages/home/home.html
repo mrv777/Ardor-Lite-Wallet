@@ -35,9 +35,17 @@
           </h4>
           <h4 *ngIf="balance.balanceNQT == null"><b>0</b> <span class="lighterText smallerText">{{chainName}}</span></h4>
 
-          <h6 *ngIf="balance.balanceNQT != null && change > 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}}  <span class="change24 success">&uarr;{{change | number : '1.2-2'}}%</span></h6>
-          <h6 *ngIf="balance.balanceNQT != null && change < 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}}  <span class="change24 danger">&darr;{{change | number : '1.2-2'}}%</span></h6>
-          <h6 *ngIf="balance.balanceNQT != null && change == 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}}  <span class="change24">{{change | number : '1.2-2'}}%</span></h6>
+          <ng-container *ngIf="currency == 'BTC' || currency == 'ETH'">
+            <h6 *ngIf="balance.balanceNQT != null && change > 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-8'}}  <span class="change24 success">&uarr;{{change | number : '1.2-2'}}%</span></h6>
+            <h6 *ngIf="balance.balanceNQT != null && change < 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-8'}}  <span class="change24 danger">&darr;{{change | number : '1.2-2'}}%</span></h6>
+            <h6 *ngIf="balance.balanceNQT != null && change == 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-8'}}  <span class="change24">{{change | number : '1.2-2'}}%</span></h6>
+          </ng-container>
+          <ng-container *ngIf="currency != 'BTC' && currency != 'ETH'">
+            <h6 *ngIf="balance.balanceNQT != null && change > 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}}  <span class="change24 success">&uarr;{{change | number : '1.2-2'}}%</span></h6>
+            <h6 *ngIf="balance.balanceNQT != null && change < 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}}  <span class="change24 danger">&darr;{{change | number : '1.2-2'}}%</span></h6>
+            <h6 *ngIf="balance.balanceNQT != null && change == 0 && price != 0"> <span class="lighterText">{{symbol}}</span> {{balance.balanceNQT/decimals * price | number : '1.2-2'}}  <span class="change24">{{change | number : '1.2-2'}}%</span></h6>
+          </ng-container>
+
           <h6 *ngIf="balance.balanceNQT == null || price == 0"> <span class="lighterText">{{symbol}}</span> 0 </h6>
         </div>
       </ion-col>
