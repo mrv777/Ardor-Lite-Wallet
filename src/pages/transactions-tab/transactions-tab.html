@@ -40,27 +40,21 @@
         <a href="https://ardor.tools/transaction/{{chainName}}/{{transaction.fullHash}}" target="_blank">{{transaction.fullHash | truncate}}</a>
       </ion-col>
       <ion-col col-7 col-sm-4 *ngIf="transaction.recipientRS != accountID && transaction.recipientRS != null">
-        <a href="https://ardor.tools/account/{{transaction.recipientRS}}" target="_blank">
           <span *ngIf="contacts.indexOf(transaction.recipientRS) != -1">{{contactNames[contacts.indexOf(transaction.recipientRS)]}}</span> 
           <span *ngIf="contacts.indexOf(transaction.recipientRS) == -1">{{transaction.recipientRS}} </span>
-        </a>
         &nbsp;
         <ion-icon *ngIf="contacts.indexOf(transaction.recipientRS) === -1 && !guest" class="addContact" (click)="addNewContact(transaction.recipientRS)" name="person-add"></ion-icon>
         &nbsp;<a *ngIf="transaction.attachment != null && transaction.attachment.message != null" (click)="openModal('message',transaction.fullHash)"><ion-icon name="mail"></ion-icon></a>
       </ion-col>
       <ion-col col-7 col-sm-4 *ngIf="transaction.senderRS != accountID && transaction.senderRS != null">
-        <a href="https://ardor.tools/account/{{transaction.senderRS}}" target="_blank">
           <span *ngIf="contacts.indexOf(transaction.senderRS) != -1">{{contactNames[contacts.indexOf(transaction.senderRS)]}}</span> 
           <span *ngIf="contacts.indexOf(transaction.senderRS) == -1">{{transaction.senderRS}} </span>
-        </a>
         &nbsp;
         <ion-icon *ngIf="contacts.indexOf(transaction.senderRS) === -1 && !guest" class="addContact" (click)="addNewContact(transaction.senderRS)" name="person-add"></ion-icon>
         &nbsp;<a *ngIf="transaction.attachment != null && transaction.attachment.message != null" (click)="openModal('message',transaction.fullHash)"><ion-icon name="mail"></ion-icon></a>
       </ion-col>
       <ion-col col-7 col-sm-4 *ngIf="(transaction.senderRS == accountID && transaction.recipientRS == accountID) || transaction.recipientRS == null || transaction.senderRS == null">
-        <a href="https://ardor.tools/account/{{accountID}}" target="_blank">
           You
-        </a>
         &nbsp;<a *ngIf="transaction.attachment != null && transaction.attachment.message != null" (click)="openModal('message',transaction.fullHash)"><ion-icon name="mail"></ion-icon></a>
       </ion-col>
       <ion-col col-3 col-sm-3 *ngIf="transaction.type != 0 && transaction.type != -2">

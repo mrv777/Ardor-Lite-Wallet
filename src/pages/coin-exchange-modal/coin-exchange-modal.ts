@@ -140,17 +140,17 @@ export class CoinExchangeModalPage {
       txChain = this.chain;
       txExchangeChain = this.exchangeChain;
       txRate = this.rate*this.chainDecimals;
-      txQuantity = this.quantity*this.exchangeDecimals;
+      txQuantity = this.quantity*this.chainDecimals;
     } else {
       txChain = this.exchangeChain;
       txExchangeChain = this.chain;
-      txRate = (1/this.rate)*this.exchangeDecimals;
-      txQuantity = this.quantity*this.chainDecimals;
+      txRate = ((1/this.rate)*this.exchangeDecimals).toFixed(0);
+      txQuantity = this.exchangeQuantity*this.exchangeDecimals;
     }
     this.transactionsProvider.exchangeCoins(txChain, txExchangeChain, txRate, txQuantity)
       .subscribe(
         unsignedBytes => {
-           console.log(unsignedBytes['unsignedTransactionBytes']);
+           //console.log(unsignedBytes['unsignedTransactionBytes']);
            if (unsignedBytes['errorDescription']) {
               this.resultTxt = unsignedBytes['errorDescription'];
               this.disableExchange = false;

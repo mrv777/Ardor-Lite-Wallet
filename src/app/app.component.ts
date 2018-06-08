@@ -20,6 +20,10 @@ export class MyApp {
 
   rootPage: any = LoginPage;
   theme: string = 'lightTheme';
+  acActive: object = {'background-color': '#07426e'};
+  coActive: object = {};
+  ceActive: object = {};
+  abActive: object = {};
 
   pages: Array<{title: string, component: any}>;
 
@@ -58,7 +62,31 @@ export class MyApp {
         if (this.backButtonPressedOnceToExit) {
           this.platform.exitApp();
         } else if (this.nav.canGoBack()) {
-          this.nav.pop({});
+          this.nav.pop({}).then(() => {
+            let page = this.nav.getActive().component;
+            if (page == HomePage){
+              this.acActive = {'background-color': '#07426e'};
+              this.coActive = {};
+              this.ceActive = {};
+              this.abActive = {};
+            } else if (page == ContactsPage){
+              this.acActive = {};
+              this.coActive = {'background-color': '#07426e'};
+              this.ceActive = {};
+              this.abActive = {};
+            } else if (page == CoinExchangePage){
+              this.acActive = {};
+              this.coActive = {};
+              this.ceActive = {'background-color': '#07426e'};
+              this.abActive = {};
+            } else if (page == AboutPage){
+              this.acActive = {};
+              this.coActive = {};
+              this.ceActive = {};
+              this.abActive = {'background-color': '#07426e'};
+            }
+          });
+          
         } else {
           this.showToast();
           this.backButtonPressedOnceToExit = true;
@@ -86,17 +114,37 @@ export class MyApp {
 
   openPage(page) {
     if (page == 'Account'){
+      this.acActive = {'background-color': '#07426e'};
+      this.coActive = {};
+      this.ceActive = {};
+      this.abActive = {};
       this.nav.push(HomePage);
     } else if (page == 'Contacts'){
+      this.acActive = {};
+      this.coActive = {'background-color': '#07426e'};
+      this.ceActive = {};
+      this.abActive = {};
       this.nav.push(ContactsPage);
     } else if (page == 'CoinExchange'){
+      this.acActive = {};
+      this.coActive = {};
+      this.ceActive = {'background-color': '#07426e'};
+      this.abActive = {};
       this.nav.push(CoinExchangePage);
     } else if (page == 'About'){
+      this.acActive = {};
+      this.coActive = {};
+      this.ceActive = {};
+      this.abActive = {'background-color': '#07426e'};
       this.nav.push(AboutPage);
     }
   }
 
   logout() {
+    this.acActive = {'background-color': '#07426e'};
+    this.coActive = {};
+    this.ceActive = {};
+    this.abActive = {};
     this.accountData.logout();
     this.nav.setRoot(LoginPage);
   }

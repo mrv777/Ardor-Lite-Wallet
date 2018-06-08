@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
@@ -13,12 +13,27 @@ export class CoinExchangeProvider {
 
   }
 
-  getCoinExchangeOrders(chain: number, exchangeChain:string): Observable<object> {
-    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeOrders&chain=${chain}&exchange=${exchangeChain}`);
+  getCoinExchangeOrders(chain: number, exchangeChain:string, account:string): Observable<object> {
+    let request;
+    if (account) {
+      request = `requestType=getCoinExchangeOrders&chain=${chain}&exchange=${exchangeChain}&account=${account}`;
+    } else {
+      request = `requestType=getCoinExchangeOrders&chain=${chain}&exchange=${exchangeChain}`;
+    }
+    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?${request}`);
   }
 
-  getCoinExchangeTrades(chain: number, exchangeChain:string, firstIndex:number = 0): Observable<object> {
-    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeTrades&chain=${chain}&exchange=${exchangeChain}&firstIndex=${firstIndex}`);
+  cancelCoinExchange(order: number, chain: number): Observable<object> {
+    let publicKey = this.accountData.getPublicKey();
+    const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
+
+    let data = "chain=" + chain + "&order=" + order + "&publicKey=" + publicKey;
+
+    return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=cancelCoinExchange`, data, {headers: headers});
+  }
+
+  getAccountCoinExchangeTrades(chain: number, exchangeChain:string, firstIndex:number = 0, account:string): Observable<object> {
+    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getCoinExchangeTrades&chain=${chain}&exchange=${exchangeChain}&firstIndex=${firstIndex}&account=${account}`);
   }
 
   getMultipleExchangeTrades(chain: number, exchangeChain:string): Observable<object[]> {

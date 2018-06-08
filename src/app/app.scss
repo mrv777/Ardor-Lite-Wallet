@@ -46,6 +46,10 @@
 	padding: 15px;
 }
 
+.activePage {
+    background-color: #07426d;
+}
+
 .disable-scroll .ion-page { //Fix for model from popover in iOS
     pointer-events: auto;
 }

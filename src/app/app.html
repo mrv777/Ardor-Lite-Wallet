@@ -7,16 +7,16 @@
       </button>
     </ion-list>
     <ion-list no-lines>
-      <button menuClose ion-item  (click)="openPage('Account')">
+      <button menuClose ion-item [ngStyle]="acActive" (click)="openPage('Account')">
         <ion-icon name="home"></ion-icon> {{ 'ACCOUNT' | translate }}
       </button>
-      <button menuClose ion-item  (click)="openPage('Contacts')">
+      <button menuClose ion-item [ngStyle]="coActive" (click)="openPage('Contacts')">
         <ion-icon name="contacts"></ion-icon> {{ 'CONTACTS' | translate }}
       </button>
-      <button menuClose ion-item  (click)="openPage('CoinExchange')">
+      <button menuClose ion-item [ngStyle]="ceActive" (click)="openPage('CoinExchange')">
         <ion-icon name="swap"></ion-icon> {{ 'COINEXCHANGE' | translate }}
       </button>
-      <button menuClose ion-item  (click)="openPage('About')">
+      <button menuClose ion-item [ngStyle]="abActive" (click)="openPage('About')">
         <ion-icon name="information-circle"></ion-icon> {{ 'ABOUT' | translate }}
       </button>
     </ion-list>

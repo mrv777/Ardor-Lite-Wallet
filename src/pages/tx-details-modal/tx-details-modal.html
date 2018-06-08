@@ -29,7 +29,7 @@
 	      	{{ 'FROM' | translate }}:
 	      </ion-col>
 	      <ion-col col-8>
-	      	<a target="_blank" href="https://ardor.tools/{{ tx['senderRS'] }}">{{tx['senderRS']}}</a>
+	      	<a target="_blank" href="https://ardor.tools/account/{{ tx['senderRS'] }}">{{tx['senderRS']}}</a>
 	      </ion-col>
 	    </ion-row>
 	    <ion-row *ngIf="tx['recipientRS']">
@@ -37,7 +37,7 @@
 	      	{{ 'TO' | translate }}:
 	      </ion-col>
 	      <ion-col col-8>
-	      	<a target="_blank" href="https://ardor.tools/{{ tx['recipientRS'] }}">{{tx['recipientRS']}}</a>
+	      	<a target="_blank" href="https://ardor.tools/account/{{ tx['recipientRS'] }}">{{tx['recipientRS']}}</a>
 	      </ion-col>
 	    </ion-row>
 

@@ -34,6 +34,7 @@ import { AccountSettingsPageModule } from '../pages/account-settings/account-set
 import { LeaseBalanceModalPageModule } from '../pages/lease-balance-modal/lease-balance-modal.module';
 import { LeaseMenuPageModule } from '../pages/lease-menu/lease-menu.module';
 import { LeasingInfoPageModule } from '../pages/leasing-info/leasing-info.module';
+import { CancelOrderModalPageModule } from '../pages/cancel-order-modal/cancel-order-modal.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -90,7 +91,8 @@ jdenticon.config = {
     AccountSettingsPageModule,
     LeaseBalanceModalPageModule,
     LeaseMenuPageModule,
-    LeasingInfoPageModule
+    LeasingInfoPageModule,
+    CancelOrderModalPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

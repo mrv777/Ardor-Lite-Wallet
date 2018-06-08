@@ -9,6 +9,7 @@ import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { SharedProvider } from '../../providers/shared/shared';
 import { CoinExchangeProvider } from '../../providers/coin-exchange/coin-exchange';
 import { CoinExchangeModalPage } from '../coin-exchange-modal/coin-exchange-modal';
+import { CancelOrderModalPage } from '../cancel-order-modal/cancel-order-modal';
 
 
 @IonicPage()
@@ -29,6 +30,7 @@ export class CoinExchangePage {
   exchangeDecimals: Big = 100000000;
   data: any[] = [];
   volume: any[] = [];
+  accountId: string;
 
   volumeString: string = 'Volume';
   priceString: string = 'Price';
@@ -36,14 +38,17 @@ export class CoinExchangePage {
   buyOrdersPage: number = 1;
   sellOrdersPage: number = 1;
   tradesOrdersPage: number = 1;
+  allTrades: boolean = true;
 
   chart: StockChart;
   chartOptions: object;
   theme: string;
   loaded: boolean = false;
   error: string;
+  updating: boolean = false;
 
   trades: object[];
+  openOrders: object[];
   buyOrders: object[];
   sellOrders: object[];
 
@@ -52,6 +57,7 @@ export class CoinExchangePage {
 
   ionViewWillEnter() {
     this.loaded = false;
+    this.accountId = this.accountData.getAccountID();
 	  this.chain = this.sharedProvider.getChainOnce();
 	  this.chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
 	  const chainObjects = this.sharedProvider.getConstants()['chains'];
@@ -79,26 +85,78 @@ export class CoinExchangePage {
     this.changeChain();
   }
 
+  swapChains() {
+    this.updating = true;
+    let temp = this.chainName;
+    this.chainName = this.exchangeChainName;
+    this.updating = false;
+    this.exchangeChainName = temp;
+  }
+
+  toggleTrades() {
+    //this.allTrades = !this.allTrades;
+
+    if (this.allTrades) {
+      this.coinExchangeProvider.getMultipleExchangeTrades(this.chain, this.exchangeChainName).subscribe(trades => {
+        this.trades = [];
+        for (let i=0;i < trades.length; i++) {
+          this.trades.push(...trades[i]['trades']);
+         }
+
+         for (let i=0;i < this.trades.length; i++) {
+          this.trades[i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.trades[i]['timestamp'])*1000);
+          this.trades[i]['price'] = parseFloat((1/this.trades[i]['exchangeRate']).toFixed(8));
+          this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.decimals;
+        }
+
+        this.trades.sort(function(b,a) {return (a['date'] > b['date']) ? 1 : ((b['date'] > a['date']) ? -1 : 0);} ); 
+      },
+        (err) => {
+          this.error = "Node not online";
+      }
+      );
+    } else {
+      this.coinExchangeProvider.getAccountCoinExchangeTrades(this.chain, this.exchangeChainName, 0, this.accountId).subscribe(trades => {
+        this.trades = trades['trades'];
+
+        for (let i=0;i < this.trades.length; i++) {
+          this.trades[i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.trades[i]['timestamp'])*1000);
+          this.trades[i]['price'] = parseFloat((1/this.trades[i]['exchangeRate']).toFixed(8));
+          this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.decimals;
+        }
+
+        this.trades.sort(function(b,a) {return (a['date'] > b['date']) ? 1 : ((b['date'] > a['date']) ? -1 : 0);} ); 
+      },
+        (err) => {
+          this.error = "Node not online";
+      }
+      );
+    }
+  }
+
   updateChains() {
-  	  this.chain = this.chainNumbers[this.chains.indexOf(this.chainName)];
-  	  this.exchangeChain = this.chainNumbers[this.chains.indexOf(this.exchangeChainName)];
-  	  if (this.exchangeChain == this.chain && this.exchangeChain<this.chains.length) {
-  	  	this.exchangeChain++;
-  	  	this.exchangeChainName = this.sharedProvider.getConstants()['chainProperties'][this.exchangeChain]['name'];
-  	  } else if (this.exchangeChain == this.chain && this.exchangeChain==this.chains.length) {
-  	  	this.exchangeChain = 1;
-  	  	this.exchangeChainName = this.sharedProvider.getConstants()['chainProperties'][this.exchangeChain]['name'];
-  	  } else {
-  	  	this.changeChain();
-  	  }
+      if (!this.updating) {
+    	  this.chain = this.chainNumbers[this.chains.indexOf(this.chainName)];
+    	  this.exchangeChain = this.chainNumbers[this.chains.indexOf(this.exchangeChainName)];
+    	  if (this.exchangeChain == this.chain && this.exchangeChain<this.chains.length) {
+    	  	this.exchangeChain++;
+    	  	this.exchangeChainName = this.sharedProvider.getConstants()['chainProperties'][this.exchangeChain]['name'];
+    	  } else if (this.exchangeChain == this.chain && this.exchangeChain==this.chains.length) {
+    	  	this.exchangeChain = 1;
+    	  	this.exchangeChainName = this.sharedProvider.getConstants()['chainProperties'][this.exchangeChain]['name'];
+    	  } else {
+    	  	this.changeChain();
+    	  }
+      }
   }
 
   changeChain() {
+      this.allTrades = true;
       this.decimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.chain]['decimals']);
       this.exchangeDecimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.exchangeChain]['decimals']);
 
       // Get Buy and Sell orders
-      this.coinExchangeProvider.getCoinExchangeOrders(this.chain, this.exchangeChainName).subscribe(orders => {
+      this.coinExchangeProvider.getCoinExchangeOrders(this.chain, this.exchangeChainName, null).subscribe(orders => {
       	if (orders && orders['orders'] && orders['orders'][0]){
       		this.buyOrders = orders['orders'];
       		let sum = 0;
@@ -110,7 +168,7 @@ export class CoinExchangePage {
       		this.buyOrders = [];
       	}
       });
-      this.coinExchangeProvider.getCoinExchangeOrders(this.exchangeChain, this.chainName).subscribe(orders => {
+      this.coinExchangeProvider.getCoinExchangeOrders(this.exchangeChain, this.chainName, null).subscribe(orders => {
       	if (orders && orders['orders'] && orders['orders'][0]){
       		this.sellOrders = orders['orders'];
       		let sum = 0;
@@ -121,6 +179,21 @@ export class CoinExchangePage {
       	} else {
       		this.sellOrders = [];
       	}
+      });
+
+      // Get account's open orders
+      this.coinExchangeProvider.getCoinExchangeOrders(this.chain, this.exchangeChainName, this.accountId).subscribe(orders => {
+        if (orders && orders['orders'] && orders['orders'][0]){
+          this.openOrders = orders['orders'];
+        } else {
+          this.openOrders = [];
+        }
+
+        this.coinExchangeProvider.getCoinExchangeOrders(this.exchangeChain, this.chainName, this.accountId).subscribe(orders => {
+          if (orders && orders['orders'] && orders['orders'][0]){
+            this.openOrders.push(...orders['orders']);
+          }
+        });
       });
       
       // Reset chart arrays
@@ -327,6 +400,11 @@ export class CoinExchangePage {
     // 	myModal = this.modalCtrl.create(CoinExchangeModalPage, { exchangeChain: this.chainName, chain: this.exchangeChainName, rate: rate, max: max, type: type });
     // }
     myModal = this.modalCtrl.create(CoinExchangeModalPage, { exchangeChain: this.exchangeChainName, chain: this.chainName, rate: rate, max: max, type: type });
+    myModal.present();
+  } 
+
+  cancelOrder(order: number, chain: number) {
+    let myModal = this.modalCtrl.create(CancelOrderModalPage, { order: order, chain: chain });
     myModal.present();
   }
 

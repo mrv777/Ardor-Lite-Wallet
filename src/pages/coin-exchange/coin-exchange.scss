@@ -46,6 +46,18 @@ page-coin-exchange {
         font-size: 24px;
     }
 
+    #tradesToggle {
+        float: right;
+    }
+
+    .yourTrade {
+        background-color: rgba(17, 98, 161, 0.3);
+    }
+
+    .closeButton {
+        color: #f43d3d;
+    }
+
     @media(max-width: 767px){
         .hidden-sm {
             display:none;
