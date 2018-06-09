@@ -79,6 +79,12 @@ export class CoinExchangePage {
 	  this.updateChains();
   }
 
+  doRefresh(refresher) {
+    this.loaded = false;
+    this.changeChain();
+    refresher.complete();
+  }
+
   changeNode() {
     this.error = null;
     this.accountData.setNode(this.accountData.getCurrentNetwork());
@@ -89,8 +95,8 @@ export class CoinExchangePage {
     this.updating = true;
     let temp = this.chainName;
     this.chainName = this.exchangeChainName;
-    this.updating = false;
     this.exchangeChainName = temp;
+    this.updating = false;
   }
 
   toggleTrades() {

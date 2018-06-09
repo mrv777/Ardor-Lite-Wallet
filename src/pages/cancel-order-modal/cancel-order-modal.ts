@@ -31,6 +31,14 @@ export class CancelOrderModalPage {
   }
 
   ionViewDidLoad() {
+    this.guest = this.accountData.isGuestLogin();
+     this.faio.isAvailable().then((available) => {
+      if (available == 'OK' || available == 'Available') {
+        this.fingerAvailable = true;
+      } else {
+        this.fingerAvailable = false;
+      }
+    });
     this.accountData.getTheme().then((theme) => {
         this.theme = theme;
       });

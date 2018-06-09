@@ -15,6 +15,14 @@ page-coin-exchange {
         background-color: #1162a1;
     }
 
+    ion-col.col {
+        padding: 3px;
+    }
+
+    .swapButton {
+        top: -10px;
+    }
+
     .ngx-pagination {
     	padding: 0;
     }
@@ -50,12 +58,26 @@ page-coin-exchange {
         float: right;
     }
 
-    .yourTrade {
+    ion-grid ion-grid ion-row:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    ion-grid ion-grid ion-row.paginationRow {
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    ion-grid ion-grid ion-row.yourTrade {
         background-color: rgba(17, 98, 161, 0.3);
     }
 
     .closeButton {
         color: #f43d3d;
+    }
+
+    @media(max-width: 425px){
+        h5 {
+            font-size: 16px;
+        }
     }
 
     @media(max-width: 767px){
@@ -66,7 +88,7 @@ page-coin-exchange {
         .no-top-bottom-padding {
             padding: 0 5px;
         }
-        
+
     }
     @media(min-width: 768px){
         .show-sm {
