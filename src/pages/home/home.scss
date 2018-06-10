@@ -64,7 +64,8 @@ page-home {
 
     #tabMenu .activeTab {
         color: rgba(255, 255, 255, 1.0);
-        border-bottom: 2px solid #f57c00;
+        //border-bottom: 2px solid #f57c00;
+        border-bottom: 2px solid rgb(7, 66, 110);
     }
 
     .select-md, .select-ios {

@@ -68,7 +68,7 @@ export class CoinExchangeModalPage {
         this.theme = theme;
       });
   	this.faio.isAvailable().then((available) => {
-  	  if (available == 'OK' || available == 'Available') {
+  	  if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
   	    this.fingerAvailable = true;
   	  } else {
   	    this.fingerAvailable = false;
@@ -227,7 +227,9 @@ export class CoinExchangeModalPage {
     this.faio.show({
       clientId: 'Ardor-Lite',
       clientSecret: this.accountData.getFingerSecret(), //Only necessary for Android
-      disableBackup: false  //Only for Android(optional)
+      disableBackup: false,  //Only for Android(optional)
+      localizedFallbackTitle: 'Use Pin', //Only for iOS
+      localizedReason: 'Please authenticate' //Only for iOS
     })
     .then((result: any) => { 
     	this.password = this.accountData.getSavedPassword();

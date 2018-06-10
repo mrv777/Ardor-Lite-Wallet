@@ -60,7 +60,7 @@
 
 		
 		<ion-fab left bottom #fab>
-		    <button ion-fab mini id="langFab"><ion-icon name="chatbubbles"></ion-icon></button>
+		    <button ion-fab mini id="langFab"><ion-icon name="globe"></ion-icon></button>
 		    <ion-fab-list id="langFabList" side="top">
 		      	<button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Español</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'ru') ? 'currentLang' : ''" (click)="setLanguage('ru',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Pусский</ion-label></button>
@@ -105,7 +105,7 @@
 	</ion-list>
 
 	<ion-fab left bottom #fab>
-	    <button ion-fab mini id="langFab"><ion-icon name="chatbubbles"></ion-icon></button>
+	    <button ion-fab mini id="langFab"><ion-icon name="globe"></ion-icon></button>
 	    <ion-fab-list id="langFabList" side="top">
 	    	<button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Español</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'ru') ? 'currentLang' : ''" (click)="setLanguage('ru',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Pусский</ion-label></button>

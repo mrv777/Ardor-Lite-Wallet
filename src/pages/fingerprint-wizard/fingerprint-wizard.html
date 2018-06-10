@@ -19,16 +19,16 @@
 				</ion-input>
 			</ion-item>
 			<ion-item>
-				<ion-input [(ngModel)]="account" name="account" type="text" required formControlName="accountForm" placeholder="{{ 'ACCOUNT' | translate }} (ARDOR-XXXX-XXXX-XXXX-XXXXX)">
+				<ion-input [ngModel]="account" name="account" type="text" required formControlName="accountForm" (ngModelChange)="account=$event.toLocaleUpperCase()" placeholder="{{ 'ACCOUNT' | translate }} (ARDOR-XXXX-XXXX-XXXX-XXXXX)">
 				</ion-input>
 				<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerAccount()"> <ion-icon name="barcode"> </ion-icon> </button>
 			</ion-item>
-			<ion-item *ngIf="!loginForm.controls.accountForm.valid && (loginForm.controls.accountForm.dirty|| submitAttempt)">
-                <p>Please enter a valid account address (ARDOR-XXXX-XXXX-XXXX-XXXXX).</p>
+			<ion-item class="failedBox" text-wrap *ngIf="!loginForm.controls.accountForm.valid && (loginForm.controls.accountForm.dirty|| submitAttempt)">
+                Please enter a valid account address (ARDOR-XXXX-XXXX-XXXX-XXXXX).
             </ion-item>
 			<ion-item>
 				<ion-label item-start stacked color="primary">{{ 'DEFAULT_CHAIN' | translate }}</ion-label>
-				<ion-select class="chainSelect" [(ngModel)]="chainName" name="chainName" (ionChange)="changeChain()" formControlName="accountChainForm">
+				<ion-select class="chainSelect" [(ngModel)]="chainName" name="chainName" id="nodeSelect" (ionChange)="changeChain()" formControlName="accountChainForm">
 			      <ion-option *ngFor="let arrayChain of chains" [value]="arrayChain">
 			        {{ arrayChain | uppercase }}
 			      </ion-option>
@@ -57,7 +57,7 @@
 	    </ion-row>
 		<ion-row responsive-sm>
 			<ion-col>
-				<button ion-button color="white" (click)="saveLogin()" type="submit" block>{{ 'SAVE' | translate }}</button>
+				<button ion-button color="white" [disabled]="!loginForm.valid"  (click)="saveLogin()" type="submit" block>{{ 'SAVE' | translate }}</button>
 			</ion-col>
 		</ion-row>
 	</form>

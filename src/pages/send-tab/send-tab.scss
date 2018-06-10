@@ -29,6 +29,11 @@ page-send-tab {
     	position: relative;
     }
 
+    .item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+        border-bottom-color: #dedede !important;
+        box-shadow: none !important;
+    }
+
     .content-md .scroll-content {
         padding-top: 0 !important;
     }

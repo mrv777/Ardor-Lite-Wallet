@@ -12,13 +12,13 @@ page-fingerprint-wizard {
         position: relative;
     }
 
-    .item-md {
+    .item-md, .item-ios {
     	border-radius: 2px;
    		margin: 20px 0;
     }
 
-    .failedBox {
-        background-color: #f53d3d;
+    .failedBox, ion-list ion-item.failedBox, .darkTheme .item-md.failedBox, .darkTheme .item-ios.failedBox {
+        background-color: #f53d3d !important;
         color: white;
         padding: 10px;
         border-radius: 2px;

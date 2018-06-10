@@ -102,6 +102,9 @@
     "ALL_TRADES": "All Trades",
     "YOUR_TRADES": "Your Trades",
     "CANCEL_ORDER": "Cancel Order",
+    "SELL_ORDERS": "Sell Orders",
+    "BUY_ORDERS": "Buy Orders",
+    "OPEN_ORDERS": "Open Orders",
     "NO_OPEN_ORDERS": "No Open Orders",
     "NO_TRADES": "No Trades"
 }

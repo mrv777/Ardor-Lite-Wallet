@@ -77,6 +77,12 @@ ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
 
 .menu-inner .list-md > .item-block:last-child .item-inner, .menu-inner .list-ios > .item-block:last-child .item-inner,
 #loginAccounts .list-md > .item-block:last-child .item-inner, #loginAccounts .list-ios > .item-block:last-child .item-inner,
-#nodeSelect .item-inner {
+#nodeSelect .item-inner,
+.list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus):last-child, 
+.list-ios .item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus):last-child,
+.list-md .item-input.item-input-has-focus:last-child,.list-md .item-input.input-has-focus:last-child,
+.list-ios .item-input.item-input-has-focus:last-child,.list-ios .item-input.input-has-focus:last-child,
+ {
     border-bottom: 0;
+    box-shadow: none;
 }

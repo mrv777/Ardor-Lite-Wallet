@@ -12,7 +12,7 @@
   <form [formGroup]="leaseForm">
 	<ion-list *ngIf="status != 1">
 		<ion-item>
-			<ion-label stacked color="primary">{{ 'TO' | translate }} <canvas class="idIcon" width="30" height="30" [attr.data-jdenticon-value]="recipient"></canvas></ion-label>
+			<ion-label stacked color="primary">{{ 'TO' | translate }} <canvas *ngIf="recipient != null && recipient != ''" class="idIcon" width="30" height="30" [attr.data-jdenticon-value]="recipient"></canvas></ion-label>
 			<ion-input [(ngModel)]="recipient" [disabled]="disableSend || disableRec" name="recipient" type="text" formControlName="recipientForm" (ngModelChange)="recipient = recipient.toUpperCase()">
    			</ion-input>
    			<button *ngIf="!disableRec" id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScanner()"> <ion-icon name="barcode"> </ion-icon> </button>
