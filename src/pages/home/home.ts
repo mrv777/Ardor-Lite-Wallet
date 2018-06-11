@@ -154,11 +154,11 @@ export class HomePage {
     this.currenciesProv.getPriceFull(currencyChain, this.currency)
     .subscribe(
       price => {
-        if (price != null && price['RAW'][`${currencyChain}`] != null && price['RAW'][`${currencyChain}`][`${this.currency}`] != null) {
+        if (price != null && price['RAW'] && price['RAW'][`${currencyChain}`] != null && price['RAW'][`${currencyChain}`][`${this.currency}`] != null) {
           this.price = price['RAW'][`${currencyChain}`][`${this.currency}`]['PRICE'];
           this.change = price['RAW'][`${currencyChain}`][`${this.currency}`]['CHANGEPCT24HOUR'];
         }
-        this.shared.emitConversion(this.price,this.currencySymbols[this.currencies.indexOf(this.currency)]);
+        this.shared.emitConversion(this.price, this.currency, this.currencySymbols[this.currencies.indexOf(this.currency)]);
       },
       err => { console.log(err); });
     

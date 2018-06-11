@@ -16,7 +16,7 @@
 	<ion-grid>
 		<ion-row>
 			<ion-col col-3 col-sm-3 *ngIf="buyOrders != null && buyOrders.length != 0">
-				<sub>Current Price</sub>
+				<sub>{{ 'CURRENT_PRICE' | translate }}</sub>
 				<h5>{{buyOrders[0].askNQTPerCoin/exchangeDecimals | number : '1.0-8'}}</h5>
 			</ion-col>
 			<ion-col col-3 col-sm-3 *ngIf="buyOrders == null || buyOrders.length == 0">

@@ -82,6 +82,8 @@ ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
 .list-ios .item-input.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus):last-child,
 .list-md .item-input.item-input-has-focus:last-child,.list-md .item-input.input-has-focus:last-child,
 .list-ios .item-input.item-input-has-focus:last-child,.list-ios .item-input.input-has-focus:last-child,
+.list-md .item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child, .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child,
+.list-ios .item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child, .list-ios .item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child
  {
     border-bottom: 0;
     box-shadow: none;

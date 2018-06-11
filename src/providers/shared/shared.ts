@@ -11,6 +11,7 @@ import { AccountDataProvider } from '../account-data/account-data';
 @Injectable()
 export class SharedProvider {
   constants: object;
+  price: number = 0;
   currentChain: number = 1;
   currentChainName: string = 'ARDR';
   transactionTypes: string[][] = [
@@ -32,7 +33,7 @@ export class SharedProvider {
       ['Coin Exchange Order Issue','Coin Exchange Order Cancel']
     ];
 
-  public conversionObservable = new BehaviorSubject<number>(2);
+  public conversionObservable = new BehaviorSubject<string>('USD');
   public conversionSymbolObservable = new BehaviorSubject<string>('$');
 
   public chainObservable = new BehaviorSubject<number>(1);
@@ -62,8 +63,9 @@ export class SharedProvider {
     return this.transactionTypes;
   }
 
-  emitConversion(val,symbol) {
-	  this.conversionObservable.next(val);
+  emitConversion(val, currency, symbol) {
+    this.price = val;
+	  this.conversionObservable.next(currency);
 	  this.conversionSymbolObservable.next(symbol);
   }
 
@@ -88,6 +90,14 @@ export class SharedProvider {
 
   getChainNameOnce(): string {
     return this.currentChainName;
+  }
+
+  getCurrancy(): Observable<string> {
+    return this.conversionObservable.asObservable();
+  }
+
+  getPriceOnce(): number {
+    return this.price;
   }
 
 }

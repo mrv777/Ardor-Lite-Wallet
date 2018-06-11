@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ViewController, Select } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Select, Platform } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { Subscription } from 'rxjs/Subscription';
@@ -10,6 +10,7 @@ import * as Big from 'big.js';
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { SharedProvider } from '../../providers/shared/shared';
 import { TransactionsProvider } from '../../providers/transactions/transactions';
+import { CurrenciesProvider } from '../../providers/currencies/currencies';
 
 @IonicPage()
 @Component({
@@ -21,8 +22,10 @@ export class SendTabPage {
 
   private sendForm : FormGroup;
   recipient: string = '';
-  amount: number = 0;
+  amount: number;
+  amountCurrency: number;
   chain: number = 1;
+  chainName: string = 'ARDR';
   message: string;
   decimals: number = 100000000;
   status: number;
@@ -35,12 +38,25 @@ export class SendTabPage {
   passwordType: string = 'password';
   privateMsg: boolean = false;
 
-  subscriptionChain: Subscription;
+  disableCurrency: boolean = false;
+  currencyPlaceholder: string;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, public sharedProvider: SharedProvider, public transactions: TransactionsProvider) {
+  price: number = 0;
+  currency: string = 'USD';
+  currencies: string[] = ['BTC','ETH','USD','EUR','CNY','AUD'];
+  currencyDecimal: number = 2;
+  currencyDecimals: number[] = [8,8,2,2,2,2];
+  symbol: string = '$';
+  currencySymbols: string[] = ['฿','Ξ','$','€','¥','A$'];
+
+  subscriptionChain: Subscription;
+  subscriptionCurrancy: Subscription;
+
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public currenciesProv: CurrenciesProvider, public platform: Platform) {
   	this.sendForm = this.formBuilder.group({
       recipientForm: ['', Validators.required],
       amountForm: ['', Validators.required],
+      amountCurrencyForm: [''],
       messageForm: [''],
       msgTypeForm: [''],
       passwordForm: ['', Validators.required]
@@ -52,18 +68,75 @@ export class SendTabPage {
 
   ionViewDidLoad() {
     this.guest = this.accountData.isGuestLogin();
-  	 this.faio.isAvailable().then((available) => {
-	    if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
-	      this.fingerAvailable = true;
-	    } else {
-	      this.fingerAvailable = false;
-	    }
-	  });
+  	 if (this.platform.is('cordova')) {
+       this.faio.isAvailable().then((available) => {
+  	    if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
+  	      this.fingerAvailable = true;
+  	    } else {
+  	      this.fingerAvailable = false;
+  	    }
+  	  });
+     }
     this.loadContacts();
-    this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => { 
+    this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => {
       this.chain = sharedChain; 
+      this.chainName = this.sharedProvider.getChainNameOnce();
       this.decimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.chain]['decimals']);
+      this.price = this.sharedProvider.getPriceOnce();
+      if (!this.amountCurrency || this.amountCurrency <= 0) {
+        this.updateConversion('currency');
+      }
     });
+
+    this.subscriptionCurrancy = this.sharedProvider.getCurrancy().subscribe(sharedCurrancy => {
+      let sharedCurrancyNumber = this.currencies.indexOf(sharedCurrancy);
+      this.currency = sharedCurrancy;
+      this.symbol = this.currencySymbols[sharedCurrancyNumber];
+      this.currencyDecimal = this.currencyDecimals[sharedCurrancyNumber];
+      this.price = this.sharedProvider.getPriceOnce();
+      this.updateConversion('chain');
+    });
+    
+  }
+
+  // updatePrice() {
+  //   let currencyChain;
+  //   if (this.chainName == 'BITSWIFT') {
+  //     currencyChain = 'SWIFT';
+  //   } else {
+  //     currencyChain = this.chainName;
+  //   }
+
+  //   this.currenciesProv.getPrice(currencyChain, this.currency)
+  //   .subscribe(
+  //     price => {
+  //       if (price != null && price[`${this.currency}`] != null) {
+  //         this.price = price[`${this.currency}`];
+  //       }
+  //     },
+  //     err => { console.log(err); });
+  // }
+
+  updateConversion(type: string) { console.log(this.chainName);
+    if (this.chainName == 'AEUR') {
+      this.disableCurrency = true;
+      this.amountCurrency = null;
+      this.currencyPlaceholder = "Unavailable";
+    } else {
+      this.disableCurrency = false;
+      this.currencyPlaceholder = null;
+    }
+    if (type == 'chain') {
+      if (this.amount && this.amount > 0 && !this.disableCurrency) {
+        let amountCurrencyBig = new Big(this.amount * this.price)
+        this.amountCurrency = amountCurrencyBig.round(this.currencyDecimal);
+      }
+    } else {
+      if (this.amountCurrency && this.amountCurrency > 0) {
+        let amountBig = new Big(this.amountCurrency / this.price)
+        this.amount = amountBig.round(this.sharedProvider.getConstants()['chainProperties'][this.chain]['decimals']);
+      }
+    }
   }
 
   onSend() {
@@ -170,6 +243,7 @@ export class SendTabPage {
 
   ionViewDidLeave() { 
     this.subscriptionChain.unsubscribe();
+    this.subscriptionCurrancy.unsubscribe();
   }
 
 }
