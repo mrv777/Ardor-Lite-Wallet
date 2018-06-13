@@ -1,6 +1,6 @@
 {
   "name": "ardor",
-  "version": "0.8.21",
+  "version": "1.0.0",
   "author": "MrV",
   "homepage": "",
   "private": true,
@@ -62,7 +62,7 @@
     "@types/highcharts": "^5.0.22",
     "typescript": "~2.6.2"
   },
-  "description": "A basic lite wallet for the Ardor Platform.",
+  "description": "A lite wallet for the Ardor Blockchain Platform.",
   "cordova": {
     "plugins": {
       "phonegap-plugin-barcodescanner": {},
