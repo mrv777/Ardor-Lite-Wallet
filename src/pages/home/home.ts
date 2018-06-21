@@ -146,7 +146,7 @@ export class HomePage {
 
     let currencyChain;
     if (this.chainName == 'BITSWIFT') {
-      currencyChain = 'SWIFT';
+      currencyChain = 'BITS';
     } else {
       currencyChain = this.chainName;
     }

@@ -45,7 +45,7 @@
     </ion-row>
     <ion-row responsive-sm>
       <ion-col>
-				<button ion-button [disabled]="disableExchange" color="primary" (click)="exchange()" block>{{ 'EXCHANGE' | translate }}</button>
+				<button ion-button [disabled]="disableExchange || !password || !exchangeQuantity || !quantity" color="primary" (click)="exchange()" block>{{ 'EXCHANGE' | translate }}</button>
 			</ion-col>
       <ion-col>
 				<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>

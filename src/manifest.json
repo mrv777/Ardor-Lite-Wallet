@@ -1,6 +1,6 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "Ardor Lite",
+  "short_name": "Ardor",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
