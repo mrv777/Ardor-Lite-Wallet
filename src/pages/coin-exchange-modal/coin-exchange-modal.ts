@@ -132,46 +132,51 @@ export class CoinExchangeModalPage {
   }
 
   exchange() {
-    this.disableExchange = true;
-    this.status = 0;
-    this.accountData.setPublicKeyPassword(this.password);
-    let txChain; let txExchangeChain; let txRate; let txQuantity;
-    if (this.type == "Buy") {
-      txChain = this.chain;
-      txExchangeChain = this.exchangeChain;
-      txRate = this.rate*this.chainDecimals;
-      txQuantity = this.quantity*this.chainDecimals;
-    } else {
-      txChain = this.exchangeChain;
-      txExchangeChain = this.chain;
-      txRate = ((1/this.rate)*this.exchangeDecimals).toFixed(0);
-      txQuantity = this.exchangeQuantity*this.exchangeDecimals;
-    }
-    this.transactionsProvider.exchangeCoins(txChain, txExchangeChain, txRate, txQuantity)
-      .subscribe(
-        unsignedBytes => {
-           //console.log(unsignedBytes['unsignedTransactionBytes']);
-           if (unsignedBytes['errorDescription']) {
-              this.resultTxt = unsignedBytes['errorDescription'];
-              this.disableExchange = false;
-           } else {
-             this.transactionsProvider.broadcastTransaction(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes'], this.password))
-              .subscribe(
-                broadcastResults => {
-                  console.log(broadcastResults);
-                  if (broadcastResults['fullHash'] != null) {
-                    this.resultTxt = `Exchange successful with fullHash: ${broadcastResults['fullHash']}`;
-                    this.status = 1;
-                  } else {
-                    this.resultTxt = broadcastResults['errorDescription'];
-                    this.disableExchange = false;
-                    this.status = -1;
+    if (this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) {
+      this.disableExchange = true;
+      this.status = 0;
+      this.accountData.setPublicKeyPassword(this.password);
+      let txChain; let txExchangeChain; let txRate; let txQuantity;
+      if (this.type == "Buy") {
+        txChain = this.chain;
+        txExchangeChain = this.exchangeChain;
+        txRate = this.rate*this.chainDecimals;
+        txQuantity = this.quantity*this.chainDecimals;
+      } else {
+        txChain = this.exchangeChain;
+        txExchangeChain = this.chain;
+        txRate = ((1/this.rate)*this.exchangeDecimals).toFixed(0);
+        txQuantity = this.exchangeQuantity*this.exchangeDecimals;
+      }
+      this.transactionsProvider.exchangeCoins(txChain, txExchangeChain, txRate, txQuantity)
+        .subscribe(
+          unsignedBytes => {
+             //console.log(unsignedBytes['unsignedTransactionBytes']);
+             if (unsignedBytes['errorDescription']) {
+                this.resultTxt = unsignedBytes['errorDescription'];
+                this.disableExchange = false;
+             } else {
+               this.transactionsProvider.broadcastTransaction(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes'], this.password))
+                .subscribe(
+                  broadcastResults => {
+                    console.log(broadcastResults);
+                    if (broadcastResults['fullHash'] != null) {
+                      this.resultTxt = `Exchange successful with fullHash: ${broadcastResults['fullHash']}`;
+                      this.status = 1;
+                    } else {
+                      this.resultTxt = broadcastResults['errorDescription'];
+                      this.disableExchange = false;
+                      this.status = -1;
+                    }
                   }
-                }
-              );
-           }
-        }
-      );
+                );
+             }
+          }
+        );
+    } else {
+      this.resultTxt = "Incorrect Passphrase";
+      this.status = -1;
+    }
   }
 
   updateExchangeQuantity(ev) {
