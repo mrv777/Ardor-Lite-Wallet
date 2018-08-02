@@ -38,7 +38,11 @@
 			    <ion-label>{{ 'SAVE_TO_DEVICE' | translate }}</ion-label>
 			    <ion-checkbox [(ngModel)]="savePassphrase" formControlName="saveForm"></ion-checkbox>
 			</ion-item>
-			<ion-item *ngIf="savePassphrase">
+			<ion-item *ngIf="savePassphrase && !fingerAvailable && !pin">
+				{{ 'NO_PIN_SET' | translate }}.
+				<button ion-button (click)="setPin()" type="submit" block>{{ 'SET_PIN' | translate }}</button>
+			</ion-item>
+			<ion-item *ngIf="savePassphrase && (fingerAvailable || pin)">
 				<ion-input [(ngModel)]="password" name="password" type="{{passwordType}}" formControlName="passwordForm" placeholder="{{ 'PASSPHRASE' | translate }}">
 				</ion-input>
 
@@ -57,7 +61,7 @@
 	    </ion-row>
 		<ion-row responsive-sm>
 			<ion-col>
-				<button ion-button color="white" [disabled]="!loginForm.valid"  (click)="saveLogin()" type="submit" block>{{ 'SAVE' | translate }}</button>
+				<button ion-button color="white" [disabled]="!loginForm.valid || (savePassphrase && !password)" (click)="saveLogin()" type="submit" block>{{ 'SAVE' | translate }}</button>
 			</ion-col>
 		</ion-row>
 	</form>

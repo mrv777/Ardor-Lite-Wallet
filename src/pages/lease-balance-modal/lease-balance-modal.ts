@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, Select, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Select, ViewController, AlertController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
+import { PinDialog } from '@ionic-native/pin-dialog';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
@@ -21,6 +22,7 @@ export class LeaseBalanceModalPage {
   recipient: string = '';
   password: string;
   fingerAvailable: boolean = false;
+  usePin: boolean = false;
   passwordType: string = 'password';
   status: number;
   days: number = 64800;
@@ -32,7 +34,7 @@ export class LeaseBalanceModalPage {
 
   theme: string;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, private pinDialog: PinDialog, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public viewCtrl: ViewController, private alertCtrl: AlertController) {
   	this.leaseForm = this.formBuilder.group({
       recipientForm: ['', Validators.required],
       daysForm: ['', Validators.required],
@@ -54,10 +56,15 @@ export class LeaseBalanceModalPage {
     this.faio.isAvailable().then((available) => {
 	    if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
 	      this.fingerAvailable = true;
+        this.usePin = false;
 	    } else {
 	      this.fingerAvailable = false;
+        this.usePin = true;
 	    }
-	  });
+	  })
+    .catch((error: any) => {
+      this.usePin = true;
+    });
     this.loadContacts();
   }
 
@@ -78,7 +85,6 @@ export class LeaseBalanceModalPage {
             this.transactions.broadcastTransaction(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes'], this.password))
             .subscribe(
               broadcastResults => {
-                console.log(broadcastResults);
                 if (broadcastResults['fullHash'] != null) {
                   this.resultTxt = `Successfully leased! Transaction fullHash: ${broadcastResults['fullHash']}`;
                   this.status = 1;
@@ -132,6 +138,29 @@ export class LeaseBalanceModalPage {
     	this.password = this.accountData.getSavedPassword();
     })
     .catch((error: any) => console.log(error));
+  }
+
+  showPin() {
+    this.pinDialog.prompt('Enter your PIN', 'Verify PIN', ['OK', 'Cancel'])
+    .then(
+      (result: any) => {
+        if (result.buttonIndex == 1) {
+          if (this.accountData.checkPin(result.input1)) {
+            this.password = this.accountData.getSavedPassword();
+          } else {
+            this.presentMessage("Incorrect PIN");
+          }
+        }
+      }
+    );
+  }
+
+  presentMessage(msg: string) {
+    let alert = this.alertCtrl.create({
+      title: msg,
+      buttons: ['Dismiss']
+    });
+    alert.present();
   }
 
   openBarcodeScanner() {

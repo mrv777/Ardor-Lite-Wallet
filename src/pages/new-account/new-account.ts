@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController, Platform } from 'ionic-angular';
-// import { Screenshot } from '@ionic-native/screenshot';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
+import { PinDialog } from '@ionic-native/pin-dialog';
 
 import * as bip39 from 'bip39';
 
@@ -18,11 +19,22 @@ export class NewAccountPage {
   accountName: string = '';
   savePassphrase: boolean = false;
   blur: string = '';
+  fingerAvailable: boolean = false;
+  pin: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public platform: Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public platform: Platform, private faio: FingerprintAIO, private pinDialog: PinDialog) {
   }
 
   ionViewDidLoad() {
+  	if (this.platform.is('cordova')) {
+       this.faio.isAvailable().then((available) => {
+        if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
+          this.fingerAvailable = true;
+        } else {
+          this.fingerAvailable = false;
+        }
+      });
+     }
     this.passphrase = bip39.generateMnemonic();
     this.accountID = this.accountData.convertPasswordToAccount(this.passphrase);
   }
@@ -80,6 +92,17 @@ export class NewAccountPage {
 	  });
 	  alert.present();
 	}
+
+	setPin() {
+    this.pinDialog.prompt('Please enter a pin that will be used to retrieve your saved passphrase', 'Set your PIN', ['OK', 'Cancel'])
+    .then(
+      (result: any) => {
+        if (result.buttonIndex == 1) {
+          this.pin = result.input1;
+        }
+      }
+    );
+  }
 
   closeModal() {
   	if (this.platform.is('cordova')) {

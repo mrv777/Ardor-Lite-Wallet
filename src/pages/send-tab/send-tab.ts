@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ViewController, Select, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Select, Platform, AlertController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
+import { PinDialog } from '@ionic-native/pin-dialog';
 import { Subscription } from 'rxjs/Subscription';
 
 import * as Big from 'big.js';
@@ -34,6 +35,7 @@ export class SendTabPage {
   contacts: object[];
   password: string;
   fingerAvailable: boolean = false;
+  usePin: boolean = false;
   guest: boolean = false;
   passwordType: string = 'password';
   privateMsg: boolean = false;
@@ -52,7 +54,7 @@ export class SendTabPage {
   subscriptionChain: Subscription;
   subscriptionCurrancy: Subscription;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public currenciesProv: CurrenciesProvider, public platform: Platform) {
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, private pinDialog: PinDialog, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public currenciesProv: CurrenciesProvider, public platform: Platform, private alertCtrl: AlertController) {
   	this.sendForm = this.formBuilder.group({
       recipientForm: ['', Validators.required],
       amountForm: ['', Validators.required],
@@ -72,10 +74,16 @@ export class SendTabPage {
        this.faio.isAvailable().then((available) => {
   	    if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
   	      this.fingerAvailable = true;
+          this.usePin = false;
   	    } else {
   	      this.fingerAvailable = false;
+          this.usePin = true;
   	    }
-  	  });
+  	  })
+      .catch((error: any) => {
+        console.log(error);
+        this.usePin = true;
+      });
      }
     this.loadContacts();
     this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => {
@@ -151,8 +159,7 @@ export class SendTabPage {
       this.transactions.sendMoney(this.chain, this.recipient, convertedAmount, this.message, this.privateMsg)
       .subscribe(
         unsignedBytes => {
-          // console.log(unsignedBytes['unsignedTransactionBytes']);
-          // console.log(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes']));
+          this.resultTxt = `Signing transaction and sending ${this.recipient} ${amountBig} ${chainName}`;
           let attachment = null;
           if (this.message && this.message != '') {
             attachment = unsignedBytes['transactionJSON']['attachment'];
@@ -225,6 +232,23 @@ export class SendTabPage {
     .catch((error: any) => console.log(error));
   }
 
+  showPin() {
+    this.pinDialog.prompt('Enter your PIN', 'Verify PIN', ['OK', 'Cancel'])
+    .then(
+      (result: any) => {
+        if (result.buttonIndex == 1) {
+          if (this.accountData.checkPin(result.input1)) {
+            this.password = this.accountData.getSavedPassword();
+          } else {
+            this.presentMessage("Incorrect PIN");
+          }
+        } else if(result.buttonIndex == 2) {
+          console.log('User cancelled');
+        }
+      }
+    );
+  }
+
   openBarcodeScanner() {
     this.barcodeScanner.scan().then((barcodeData) => {
       this.recipient = barcodeData['text'];
@@ -239,6 +263,14 @@ export class SendTabPage {
     }, (err) => {
         // An error occurred
     });
+  }
+
+  presentMessage(msg: string) {
+    let alert = this.alertCtrl.create({
+      title: msg,
+      buttons: ['Dismiss']
+    });
+    alert.present();
   }
 
   ionViewDidLeave() { 

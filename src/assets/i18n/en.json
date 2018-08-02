@@ -107,5 +107,8 @@
     "OPEN_ORDERS": "Open Orders",
     "NO_OPEN_ORDERS": "No Open Orders",
     "NO_TRADES": "No Trades",
-    "CURRENT_PRICE": "Current Price"
+    "CURRENT_PRICE": "Current Price",
+    "SET_PIN": "Set Account Pin",
+    "CHANGE_PIN": "Change Account Pin",
+    "NO_PIN_SET": "No PIN set, please set one first"
 }

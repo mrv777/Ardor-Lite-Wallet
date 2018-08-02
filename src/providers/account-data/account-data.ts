@@ -23,7 +23,6 @@ export class AccountDataProvider {
   CURRENT_NETWORK: string;
   CURRENT_MAIN_NODE = -1;
   CURRENT_TEST_NODE = -1;
-  PIN;
   DEVICE_SECURE: boolean = false;
   THEME: ReplaySubject<string>;
   GUEST_LOGIN: boolean = false;
@@ -48,16 +47,17 @@ export class AccountDataProvider {
     });
     this.SAVED_ACCOUNTS = []; //Initialize saved accounts to empty array before fetching them
     
-    this.secureStorage.create('ardor_lite_pin')
-      .then((storage: SecureStorageObject) => {
-        storage.get(`pin`) // Get pin if it's saved
-        .then(
-          data => { this.PIN = data; this.DEVICE_SECURE = true; },
-          error => console.log('Pin Error: ' + error)
-        );
-      }).catch((err) => {
-          console.error('The device is not secured!');
-      });
+    // this.secureStorage.create('ardor_lite_pin')
+    //   .then((storagePin: SecureStorageObject) => {
+    //     this.PIN_STORAGE = storagePin;
+    //     storagePin.get(`pin`) // Get pin if it's saved
+    //     .then(
+    //       data => { this.PIN = data; this.DEVICE_SECURE = true; },
+    //       error => console.log('Pin Error: ' + error)
+    //     );
+    //   }).catch((err) => {
+    //       console.error('The device is not secured!');
+    //   });
     
     return this.secureStorage.create('ardor_lite_accounts')
       .then((storageArdor: SecureStorageObject) => { 
@@ -75,7 +75,7 @@ export class AccountDataProvider {
                 .then((accountData) => {
                     for (let i=0;i<ssData.length; i++) {
                         let accountDataArray = accountData[i].split("|||");
-                        this.SAVED_ACCOUNTS[i] = { account: ssData[i], name: accountDataArray[0], password: accountDataArray[1], chain: accountDataArray[2] };    
+                        this.SAVED_ACCOUNTS[i] = { account: ssData[i], name: accountDataArray[0], password: accountDataArray[1], chain: accountDataArray[2], pin: accountDataArray[3] };    
                     }
                 })
                 .catch((e) => {
@@ -128,15 +128,15 @@ export class AccountDataProvider {
   }
 
 
-  saveSavedPassword(password: string, account: string, accountName: string, chain: number = 1, save: boolean) {   
+  saveSavedPassword(password: string, account: string, accountName: string, chain: number = 1, save: boolean, pin: string = '') {   
     if (!save) {
       password = "";
     }
 
-    this.LOGIN_STORAGE.set(account, `${accountName}|||${password}|||${chain}`)
+    this.LOGIN_STORAGE.set(account, `${accountName}|||${password}|||${chain}|||${pin}`)
       .then(
         data => { 
-          this.SAVED_ACCOUNTS.push({ account: account, name: accountName, password: password, chain: chain });
+          this.SAVED_ACCOUNTS.push({ account: account, name: accountName, password: password, chain: chain, pin: pin });
         },
         error => console.log(error)
       );
@@ -146,9 +146,10 @@ export class AccountDataProvider {
     const account = this.ACCOUNT_ID;
     const name = this.getAccountName();
     const chain = this.getAccountChain();
+    const pin = this.getPin();
     const index = this.SAVED_ACCOUNTS.findIndex(x => x['account']==account);
 
-    return this.LOGIN_STORAGE.set(account, `${name}||||||${chain}`)
+    return this.LOGIN_STORAGE.set(account, `${name}||||||${chain}|||${pin}`)
       .then(
         data => { 
           if (index !== -1) {
@@ -191,19 +192,43 @@ export class AccountDataProvider {
   }
 
   checkPin(pin: string): boolean {
-    if (this.PIN === pin) {
+    const accountPin = this.getPin();
+    if (accountPin === pin) {
       return true;
     } else {
       return false;
     }
   }
 
-  setPin(pin: string) {
-    this.LOGIN_STORAGE.set('pin', pin)
-    .then(
-      data => { this.PIN = pin; },
-      error => console.log(error)
-    );
+  getPin(): string {
+    return this.SAVED_ACCOUNTS.filter(x => x.account === this.ACCOUNT_ID).map(x => x.pin)[0]; 
+  }
+
+  setPin(pin: string): Promise<void> { 
+    const account = this.ACCOUNT_ID;
+    const password = this.getSavedPassword();
+    const name = this.getAccountName();
+    const chain = this.getAccountChain();
+    const index = this.SAVED_ACCOUNTS.findIndex(x => x['account']==account);
+
+    return this.LOGIN_STORAGE.set(account, `${name}|||${password}|||${chain}|||${pin}`)
+      .then(
+        data => { 
+          if (index !== -1) {
+            this.SAVED_ACCOUNTS[index]['pin']=pin;
+          }
+        },
+        error => console.log(error)
+      );
+  }
+
+  hasPin() {
+    const accountPin = this.SAVED_ACCOUNTS.filter(x => x.account === this.ACCOUNT_ID).map(x => x.pin)[0]; 
+    if (accountPin == null || accountPin == '') {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   logout(): void {
@@ -243,9 +268,10 @@ export class AccountDataProvider {
     const account = this.ACCOUNT_ID;
     const password = this.getSavedPassword();
     const chain = this.getAccountChain();
+    const pin = this.getPin();
     const index = this.SAVED_ACCOUNTS.findIndex(x => x['account']==account);
 
-    return this.LOGIN_STORAGE.set(account, `${name}|||${password}|||${chain}`)
+    return this.LOGIN_STORAGE.set(account, `${name}|||${password}|||${chain}|||${pin}`)
       .then(
         data => { 
           if (index !== -1) {
@@ -260,9 +286,10 @@ export class AccountDataProvider {
     const account = this.ACCOUNT_ID;
     const password = this.getSavedPassword();
     const name = this.getAccountName();
+    const pin = this.getPin();
     const index = this.SAVED_ACCOUNTS.findIndex(x => x['account']==account);
 
-    return this.LOGIN_STORAGE.set(account, `${name}|||${password}|||${chain}`)
+    return this.LOGIN_STORAGE.set(account, `${name}|||${password}|||${chain}|||${pin}`)
       .then(
         data => { 
           if (index !== -1) {

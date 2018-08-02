@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
+import { PinDialog } from '@ionic-native/pin-dialog';
 
 import * as Big from 'big.js';
 
@@ -50,9 +51,10 @@ export class CoinExchangeModalPage {
   password: string;
   passwordType: string = 'password';
   fingerAvailable: boolean = false;
+  usePin: boolean = false;
   guest: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, public coinExchangeProvider: CoinExchangeProvider, public sharedProvider: SharedProvider, public transactionsProvider: TransactionsProvider, private barcodeScanner: BarcodeScanner, private faio: FingerprintAIO,) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, public coinExchangeProvider: CoinExchangeProvider, public sharedProvider: SharedProvider, public transactionsProvider: TransactionsProvider, private barcodeScanner: BarcodeScanner, private faio: FingerprintAIO, private pinDialog: PinDialog, private alertCtrl: AlertController) {
   	this.exchangeChain = navParams.get('chain');
     this.chain = navParams.get('exchangeChain');
     this.rate = navParams.get('rate');
@@ -68,12 +70,17 @@ export class CoinExchangeModalPage {
         this.theme = theme;
       });
   	this.faio.isAvailable().then((available) => {
-  	  if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
-  	    this.fingerAvailable = true;
-  	  } else {
-  	    this.fingerAvailable = false;
-  	  }
-  	});
+      if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
+        this.fingerAvailable = true;
+        this.usePin = false;
+      } else {
+        this.fingerAvailable = false;
+        this.usePin = true;
+      }
+    })
+    .catch((error: any) => {
+      this.usePin = true;
+    });
     this.coinExchangeProvider.getBundlerRates()
       .subscribe(
         rates => {
@@ -240,6 +247,29 @@ export class CoinExchangeModalPage {
     	this.password = this.accountData.getSavedPassword();
     })
     .catch((error: any) => console.log(error));
+  }
+
+  showPin() {
+    this.pinDialog.prompt('Enter your PIN', 'Verify PIN', ['OK', 'Cancel'])
+    .then(
+      (result: any) => {
+        if (result.buttonIndex == 1) {
+          if (this.accountData.checkPin(result.input1)) {
+            this.password = this.accountData.getSavedPassword();
+          } else {
+            this.presentMessage("Incorrect PIN");
+          }
+        }
+      }
+    );
+  }
+
+  presentMessage(msg: string) {
+    let alert = this.alertCtrl.create({
+      title: msg,
+      buttons: ['Dismiss']
+    });
+    alert.present();
   }
 
   openBarcodeScannerPassword(password: string) {

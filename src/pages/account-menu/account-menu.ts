@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ModalController, Platform, AlertController } from 'ionic-angular';
+import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
+import { PinDialog } from '@ionic-native/pin-dialog';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { RenameAccountPage } from '../rename-account/rename-account';
@@ -14,12 +16,28 @@ import { LeaseBalanceModalPage } from '../lease-balance-modal/lease-balance-moda
 export class AccountMenuPage {
   hasPassphrase: boolean = false;
   guest: boolean = false;
+  fingerAvailable: boolean = false;
+  hasPin: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, public modalCtrl: ModalController,) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private faio: FingerprintAIO, private pinDialog: PinDialog,public accountData: AccountDataProvider, public modalCtrl: ModalController, public platform: Platform, private alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
     this.guest = this.accountData.isGuestLogin();
+    if (this.platform.is('cordova')) {
+       this.faio.isAvailable().then((available) => {
+        if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
+          this.fingerAvailable = true;
+        } else {
+          this.fingerAvailable = false;
+          this.hasPin = this.accountData.hasPin();
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+        this.hasPin = this.accountData.hasPin();
+      });
+     }
     if (!this.guest) {
       this.hasPassphrase = this.accountData.hasSavedPassword();
     }
@@ -50,6 +68,47 @@ export class AccountMenuPage {
     myModal.onDidDismiss(data => {
       this.viewCtrl.dismiss('lease');
     });
+  }
+
+  setPin() {
+    this.pinDialog.prompt('Please enter a pin that will be used to retrieve your saved passphrase', 'Set your PIN', ['OK', 'Cancel'])
+    .then(
+      (result: any) => {
+        if (result.buttonIndex == 1) {
+          console.log('User clicked OK, value is: ', result.input1);
+          this.accountData.setPin(result.input1).then(() => {
+            this.viewCtrl.dismiss('pinSet');
+          });
+        }
+      }
+    );
+  }
+
+  changePin() {
+    this.pinDialog.prompt('Please verify your current PIN before proceeding', 'Enter your current PIN', ['Continue', 'Cancel'])
+    .then(
+      (result: any) => {
+        if (result.buttonIndex == 1) {
+          console.log('User clicked OK, value is: ', result.input1);
+          if (this.accountData.checkPin(result.input1)) {
+            this.setPin();
+          } else {
+            this.viewCtrl.dismiss('pinIncorrect');
+            this.presentMessage("Incorrect PIN");
+          }
+        } else if(result.buttonIndex == 2) {
+          console.log('User cancelled');
+        }
+      }
+    );
+  }
+
+  presentMessage(msg: string) {
+    let alert = this.alertCtrl.create({
+      title: msg,
+      buttons: ['Dismiss']
+    });
+    alert.present();
   }
 
   savePassphrase() {

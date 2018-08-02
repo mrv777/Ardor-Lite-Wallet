@@ -37,6 +37,7 @@
 
 			<button id="eyeIcon" ion-button clear color="dark" type="button" item-right (click)="togglePassword()"> <ion-icon *ngIf="passwordType == 'password'" name="eye"> </ion-icon><ion-icon *ngIf="passwordType == 'text'" name="eye-off"> </ion-icon> </button>
 			<button id="fingerIcon" *ngIf="fingerAvailable === true && !guest" ion-button clear color="dark" type="button" item-right (click)="showFingerprint()"> <ion-icon name="finger-print"></ion-icon> </button>
+			<button id="fingerIcon" *ngIf="usePin === true && !guest" ion-button clear color="dark" type="button" item-right (click)="showPin()"> <ion-icon name="keypad"></ion-icon> </button>
 			<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerPassword('password')"> <ion-icon name="barcode"> </ion-icon> </button>
 		</ion-item>
     </ion-list>

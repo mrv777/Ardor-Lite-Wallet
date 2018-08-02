@@ -78,7 +78,7 @@
     "ACCOUNT_SETTINGS": "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0430\u043a\u043a\u0430\u0443\u043d\u0442\u0430",
     "GLOBAL_SETTINGS": "\u041e\u0431\u0449\u0438\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438",
     "ENABLE_DARK": "\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \u0442\u0435\u043c\u043d\u044b\u0439 \u0440\u0435\u0436\u0438\u043c",
-    "VOLUME": "\u0413\u0440\u043e\u043c\u043a\u043e\u0441\u0442\u044c",
+    "VOLUME": "\u041e\u0431\u044a\u0435\u043c",
     "LEASE_BALANCE": "\u041b\u0438\u0437\u0438\u043d\u0433\u043e\u0432\u0430\u044f \u043a\u043e\u0432\u043a\u0430",
     "PRIVATE_MESSAGE": "\u041b\u0438\u0447\u043d\u043e\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435",
     "DAYS": "\u0434\u043d\u0435\u0439",
@@ -102,6 +102,10 @@
     "ALL_TRADES": "All Trades",
     "YOUR_TRADES": "Your Trades",
     "CANCEL_ORDER": "Cancel Order",
+    "SELL_ORDERS": "Sell Orders",
+    "BUY_ORDERS": "Buy Orders",
+    "OPEN_ORDERS": "Open Orders",
     "NO_OPEN_ORDERS": "No Open Orders",
-    "NO_TRADES": "No Trades"
+    "NO_TRADES": "No Trades",
+    "CURRENT_PRICE": "Current Price"
 }
