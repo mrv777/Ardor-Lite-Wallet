@@ -50,6 +50,7 @@ export class CoinExchangeModalPage {
   theme: string;
   password: string;
   passwordType: string = 'password';
+  hasPassphrase: boolean = false;
   fingerAvailable: boolean = false;
   usePin: boolean = false;
   guest: boolean = false;
@@ -67,20 +68,24 @@ export class CoinExchangeModalPage {
     this.accountID = this.accountData.getAccountID();
     this.guest = this.accountData.isGuestLogin();
     this.accountData.getTheme().then((theme) => {
-        this.theme = theme;
-      });
-  	this.faio.isAvailable().then((available) => {
-      if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
-        this.fingerAvailable = true;
-        this.usePin = false;
-      } else {
-        this.fingerAvailable = false;
-        this.usePin = true;
-      }
-    })
-    .catch((error: any) => {
-      this.usePin = true;
+      this.theme = theme;
     });
+    if (!this.guest) {
+      this.hasPassphrase = this.accountData.hasSavedPassword();
+      this.faio.isAvailable().then((available) => {
+        if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
+          this.fingerAvailable = true;
+          this.usePin = false;
+        } else {
+          this.fingerAvailable = false;
+          this.usePin = true;
+        }
+      })
+      .catch((error: any) => {
+        this.usePin = true;
+      });
+    }
+
     this.coinExchangeProvider.getBundlerRates()
       .subscribe(
         rates => {

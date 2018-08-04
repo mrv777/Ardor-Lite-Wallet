@@ -20,6 +20,7 @@ export class AccountDataProvider {
   PASSWORD;
   PUBLIC_KEY;
   NODE_URL;
+  FIRST_LOAD: boolean = true;
   CURRENT_NETWORK: string;
   CURRENT_MAIN_NODE = -1;
   CURRENT_TEST_NODE = -1;
@@ -364,6 +365,15 @@ export class AccountDataProvider {
     return this.storage.get(`Language`).then((value) => {
         return value;
     });
+  }
+
+  firstLoad(): boolean {
+    if (this.FIRST_LOAD) {
+      this.FIRST_LOAD = false;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   setTheme(theme: string): void {

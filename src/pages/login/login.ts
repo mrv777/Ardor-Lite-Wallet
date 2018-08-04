@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, Platform, Select, MenuController, FabContainer } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Platform, Select, MenuController, FabContainer, AlertController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -34,7 +34,7 @@ export class LoginPage {
   guest: boolean = false;
   loading: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public shared: SharedProvider, public accountData: AccountDataProvider, private barcodeScanner: BarcodeScanner, public modalCtrl: ModalController, public platform: Platform, private menu: MenuController, public translate: TranslateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public shared: SharedProvider, public accountData: AccountDataProvider, private barcodeScanner: BarcodeScanner, public modalCtrl: ModalController, public platform: Platform, private menu: MenuController, public translate: TranslateService, private alertCtrl: AlertController) {
 
   }
 
@@ -77,6 +77,11 @@ export class LoginPage {
                   if (this.cordovaAvailable) {
                     this.accounts = this.accountData.getSavedAccounts();
                     this.setBalances();
+                  } else {
+                    let firstLoad = this.accountData.firstLoad();
+                    if (firstLoad) {
+                      this.presentMessage("Account saving only works on mobile devices with the device secured");
+                    }
                   }
                 });
               } else {
@@ -159,6 +164,14 @@ export class LoginPage {
     }, (err) => {
         // An error occurred
     });
+  }
+
+  presentMessage(msg: string) {
+    let alert = this.alertCtrl.create({
+      title: msg,
+      buttons: ['Dismiss']
+    });
+    alert.present();
   }
 
   setLanguage(lang, fab: FabContainer) {

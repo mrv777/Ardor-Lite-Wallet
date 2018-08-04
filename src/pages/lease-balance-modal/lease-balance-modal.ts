@@ -21,8 +21,10 @@ export class LeaseBalanceModalPage {
   private leaseForm : FormGroup;
   recipient: string = '';
   password: string;
+  guest: boolean = false;
   fingerAvailable: boolean = false;
   usePin: boolean = false;
+  hasPassphrase: boolean = false;
   passwordType: string = 'password';
   status: number;
   days: number = 64800;
@@ -53,18 +55,22 @@ export class LeaseBalanceModalPage {
     for (let i=45;i > 0; i--) {
     	this.daysArray.push(i);
     }
-    this.faio.isAvailable().then((available) => {
-	    if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
-	      this.fingerAvailable = true;
-        this.usePin = false;
-	    } else {
-	      this.fingerAvailable = false;
+    this.guest = this.accountData.isGuestLogin();
+    if (!this.guest) {
+      this.hasPassphrase = this.accountData.hasSavedPassword();
+      this.faio.isAvailable().then((available) => {
+        if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
+          this.fingerAvailable = true;
+          this.usePin = false;
+        } else {
+          this.fingerAvailable = false;
+          this.usePin = true;
+        }
+      })
+      .catch((error: any) => {
         this.usePin = true;
-	    }
-	  })
-    .catch((error: any) => {
-      this.usePin = true;
-    });
+      });
+    }
     this.loadContacts();
   }
 

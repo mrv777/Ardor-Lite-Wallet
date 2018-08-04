@@ -37,6 +37,7 @@ export class SendTabPage {
   fingerAvailable: boolean = false;
   usePin: boolean = false;
   guest: boolean = false;
+  hasPassphrase: boolean = false;
   passwordType: string = 'password';
   privateMsg: boolean = false;
 
@@ -70,21 +71,24 @@ export class SendTabPage {
 
   ionViewDidLoad() {
     this.guest = this.accountData.isGuestLogin();
-  	 if (this.platform.is('cordova')) {
-       this.faio.isAvailable().then((available) => {
-  	    if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
-  	      this.fingerAvailable = true;
-          this.usePin = false;
-  	    } else {
-  	      this.fingerAvailable = false;
+  	if (!this.guest) {
+      this.hasPassphrase = this.accountData.hasSavedPassword();
+      if (this.platform.is('cordova')) {
+        this.faio.isAvailable().then((available) => {
+          if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
+            this.fingerAvailable = true;
+            this.usePin = false;
+          } else {
+            this.fingerAvailable = false;
+            this.usePin = true;
+          }
+        })
+        .catch((error: any) => {
+          console.log(error);
           this.usePin = true;
-  	    }
-  	  })
-      .catch((error: any) => {
-        console.log(error);
-        this.usePin = true;
-      });
-     }
+        });
+      }
+    }
     this.loadContacts();
     this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => {
       this.chain = sharedChain; 
