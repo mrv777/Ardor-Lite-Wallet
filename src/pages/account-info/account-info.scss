@@ -1,0 +1,16 @@
+page-account-info {
+		#qrIcon, #fingerIcon, #contactsIcon, #eyeIcon {
+    	font-size: 1.5em;
+      margin: 0;
+      padding: 0 0.4em;
+      height: 100%;
+      color: #777;
+      top: 13px;
+    	position: relative;
+    }
+
+    .item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+        border-bottom-color: #dedede !important;
+        box-shadow: none !important;
+    }
+}

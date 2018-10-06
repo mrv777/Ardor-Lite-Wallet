@@ -1,0 +1,73 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'ACCOUNT_INFO' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [ngClass]="{'darkTheme' : (darkMode == true)}">
+	<ion-grid>
+	  <ion-row>
+	    <ion-col col-3>
+	      {{ 'ACCOUNT' | translate }}:
+	    </ion-col>
+	    <ion-col col-9>
+	      <span (click)="copyText(accountID, 'Account ID')">{{accountID}}</span>
+	    </ion-col>
+	  </ion-row>
+	  <ion-row *ngIf="accountname && accountname != ''">
+	    <ion-col col-3>
+	      {{ 'NAME' | translate }}:
+	    </ion-col>
+	    <ion-col col-9>
+	      <span>{{accountname}}</span>
+	    </ion-col>
+	  </ion-row>
+	  <ion-row *ngIf="accountDes && accountDes != ''">
+	    <ion-col col-3>
+	      {{ 'DESCRIPTION' | translate }}:
+	    </ion-col>
+	    <ion-col col-9>
+	      <span>{{accountDes}}</span>
+	    </ion-col>
+	  </ion-row>
+	  <ion-row *ngIf="!publicKey || publicKey == ''">
+	    <ion-col>
+	    	<ion-item>
+		      <ion-label stacked color="primary">Enter passphrase to generate public key</ion-label>
+					<ion-input [(ngModel)]="password" name="password" type="{{passwordType}}"></ion-input>
+					
+					<button id="eyeIcon" ion-button clear color="dark" type="button" item-right (click)="togglePassword()"> <ion-icon *ngIf="passwordType == 'password'" name="eye"> </ion-icon><ion-icon *ngIf="passwordType == 'text'" name="eye-off"> </ion-icon> </button>
+					<button id="fingerIcon" *ngIf="fingerAvailable === true && hasPassphrase" ion-button clear color="dark" type="button" item-right (click)="showFingerprint()"> <ion-icon name="finger-print"></ion-icon> </button>
+					<button id="fingerIcon" *ngIf="usePin === true && hasPassphrase" ion-button clear color="dark" type="button" item-right (click)="showPin()"> <ion-icon name="keypad"></ion-icon> </button>
+					<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerPassword('password')"> <ion-icon name="barcode"> </ion-icon> </button>
+					
+				</ion-item>
+				<ion-item>
+					<button ion-button color="light" (click)="generatePublicKey()" [disabled]="!password" block>{{ 'GENERATE_PUBLIC' | translate }}</button>
+				</ion-item>
+	    </ion-col>
+	  </ion-row>
+	  <ion-row *ngIf="publicKey && publicKey != ''">
+	    <ion-col col-3>
+	      {{ 'PUBLIC_KEY' | translate }}: 
+	    </ion-col>
+	    <ion-col col-9>
+	      <span (click)="copyText(publicKey, 'Public Key')">{{publicKey}}</span>
+	    </ion-col>
+	  </ion-row>
+	  <ion-row *ngIf="message && message != ''">
+	    <ion-col>
+	      Status: {{message}}
+	    </ion-col>
+	  </ion-row>
+	  <ion-row>
+	    <ion-col>
+	    	
+	      <button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+	    </ion-col>
+	  </ion-row>
+	</ion-grid>
+</ion-content>

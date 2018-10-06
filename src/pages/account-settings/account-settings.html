@@ -13,22 +13,30 @@
 		<ion-item *ngIf="!guest">
 			<ion-label item-start stacked color="primary">{{ 'DEFAULT_CHAIN' | translate }}</ion-label>
 			<ion-select class="chainSelect" [(ngModel)]="chainName" name="chainName" (ionChange)="setChain()">
-		      <ion-option *ngFor="let arrayChain of chains" [value]="arrayChain">
-		        {{ arrayChain | uppercase }}
-		      </ion-option>
-		    </ion-select>
+	      <ion-option *ngFor="let arrayChain of chains" [value]="arrayChain">
+	        {{ arrayChain | uppercase }}
+	      </ion-option>
+	    </ion-select>
 		</ion-item>
 	</ion-list>
 	<h5>{{ 'GLOBAL_SETTINGS' | translate  }}</h5>
 	<ion-list>
 		<ion-item>
-	      <ion-label>{{ 'ENABLE_DARK' | translate }}</ion-label>
-	      <ion-toggle [(ngModel)]="darkMode" (ionChange)="setTheme()"></ion-toggle>
-	    </ion-item>
-	    <ion-item>
-	    	<ion-col>
-				<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
-			</ion-col>
-	    </ion-item>
+	    <ion-label>{{ 'ENABLE_DARK' | translate }}</ion-label>
+	    <ion-toggle [(ngModel)]="darkMode" (ionChange)="setTheme()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+	    <ion-label>{{ 'DEFAULY_CURRENCY' | translate }}</ion-label>
+	    <ion-select class="chainSelect" [(ngModel)]="currency" name="currency" (ionChange)="setCurrency()">
+	      <ion-option *ngFor="let arrayCurrency of currencies" [value]="arrayCurrency">
+	        {{ arrayCurrency | uppercase }}
+	      </ion-option>
+	    </ion-select>
+    </ion-item>
+    <ion-item>
+    	<ion-col>
+			<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+		</ion-col>
+    </ion-item>
 	</ion-list>
 </ion-content>

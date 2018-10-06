@@ -18,4 +18,8 @@ page-guest-login {
         padding: 10px;
         border-radius: 2px;
     }
+
+    .list-md > .item-block:last-child .item-inner, .list-ios > .item-block:last-child .item-inner {
+        border-bottom: none;
+    }
 }

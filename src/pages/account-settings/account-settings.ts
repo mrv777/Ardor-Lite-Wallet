@@ -12,6 +12,8 @@ import { SharedProvider } from '../../providers/shared/shared';
 export class AccountSettingsPage {
   guest: boolean = false;
   darkMode: boolean = false;
+  currency: string = 'USD';
+  currencies: string[] = ['BTC','ETH','USD','EUR','CNY','AUD'];
   chains: string[] = [];
   chainNumbers: number[] = [];
   chainName: string = 'ARDR';
@@ -33,6 +35,11 @@ export class AccountSettingsPage {
         this.chainNumbers.push(chainObjects[key]);
       }
     }
+    this.accountData.getDefaultCurrency().then((defaultCurrency) => {
+        if (defaultCurrency && defaultCurrency != '') {
+          this.currency = defaultCurrency;
+        }
+      });
     this.accountData.getTheme().then((theme) => {
         if (theme == 'darkTheme') {
           this.darkMode = true;
@@ -49,6 +56,14 @@ export class AccountSettingsPage {
   	} else {
   		this.accountData.setTheme('lightTheme');
   	}
+  }
+
+  setCurrency() {
+    if (this.loaded) {
+      this.changes = true;
+      this.accountData.setDefaultCurrency(this.currency);
+      this.sharedProvider.emitConversion(0,this.currency,0);
+    }
   }
 
   setChain() {

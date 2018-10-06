@@ -88,19 +88,26 @@ export class LeaseBalanceModalPage {
               this.disableSend = false;
               this.status = -1;
           } else {
-            this.transactions.broadcastTransaction(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes'], this.password))
-            .subscribe(
-              broadcastResults => {
-                if (broadcastResults['fullHash'] != null) {
-                  this.resultTxt = `Successfully leased! Transaction fullHash: ${broadcastResults['fullHash']}`;
-                  this.status = 1;
-                } else {
-                  this.resultTxt = 'Lease Failed';
-                  this.status = -1;
-                  this.disableSend = false;
+            let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'leaseBalance', { recipient: this.recipient, amountNQT: 0 });
+            if (signedTx != 'failed') {
+              this.transactions.broadcastTransaction(signedTx)
+              .subscribe(
+                broadcastResults => {
+                  if (broadcastResults['fullHash'] != null) {
+                    this.resultTxt = `Successfully leased! Transaction fullHash: ${broadcastResults['fullHash']}`;
+                    this.status = 1;
+                  } else {
+                    this.resultTxt = 'Lease Failed';
+                    this.status = -1;
+                    this.disableSend = false;
+                  }
                 }
-              }
-            );
+              );
+            } else {
+              this.resultTxt = 'Lease Failed - WARNING: Transaction returned from node is incorrect';
+              this.status = -1;
+              this.disableSend = false;
+            }
           }
         }
       );

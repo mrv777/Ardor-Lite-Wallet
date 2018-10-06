@@ -33,6 +33,7 @@ export class LoginPage {
   accountIcon: any;
   guest: boolean = false;
   loading: boolean = true;
+  firstTimeLoading: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public shared: SharedProvider, public accountData: AccountDataProvider, private barcodeScanner: BarcodeScanner, public modalCtrl: ModalController, public platform: Platform, private menu: MenuController, public translate: TranslateService, private alertCtrl: AlertController) {
 
@@ -51,6 +52,17 @@ export class LoginPage {
           this.language = userLang;
         }
       });
+
+      this.firstTimeLoading = this.accountData.firstLoad();
+      if (this.firstTimeLoading) {
+        this.accountData.getDefaultCurrency().then((defaultCurrency) => {
+          if (defaultCurrency && defaultCurrency != '') {
+            this.shared.emitConversion(0,defaultCurrency,0);
+          } else {
+            this.shared.emitConversion(0,'USD',0);
+          }
+        });
+      }
 
       this.setNode();
   	});
@@ -73,14 +85,13 @@ export class LoginPage {
               if (this.platform.is('cordova')) {
                 this.accountData.init().then(() => {
                   this.loading = false;
-                  this.cordovaAvailable = this.accountData.isDeviceSecure(); // Account saving only works on mobile devices with the device secured
+                  this.cordovaAvailable = this.accountData.isDeviceSecure(); // Account importing only works on mobile devices with the device secured
                   if (this.cordovaAvailable) {
                     this.accounts = this.accountData.getSavedAccounts();
                     this.setBalances();
                   } else {
-                    let firstLoad = this.accountData.firstLoad();
-                    if (firstLoad) {
-                      this.presentMessage("Account saving only works on mobile devices with the device secured");
+                    if (this.firstTimeLoading) {
+                      this.presentMessage("Account importing only works on mobile devices with the device secured");
                     }
                   }
                 });

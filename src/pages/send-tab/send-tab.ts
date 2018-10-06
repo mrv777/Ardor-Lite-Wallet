@@ -129,7 +129,7 @@ export class SendTabPage {
   //     err => { console.log(err); });
   // }
 
-  updateConversion(type: string) { console.log(this.chainName);
+  updateConversion(type: string) {
     if (this.chainName == 'AEUR') {
       this.disableCurrency = true;
       this.amountCurrency = null;
@@ -173,20 +173,27 @@ export class SendTabPage {
               this.disableSend = false;
               this.status = -1;
           } else {
-            this.transactions.broadcastTransaction(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes'], this.password), attachment)
-            .subscribe(
-              broadcastResults => {
-                console.log(broadcastResults);
-                if (broadcastResults['fullHash'] != null) {
-                  this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
-                  this.status = 1;
-                } else {
-                  this.resultTxt = `Send Failed - ${broadcastResults['errorDescription']}`;
-                  this.status = -1;
-                  this.disableSend = false;
+            let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'sendMoney', { recipient: this.recipient, amountNQT: convertedAmount.toString() });
+            if (signedTx != 'failed') {
+              this.transactions.broadcastTransaction(signedTx, attachment)
+              .subscribe(
+                broadcastResults => {
+                  console.log(broadcastResults);
+                  if (broadcastResults['fullHash'] != null) {
+                    this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
+                    this.status = 1;
+                  } else {
+                    this.resultTxt = `Send Failed - ${broadcastResults['errorDescription']}`;
+                    this.status = -1;
+                    this.disableSend = false;
+                  }
                 }
-              }
-            );
+              );
+            } else {
+              this.resultTxt = 'Send Failed - WARNING: Transaction returned from node is incorrect';
+              this.status = -1;
+              this.disableSend = false;
+            }
           }
         }
       );

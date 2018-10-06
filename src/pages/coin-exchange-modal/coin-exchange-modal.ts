@@ -168,20 +168,27 @@ export class CoinExchangeModalPage {
                 this.resultTxt = unsignedBytes['errorDescription'];
                 this.disableExchange = false;
              } else {
-               this.transactionsProvider.broadcastTransaction(this.accountData.signTransaction(unsignedBytes['unsignedTransactionBytes'], this.password))
-                .subscribe(
-                  broadcastResults => {
-                    console.log(broadcastResults);
-                    if (broadcastResults['fullHash'] != null) {
-                      this.resultTxt = `Exchange successful with fullHash: ${broadcastResults['fullHash']}`;
-                      this.status = 1;
-                    } else {
-                      this.resultTxt = broadcastResults['errorDescription'];
-                      this.disableExchange = false;
-                      this.status = -1;
+               let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'exchangeCoins', { recipient: 0, amountNQT: 0 });
+               if (signedTx != 'failed') {
+                 this.transactionsProvider.broadcastTransaction(signedTx)
+                  .subscribe(
+                    broadcastResults => {
+                      console.log(broadcastResults);
+                      if (broadcastResults['fullHash'] != null) {
+                        this.resultTxt = `Exchange successful with fullHash: ${broadcastResults['fullHash']}`;
+                        this.status = 1;
+                      } else {
+                        this.resultTxt = broadcastResults['errorDescription'];
+                        this.disableExchange = false;
+                        this.status = -1;
+                      }
                     }
-                  }
-                );
+                  );
+               } else {
+                  this.resultTxt = 'Exchange Failed - WARNING: Transaction returned from node is incorrect';
+                  this.status = -1;
+                  this.disableExchange = false;
+               }
              }
           }
         );

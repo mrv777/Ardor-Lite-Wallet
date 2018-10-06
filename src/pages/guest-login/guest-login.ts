@@ -16,6 +16,7 @@ export class GuestLoginPage {
   nodeSelect: string;
   hideCustom: boolean = true;
   error: string = '';
+  savePassphrase: boolean = false;
 
   theme: string;
 
@@ -25,6 +26,12 @@ export class GuestLoginPage {
   ionViewWillEnter() {
     this.accountData.getTheme().then((theme) => {
       this.theme = theme;
+    });
+    this.accountData.getSavedGuest().then((account) => {
+      if (account && account != '') {
+        this.accountID = account;
+        this.savePassphrase = true;
+      }
     });
     this.nodeSelect = "mainnet/";
     this.node = this.nodeSelect;
@@ -52,6 +59,11 @@ export class GuestLoginPage {
       this.accountData.checkNode().subscribe(
         (nodeStatus) => {
           if (nodeStatus['blockchainState'] == "UP_TO_DATE") {
+            if (this.savePassphrase) {
+              this.accountData.setSavedGuest(this.accountID);
+            } else {
+              this.accountData.setSavedGuest('');
+            }
             this.viewCtrl.dismiss(this.accountID);
           } else {
             this.error = "Node error or out of sync. Please try again.";

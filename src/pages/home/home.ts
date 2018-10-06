@@ -67,6 +67,7 @@ export class HomePage {
       } else {
         this.leased = true;
       }
+      this.currency = this.shared.getCurrencyOnce();
       this.loadBalance();
       this.changeCurrency();     
       const chainObjects = this.shared.getConstants()['chains'];
@@ -118,6 +119,7 @@ export class HomePage {
       if (data == 'remove') {
         this.logout();
       } else if (data == 'settings') {
+        this.currency = this.shared.getCurrencyOnce();
         this.chainName = this.shared.getChainNameOnce();
         this.changeChain();
       }  

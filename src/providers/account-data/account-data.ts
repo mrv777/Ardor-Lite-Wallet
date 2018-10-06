@@ -27,6 +27,7 @@ export class AccountDataProvider {
   DEVICE_SECURE: boolean = false;
   THEME: ReplaySubject<string>;
   GUEST_LOGIN: boolean = false;
+  SAVED_GUEST: string;
   OPTIONS: object = { testnet: false };
   LOGIN_STORAGE: SecureStorageObject;
   FINGER_SECRET: string = "CHANGE";
@@ -45,6 +46,9 @@ export class AccountDataProvider {
   init(): Promise<void> {
     this.getTheme().then((theme) => {
       this.THEME.next(theme);
+    });
+    this.getSavedGuest().then((account) => {
+      this.SAVED_GUEST = account;
     });
     this.SAVED_ACCOUNTS = []; //Initialize saved accounts to empty array before fetching them
     
@@ -249,6 +253,10 @@ export class AccountDataProvider {
     this.PUBLIC_KEY = ardorjs.secretPhraseToPublicKey(password);
   };
 
+  getPublicKeyPassword(password: string): string {
+    return ardorjs.secretPhraseToPublicKey(password);
+  };
+
   getPublicKey(): string {
     return this.PUBLIC_KEY;
   };
@@ -376,6 +384,27 @@ export class AccountDataProvider {
     }
   }
 
+  getSavedGuest(): Promise<string> {
+    return this.storage.get(`GuestAccount`).then((value) => {
+        return value;
+    });
+  }
+
+  setSavedGuest(account: string): void {
+    this.storage.set(`GuestAccount`, account);
+    this.SAVED_GUEST = account;
+  }
+
+  getDefaultCurrency(): Promise<string> {
+    return this.storage.get(`DefaultCurrency`).then((value) => {
+        return value;
+    });
+  }
+
+  setDefaultCurrency(account: string): void {
+    this.storage.set(`DefaultCurrency`, account);
+  }
+
   setTheme(theme: string): void {
     this.storage.set(`Theme`, theme);
     this.THEME.next(theme);
@@ -388,8 +417,8 @@ export class AccountDataProvider {
   }
 
   getActiveTheme() {
-      return this.THEME.asObservable();
-    }
+    return this.THEME.asObservable();
+  }
 
   setNode(node: string): Promise<void> {
     if (node == 'mainnet/'){
@@ -444,14 +473,18 @@ export class AccountDataProvider {
     return ardorjs.secretPhraseToAccountId(password);
   }
 
-  signTransaction(unsignedTransactionBytes: string, password: string): string  {
-    let signPassword;
-    if (!password || password == '') {
-      signPassword = this.PASSWORD;
+  verifyAndSignTransaction(unsignedTransactionBytes: string, password: string, request: string, data: object): string  {
+    if (ardorjs.verifyTransactionBytes(unsignedTransactionBytes, request, data, this.PUBLIC_KEY)) {
+      let signPassword;
+      if (!password || password == '') {
+        signPassword = this.PASSWORD;
+      } else {
+        signPassword = password;
+      }
+      return ardorjs.signTransactionBytes(unsignedTransactionBytes, signPassword);
     } else {
-      signPassword = password;
+      return 'failed';
     }
-    return ardorjs.signTransactionBytes(unsignedTransactionBytes, signPassword);
   }
 
   getAccount(accountID: string) : Observable<object> {

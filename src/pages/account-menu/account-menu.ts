@@ -4,6 +4,7 @@ import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
+import { AccountInfoPage } from '../account-info/account-info';
 import { RenameAccountPage } from '../rename-account/rename-account';
 import { AccountSettingsPage } from '../account-settings/account-settings';
 import { LeaseBalanceModalPage } from '../lease-balance-modal/lease-balance-modal';
@@ -59,6 +60,14 @@ export class AccountMenuPage {
       } else {
         this.viewCtrl.dismiss('NoChange');
       }
+    });
+  }
+
+  accountInfo() {
+    let myModal = this.modalCtrl.create(AccountInfoPage);
+    myModal.present();
+    myModal.onDidDismiss(data => {
+      this.viewCtrl.dismiss('info');
     });
   }
 

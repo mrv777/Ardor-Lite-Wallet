@@ -10,8 +10,7 @@
 	<form>
 		<ion-list>
 			<ion-item>
-				<ion-input [(ngModel)]="accountID" name="account" type="text" required placeholder="{{ 'ACCOUNT_NUMBER' | translate }}">
-				</ion-input>
+				<ion-input [(ngModel)]="accountID" name="account" type="text" required placeholder="{{ 'ACCOUNT_NUMBER' | translate }}"></ion-input>
 				<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScanner()"> <ion-icon name="barcode"> </ion-icon> </button>
 			</ion-item>
 			<ion-item id="nodeSelect">
@@ -25,6 +24,10 @@
 			<ion-item [class.hide]="hideCustom">
 				<ion-input [(ngModel)]="node" name="node" type="text" placeholder="URL:PORT of the custom node">
 				</ion-input>
+			</ion-item>
+			<ion-item>
+			    <ion-label>{{ 'SAVE_ACCOUNT' | translate }}</ion-label>
+			    <ion-checkbox [(ngModel)]="savePassphrase" name="savePassphrase"></ion-checkbox>
 			</ion-item>
 		</ion-list>
 		<ion-row *ngIf="error" responsive-sm>

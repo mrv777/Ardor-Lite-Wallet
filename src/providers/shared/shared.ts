@@ -14,6 +14,7 @@ export class SharedProvider {
   price: number = 0;
   currentChain: number = 1;
   currentChainName: string = 'ARDR';
+  currency: string = 'USD';
   transactionTypes: string[][] = [
       ['ARDR Coin Exchange Order Issue','ARDR Coin Exchange Order Cancel'],
       ['Balance Leasing'],
@@ -65,6 +66,7 @@ export class SharedProvider {
 
   emitConversion(val, currency, symbol) {
     this.price = val;
+    this.currency = currency;
 	  this.conversionObservable.next(currency);
 	  this.conversionSymbolObservable.next(symbol);
   }
@@ -94,6 +96,10 @@ export class SharedProvider {
 
   getCurrancy(): Observable<string> {
     return this.conversionObservable.asObservable();
+  }
+
+  getCurrencyOnce(): string {
+    return this.currency;
   }
 
   getPriceOnce(): number {
