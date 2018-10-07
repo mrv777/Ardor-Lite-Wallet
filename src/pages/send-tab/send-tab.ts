@@ -180,7 +180,8 @@ export class SendTabPage {
                 broadcastResults => {
                   console.log(broadcastResults);
                   if (broadcastResults['fullHash'] != null) {
-                    this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
+                    // this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
+                    this.resultTxt = `Successfully sent ${this.recipient} ${amountBig} ${chainName}`;
                     this.status = 1;
                   } else {
                     this.resultTxt = `Send Failed - ${broadcastResults['errorDescription']}`;

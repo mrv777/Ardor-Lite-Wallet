@@ -107,14 +107,14 @@ export class CoinExchangeModalPage {
             if (this.type == "Buy") {
               let ratesIndex = this.rates.findIndex(x => x['chain']==(this.chainNumber));
               this.fee = new Big(this.rates[ratesIndex]['minRateNQTPerFXT']/this.chainDecimals);
-              this.fee = this.fee.times(0.1).toFixed(8);
+              this.fee = this.fee.times(0.01).toFixed(8);
               this.feeChain = this.chain;
               this.feeChainNumber = this.chainNumber;
               this.feeChainDecimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.chainNumber]['decimals']);
             } else {
               let ratesIndex = this.rates.findIndex(x => x['chain']==(this.exchangeChainNumber));
               this.fee = new Big(this.rates[ratesIndex]['minRateNQTPerFXT']/this.exchangeDecimals);
-              this.fee = this.fee.times(0.1).toFixed(8);
+              this.fee = this.fee.times(0.01).toFixed(8);
               this.feeChain = this.exchangeChain;
               this.feeChainNumber = this.exchangeChainNumber;
               this.feeChainDecimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.exchangeChainNumber]['decimals']);
@@ -153,12 +153,12 @@ export class CoinExchangeModalPage {
         txChain = this.chain;
         txExchangeChain = this.exchangeChain;
         txRate = this.rate*this.chainDecimals;
-        txQuantity = this.quantity*this.chainDecimals;
+        txQuantity = this.quantity*this.exchangeDecimals;
       } else {
         txChain = this.exchangeChain;
         txExchangeChain = this.chain;
         txRate = ((1/this.rate)*this.exchangeDecimals).toFixed(0);
-        txQuantity = this.exchangeQuantity*this.exchangeDecimals;
+        txQuantity = this.exchangeQuantity*this.chainDecimals;
       }
       this.transactionsProvider.exchangeCoins(txChain, txExchangeChain, txRate, txQuantity)
         .subscribe(
@@ -175,7 +175,7 @@ export class CoinExchangeModalPage {
                     broadcastResults => {
                       console.log(broadcastResults);
                       if (broadcastResults['fullHash'] != null) {
-                        this.resultTxt = `Exchange successful with fullHash: ${broadcastResults['fullHash']}`;
+                        this.resultTxt = `Exchange successful`;
                         this.status = 1;
                       } else {
                         this.resultTxt = broadcastResults['errorDescription'];

@@ -63,7 +63,7 @@ export class CancelOrderModalPage {
                   broadcastResults => {
                     console.log(broadcastResults);
                     if (broadcastResults['fullHash'] != null) {
-                      this.resultTxt = `Exchange successful with fullHash: ${broadcastResults['fullHash']}`;
+                      this.resultTxt = `Successfully canceled order`;
                       this.status = 1;
                     } else {
                       this.resultTxt = broadcastResults['errorDescription'];

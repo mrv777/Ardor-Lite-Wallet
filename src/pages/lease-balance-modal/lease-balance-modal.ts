@@ -94,7 +94,7 @@ export class LeaseBalanceModalPage {
               .subscribe(
                 broadcastResults => {
                   if (broadcastResults['fullHash'] != null) {
-                    this.resultTxt = `Successfully leased! Transaction fullHash: ${broadcastResults['fullHash']}`;
+                    this.resultTxt = `Successfully leased balance to ${this.recipient}`;
                     this.status = 1;
                   } else {
                     this.resultTxt = 'Lease Failed';
