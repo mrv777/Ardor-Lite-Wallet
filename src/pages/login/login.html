@@ -41,12 +41,10 @@
 					<button ion-button id="newAccountButton" (click)="openModal('newaccount')" block >{{ 'GENERATE' | translate }}</button>
 				</ion-col>
 			</ion-row>
-			<ion-row responsive-sm *ngIf="cordovaAvailable">
-				<ion-col id="guestLogin">
+			<ion-row responsive-sm>
+				<ion-col id="guestLogin" *ngIf="cordovaAvailable">
 					<a (click)="openModal('guest')">{{ 'GUEST_LOGIN' | translate }}</a>
 				</ion-col>
-			</ion-row>
-			<ion-row responsive-sm>
 				<ion-col id="offlineTx">
 					<a (click)="openModal('offlineTx')">{{ 'OFFLINE_TX' | translate }}</a>
 				</ion-col>
@@ -94,10 +92,10 @@
 	</div>
 	<ion-list *ngIf="accountsLoaded">
 	  <button ion-item *ngFor="let account of accounts" (click)="onLogin(account.account)">
-	    <div *ngIf="account.name != 'undefined'">{{account.name}}
 	    <span class="accountBalance">{{account.balance/100000000 | number : '1.2-8' }} <span class="ardrCurrency">{{account.chainName}}</span></span>
+	    <div *ngIf="account.name != 'undefined'">{{account.name}}
 	    <br />
-	    <canvas class="idIcon" width="20" height="20" [attr.data-jdenticon-value]="account.account"></canvas>{{account.account}}</div>
+	    <canvas class="idIcon" width="20" height="20" [attr.data-jdenticon-value]="account.account"></canvas><span class="accountAddress">{{account.account}}</span></div>
 	    <div *ngIf="account.name == 'undefined'"><canvas class="idIcon" width="20" height="20" [attr.data-jdenticon-value]="account.account"></canvas>{{account.account}}
 	    	<span class="accountBalance">{{account.balance/100000000 | number : '1.2-8' }} <span class="ardrCurrency">{{account.chainName}}</span></span>
 	    </div>

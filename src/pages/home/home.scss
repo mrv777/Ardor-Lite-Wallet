@@ -1,29 +1,51 @@
 page-home {
+    > .content.content-md > .scroll-content, > .content.content-ios > .scroll-content {
+        background: #1162a1;
+        background: -moz-linear-gradient(0deg, #1162a1 0%, #3a86c7 100%);
+        background: -webkit-linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        background: linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1162a1', endColorstr='#3a86c7',GradientType=1 );
+    }
+
+    #homeHeader .bar-buttons-md, #homeHeader .bar-buttons-ios {
+        min-width: 25px;
+    }
+
 	#homeTop .col {
 		padding: 1em;
 	    text-align: center;
 	}
-
-    .idIcon {
-        float: left;
-    }
 
     .toolbar-title-md, .toolbar-title-ios {
         padding: 0 12px 0 5px;
     }
 
     #homeTop {
-        color: #fff;
-        background-color: #1162a1;
         text-align: center;
-        margin: -16px -16px 2px -16px;
-        padding: 2em;;
+        margin: 0 auto 30px;
+        padding: 0em;
+        background-color: #fff;
+        border-radius: 10px;
+        width: 90%;
+        box-shadow: 0px 0px 5px #555;
+    }
+
+    #balance {
+        text-align: left;
+    }
+
+    #currancySelect {
+        float: right;
+    }
+
+    #chainLogo {
+        position: relative;
+        top: 4px;
     }
 
     #chainSelect {
         display: inline-flex;
         padding: 5px 5px 0px;
-        color: #fff;
     }
 
     #homeGrid {
@@ -35,7 +57,7 @@ page-home {
     }
 
     h4 {
-    	margin: 0 0 0.4em 0;
+    	margin: 0;
         font-size: 2.25em;
     }
 
@@ -50,22 +72,27 @@ page-home {
 
     .smallerText {
         font-size: 60%;
+        top: -10px;
+        position: relative;
     }
 
     #tabMenu {
         text-align: center;
         font-size: 1.75em;
-        background-color: #1162a1;
-        color: rgba(255, 255, 255, 0.51);
-        margin: -26px -21px 2px -21px;
+        color: rgba(0, 0, 0, 0.51);
+        margin: -26px auto 2px auto;
         padding: 0;
         z-index: 1000;
+        background-color: #fff;
+        border-radius: 10px;
+        width: 90%;
+        box-shadow: 0px 0px 5px #555;
     }
 
     #tabMenu .activeTab {
-        color: rgba(255, 255, 255, 1.0);
+        color: #1162a1;
         //border-bottom: 2px solid #f57c00;
-        border-bottom: 2px solid rgb(7, 66, 110);
+        border-bottom: 2px solid #1162a1;
     }
 
     .select-md, .select-ios {

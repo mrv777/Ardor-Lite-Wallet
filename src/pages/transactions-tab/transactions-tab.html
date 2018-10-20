@@ -1,5 +1,67 @@
 <ion-content>
-<ion-grid id="txTable">
+  <ion-list *ngIf="transactions == null || transactions.length == 0">
+    <ion-item>
+      <h5>
+        No Transactions
+      </h5>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="transactions != null && transactions.length != 0">
+    <ng-container *ngFor="let transaction of transactions | paginate: { id: 'txList',
+                                                      itemsPerPage: numToDisplay,
+                                                      currentPage: p,
+                                                      totalItems: total }">
+    
+      <ion-item [ngClass]="{'unconfirmed' : transaction.unconfirmed}">
+        <div class="cardLeft">
+          <a (click)="openModal('tx',transaction.fullHash)">{{transaction.date | date:'M/d H:mm'}}</a>
+          &nbsp;&nbsp;
+          <ion-icon *ngIf="transaction.recipientRS != accountID && transaction.recipientRS != null && !transaction.unconfirmed && contacts.indexOf(transaction.recipientRS) === -1 && !guest" class="addContact" (click)="addNewContact(transaction.recipientRS)" name="person-add"></ion-icon>
+          <ion-icon *ngIf="transaction.senderRS != accountID && transaction.senderRS != null && !transaction.unconfirmed && contacts.indexOf(transaction.senderRS) === -1 && !guest" class="addContact" (click)="addNewContact(transaction.senderRS)" name="person-add"></ion-icon>
+          &nbsp;<a *ngIf="transaction.attachment != null && transaction.attachment.message != null" (click)="openModal('message',transaction.fullHash)"><ion-icon name="mail"></ion-icon></a>
+          <br />
+          <span *ngIf="transaction.recipientRS != accountID && transaction.recipientRS != null && !transaction.unconfirmed">
+            <span *ngIf="contacts.indexOf(transaction.recipientRS) != -1">{{contactNames[contacts.indexOf(transaction.recipientRS)]}}</span> 
+            <span *ngIf="contacts.indexOf(transaction.recipientRS) == -1">{{transaction.recipientRS}} </span>
+          </span>
+          <span *ngIf="transaction.senderRS != accountID && transaction.senderRS != null && !transaction.unconfirmed">
+            <span *ngIf="contacts.indexOf(transaction.senderRS) != -1">{{contactNames[contacts.indexOf(transaction.senderRS)]}}</span> 
+            <span *ngIf="contacts.indexOf(transaction.senderRS) == -1">{{transaction.senderRS}} </span>
+          </span>
+          <span *ngIf="((transaction.senderRS == accountID && transaction.recipientRS == accountID) || transaction.recipientRS == null || transaction.senderRS == null)  && !transaction.unconfirmed">
+            You
+          </span>
+          <span *ngIf="transaction.unconfirmed">
+            Unconfirmed Transaction
+          </span>
+        </div>
+        <div class="cardRight">
+          <span *ngIf="transaction.type != 0 && transaction.type != -2">
+            {{transaction.typeName}}<br />
+            <span class="feeTxt" [ngClass]="{'danger' : (transaction.senderRS == accountID)}">({{transaction.feeNQT/decimals | number : '1.0-8'}})</span>
+          </span>
+          <span *ngIf="transaction.type == 0 || transaction.type == -2">
+            <span [ngClass]="{'danger' : (transaction.senderRS == accountID && transaction.recipientRS != accountID && transaction.amountNQT > 0), 'success':(transaction.recipientRS == accountID && transaction.senderRS != accountID && transaction.amountNQT > 0)}">
+              <span *ngIf="transaction.senderRS == accountID && transaction.recipientRS != accountID && transaction.amountNQT > 0">-</span><span *ngIf="transaction.recipientRS == accountID && transaction.senderRS != accountID && transaction.amountNQT > 0">+</span>{{transaction.amountNQT/decimals | number : '1.0-8'}}
+            </span><br />
+            <span class="feeTxt" [ngClass]="{'danger' : (transaction.senderRS == accountID)}">({{transaction.feeNQT/decimals | number : '1.0-8'}})</span>
+          </span>
+        </div>
+      </ion-item>
+    </ng-container>
+    <pagination-controls  id="txList"
+                      (pageChange)="pageChanged($event)"
+                      maxSize="7"
+                      directionLinks="true"
+                      autoHide="true"
+                      previousLabel="Back"
+                      nextLabel="Next"
+                      screenReaderPaginationLabel="Pagination"
+                      screenReaderPageLabel="page"
+                      screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </ion-list>
+  <!-- <ion-grid id="txTable">
     <ion-row>
       <ion-col col-2 col-sm-2>
         <h5>{{ 'TIME' | translate }}</h5>
@@ -81,5 +143,5 @@
                       screenReaderPageLabel="page"
                       screenReaderCurrentLabel="You're on page">
     </pagination-controls>
-  </ion-grid>
+  </ion-grid> -->
 </ion-content>

@@ -10,9 +10,8 @@ import { AccountDataProvider } from '../../providers/account-data/account-data';
   templateUrl: 'receive-tab.html',
 })
 export class ReceiveTabPage {
- qrCode: string;
+  qrCode: string;
   accountID: string;
-  value : string = 'Techiediaries';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private clipboard: Clipboard, private toastCtrl: ToastController) {
   }

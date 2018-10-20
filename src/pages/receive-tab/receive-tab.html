@@ -2,8 +2,9 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-          <h6>{{ 'YOUR_ADDRESS' | translate }} <canvas class="idIcon" width="40" height="40" [attr.data-jdenticon-value]="accountID"></canvas></h6>
-          <h5 (click)="copyAccount()">{{accountID}} <ion-icon name="copy"></ion-icon></h5>
+          <p>{{ 'YOUR_ADDRESS' | translate }}</p>
+          <h6 (click)="copyAccount()">{{accountID}} <ion-icon name="copy"></ion-icon></h6>
+          <canvas class="idIcon" width="40" height="40" [attr.data-jdenticon-value]="accountID"></canvas>
       </ion-col>
     </ion-row>
     <ion-row>

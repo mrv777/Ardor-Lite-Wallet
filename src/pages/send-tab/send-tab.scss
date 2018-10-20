@@ -1,4 +1,25 @@
 page-send-tab {
+
+    ion-contant {
+        background-color: #f6f6fb;
+    }
+
+    form {
+        background-color: #fff;
+        border-radius: 10px;
+        width: 90%;
+        margin: 5px auto auto auto;
+    }
+
+    .content .row {
+        border: none !important;
+    }
+
+    .item-md, .item-ios {
+        width: 100%;
+        box-shadow: none;
+    }
+
 	.successBox {
     	background-color: #32db64;
     	color: white;
@@ -15,17 +36,17 @@ page-send-tab {
 
     .idIcon {
         left: 35px;
-        top: 0px;
+        top: -4px;
         position: absolute;
     }
 
     #qrIcon, #fingerIcon, #contactsIcon, #eyeIcon {
-        font-size: 1.5em;
+        font-size: 1.3em;
         margin: 0;
         padding: 0 0.4em;
         height: 100%;
         color: #777;
-        top: 13px;
+        top: 8px;
     	position: relative;
     }
 
@@ -34,7 +55,16 @@ page-send-tab {
         box-shadow: none !important;
     }
 
-    .content-md .scroll-content {
+    .content-md .scroll-content, .content-ios .scroll-content {
         padding-top: 0 !important;
+    }
+
+    .item-label-stacked .text-input-md, .item-label-floating .text-input-md, .item-label-stacked .text-input-ios, .item-label-floating .text-input-ios {
+        margin: 4px 0;
+        font-size: 12px;
+    }
+
+    .list-md, .list-ios {
+        margin: -1px 0 0;
     }
 }

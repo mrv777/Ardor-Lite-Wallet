@@ -4,7 +4,11 @@ page-about {
     }
 
     .scroll-content, .scroll-content a {
-        background-color: #1162a1;
+        background: #1162a1;
+        background: -moz-linear-gradient(0deg, #1162a1 0%, #3a86c7 100%);
+        background: -webkit-linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        background: linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1162a1', endColorstr='#3a86c7',GradientType=1 );
         text-align: center;
         color: #fff;
         text-decoration: none;

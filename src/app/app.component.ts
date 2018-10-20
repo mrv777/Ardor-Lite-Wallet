@@ -3,6 +3,7 @@ import { Nav, Platform, ToastController, IonicApp, MenuController } from 'ionic-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
+import { HeaderColor } from '@ionic-native/header-color';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -29,7 +30,7 @@ export class MyApp {
 
   backButtonPressedOnceToExit: boolean = false;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private menuCtrl: MenuController, private ionicApp: IonicApp,  private toastCtrl: ToastController, public accountData: AccountDataProvider, translate: TranslateService) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private menuCtrl: MenuController, private ionicApp: IonicApp,  private toastCtrl: ToastController, public accountData: AccountDataProvider, translate: TranslateService, private headerColor: HeaderColor) {
     this.initializeApp();
 
     translate.setDefaultLang('en');
@@ -41,6 +42,8 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString('#1162a1');
+      this.headerColor.tint('#1162a1');
       this.accountData.getActiveTheme().subscribe(val => this.theme = val);
       this.splashScreen.hide();
 

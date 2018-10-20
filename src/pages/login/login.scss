@@ -21,14 +21,14 @@ page-login {
     }
 
     #loginLogo {
-        background: #1162a1;
+        // background: #1162a1;
         text-align: center;
         margin: -16px -16px 2px -16px;
         padding: 2em;
     }
 
     #loginText {
-        background: #1162a1;
+        // background: #1162a1;
         text-align: left;
         margin: -16px -16px 2px -16px;
         padding: 2em;
@@ -55,6 +55,8 @@ page-login {
     }
     .fab {
         contain: layout;
+        background-color: #1162a1;
+        color: #fff;
     }
     #langFabList {
         margin: 52px 0;
@@ -85,35 +87,46 @@ page-login {
         background-color: #f57c00;
     }
 
-    #guestLogin, #offlineTx {
-        text-align: center;
+    #guestLogin {
+        text-align: left;
+    }
+
+    #offlineTx {
+        text-align: right;
     }
 
     #guestLogin a, #offlineTx a {
-        color: #fff;
-        text-transform: uppercase;
-        font-size: 16px;
+        color: #eee;
+
+        font-size: 14px;
         font-weight: bold;
     }
 
     #newAccountButton {
-        background-color: #fff;
-        color: #58B802;
+        background: #1162a1;
+        background: -moz-linear-gradient(0deg, #07426d 0%, #3a86c7 100%);
+        background: -webkit-linear-gradient(0deg, #07426d 0%,#3a86c7 100%);
+        background: linear-gradient(0deg, #07426d 0%,#3a86c7 100%);
+        color: #fff;
         font-weight: bold;
     }
 
     .accountBalance {
         float: right;
-        color: #488aff;
-        font-size: 18px;
+        color: #3a86c7;
     }
-    .ardrCurrency {
+    .ardrCurrency, .accountAddress {
         font-size: 14px;
         color: #ccc;
     }
 
     .scroll-content {
-        background-color: #1162a1;
+        // background-color: #1162a1;
+        background: #1162a1;
+        background: -moz-linear-gradient(180deg, #1162a1 0%, #3a86c7 100%);
+        background: -webkit-linear-gradient(180deg, #1162a1 0%,#3a86c7 100%);
+        background: linear-gradient(180deg, #1162a1 0%,#3a86c7 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1162a1', endColorstr='#3a86c7',GradientType=1 );
     }
 
     #loader {

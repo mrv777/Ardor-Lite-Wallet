@@ -3,11 +3,37 @@ page-transactions-tab {
 		padding-top: 0 !important;
 	}
 
+	h5 {
+		text-align: center;
+	}
+
 	.unconfirmed {
 		font-style: italic;
 	}
 
 	ion-icon {
 		padding: 0 2px;
+	}
+
+	.cardLeft {
+		float: left;
+	}
+	.cardRight {
+		float: right;
+		position: absolute;
+		right: 10px;
+	}
+	.cardRight > span {
+		font-weight: bold;
+	}
+	.cardRight .feeTxt {
+		text-align: right;
+		float: right;
+		color: #bbb;
+	}
+
+	.item-md, .item-ios {
+		margin: 10px auto;
+		font-size: 1.4rem;
 	}
 }

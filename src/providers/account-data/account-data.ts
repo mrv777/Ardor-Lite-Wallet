@@ -44,9 +44,17 @@ export class AccountDataProvider {
   }
 
   init(): Promise<void> {
-    this.getTheme().then((theme) => {
-      this.THEME.next(theme);
-    });
+    
+    this.getTheme().then(
+      (theme) => {
+        if (theme && theme != null) {
+          this.THEME.next(theme);
+        } else {
+          this.THEME.next('lightTheme'); //Set Default Theme
+        }
+      },
+      error => this.THEME.next('lightTheme') //Set Default Theme
+    );
     this.getSavedGuest().then((account) => {
       this.SAVED_GUEST = account;
     });

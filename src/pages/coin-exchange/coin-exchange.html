@@ -14,25 +14,25 @@
       <ion-refresher-content></ion-refresher-content>
   	</ion-refresher>
 	<ion-grid>
-		<ion-row>
-			<ion-col col-3 col-sm-3 *ngIf="buyOrders != null && buyOrders.length != 0">
-				<sub>{{ 'CURRENT_PRICE' | translate }}</sub>
-				<h5>{{buyOrders[0].askNQTPerCoin/exchangeDecimals | number : '1.0-8'}}</h5>
+		<ion-row id="topRow">
+			<ion-col id="currentPrice" col-3 col-sm-3 *ngIf="buyOrders != null && buyOrders.length != 0">
+				{{ 'CURRENT_PRICE' | translate }}<br />
+				<span id="currentPriceNum">{{buyOrders[0].askNQTPerCoin/exchangeDecimals | number : '1.0-8'}}</span>
 			</ion-col>
 			<ion-col col-3 col-sm-3 *ngIf="buyOrders == null || buyOrders.length == 0">
 				<h5>N/A</h5>
 			</ion-col>
-			<ion-col col-3 col-sm-3  style="text-align: right;">
+			<ion-col col-3 col-sm-3 class="pairSelect" style="text-align: right;">
 				<ion-select class="chainSelect" [(ngModel)]="chainName" name="chainName" (ionChange)="updateChains()">
 			      <ng-container *ngFor="let arrayChain of chains">
 			      <ion-option *ngIf="arrayChain != exchangeChainName" [value]="arrayChain">{{ arrayChain | uppercase }}</ion-option>
 			  	  </ng-container>
 			    </ion-select>
 			</ion-col>
-			<ion-col col-1 col-sm-1>
-				<h3 style="text-align: center;">/</h3>
+			<ion-col col-1 col-sm-1 class="pairSelect">
+				<h3 style="text-align: center;color:#999;">|</h3>
 			</ion-col>
-			<ion-col col-3 col-sm-3  style="text-align: left;">
+			<ion-col col-3 col-sm-3 class="pairSelect" style="text-align: left;">
 				<ion-select class="chainSelect" [(ngModel)]="exchangeChainName" name="exchangeChainName" (ionChange)="updateChains()">
 				  <ng-container *ngFor="let arrayChain of chains">
 				  	<ion-option *ngIf="arrayChain != chainName" [value]="arrayChain">{{ arrayChain | uppercase }}</ion-option>

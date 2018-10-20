@@ -1,9 +1,5 @@
 page-account-settings {
-	.item-input .label-md, .item-select .label-md, .item-datetime .label-md {
-		color: #000;
-	}
-
-	.darkTheme .item-input .label-md, .darkTheme .item-select .label-md, .darkTheme .item-datetime .label-md {
-		color: #fff;
+  .list-md > .item-block:last-child .item-inner, .list-ios > .item-block:last-child .item-inner {
+    border-bottom: none;
 	}
 }

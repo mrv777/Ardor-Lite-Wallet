@@ -1,6 +1,10 @@
 page-fingerprint-wizard {
 	.scroll-content {
-		background-color: #1162a1;
+		background: #1162a1;
+        background: -moz-linear-gradient(0deg, #1162a1 0%, #3a86c7 100%);
+        background: -webkit-linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        background: linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1162a1', endColorstr='#3a86c7',GradientType=1 );
 	}
 
     #qrIcon, #fingerIcon, #contactsIcon, #eyeIcon {
@@ -10,11 +14,6 @@ page-fingerprint-wizard {
         height: 100%;
         color: #777;
         position: relative;
-    }
-
-    .item-md, .item-ios {
-    	border-radius: 2px;
-   		margin: 20px 0;
     }
 
     .failedBox, ion-list ion-item.failedBox, .darkTheme .item-md.failedBox, .darkTheme .item-ios.failedBox {

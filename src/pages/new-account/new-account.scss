@@ -1,26 +1,25 @@
 page-new-account {
 	.scroll-content {
-		background-color: #1162a1;
-		color: white;
-        text-align: center;
-	}
+        background: #1162a1;
+        background: -moz-linear-gradient(0deg, #1162a1 0%, #3a86c7 100%);
+        background: -webkit-linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        background: linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1162a1', endColorstr='#3a86c7',GradientType=1 );
+        color: #fff;
+    }
 
 	#closeButton {
         background-color: #fff;
         color: #1162a1;
     }
-    
-    .item-md {
-    	border-radius: 2px;
-   		margin: 20px 0;
-    }
 
     .item-checkbox {
-    	background-color: #1162a1;
+    	background-color: transparent;
     	color: #fff;
+        box-shadow: none;
     }
 
-    .item.item-md .checkbox-md {
+    .item.item-md .checkbox-md, .item.item-ios .checkbox-ios {
     	margin: 9px 9px 9px 4px;
     }
 

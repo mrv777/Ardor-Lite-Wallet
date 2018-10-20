@@ -1,5 +1,14 @@
 page-coin-exchange {
-	.header button {
+    .scroll-content {
+        padding: 8px 0 !important;
+    }
+
+    #topRow {
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    .header button {
         font-size: 1.5em;
     }
 
@@ -10,9 +19,24 @@ page-coin-exchange {
         max-width: 100%;
     }
 
+    #topRow .button {
+        width: 90%;
+    }
     .button {
     	width: 100%;
-        background-color: #1162a1;
+        background: #1162a1;
+        background: -moz-linear-gradient(0deg, #1162a1 0%, #3a86c7 100%);
+        background: -webkit-linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        background: linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1162a1', endColorstr='#3a86c7',GradientType=1 );
+    }
+
+    #topRow .button-md, #topRow .button-ios {
+        height: 1.8em;
+    }
+
+    #topRow ion-col.col {
+        padding: 5px 8px 5px 8px;
     }
 
     ion-col.col {
@@ -20,7 +44,7 @@ page-coin-exchange {
     }
 
     .swapButton {
-        top: -10px;
+        //top: -10px;
     }
 
     .ngx-pagination {
@@ -41,11 +65,10 @@ page-coin-exchange {
 
     .tableHeader {
     	font-weight: bold;
-    	text-decoration: underline;
     }
 
     .grid {
-        padding: 0;
+        //padding: 0;
     }
 
     #loader {
@@ -58,13 +81,35 @@ page-coin-exchange {
         float: right;
     }
 
-    ion-grid ion-grid ion-row:nth-child(even) {
-        background-color: rgba(0, 0, 0, 0.2);
+    ion-grid ion-grid ion-row {
+        border-bottom: 1px #ddd solid;
     }
 
     ion-grid ion-grid ion-row.paginationRow {
-        background-color: rgba(0, 0, 0, 0);
+        border-bottom: none;
     }
+
+    #currentPrice {
+        color: #999;
+        font-size: 12px;
+        padding-right: 0 !important;
+    }
+
+    #currentPriceNum {
+        color: #000;
+    }
+
+    .pairSelect {
+        margin-top: 7px;
+    }
+
+    // ion-grid ion-grid ion-row:nth-child(even) {
+    //     background-color: rgba(0, 0, 0, 0.2);
+    // }
+
+    // ion-grid ion-grid ion-row.paginationRow {
+    //     background-color: rgba(0, 0, 0, 0);
+    // }
 
     ion-grid ion-grid ion-row.yourTrade {
         background-color: rgba(17, 98, 161, 0.3);
@@ -80,6 +125,7 @@ page-coin-exchange {
     
     h5 {
         margin-top: 1.0rem;
+        margin-bottom: 0;
     }
 
     @media(max-width: 425px){
