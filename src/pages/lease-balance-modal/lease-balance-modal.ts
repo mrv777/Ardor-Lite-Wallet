@@ -4,7 +4,6 @@ import { IonicPage, NavController, NavParams, Select, ViewController, AlertContr
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
-import { Subscription } from 'rxjs/Subscription';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { SharedProvider } from '../../providers/shared/shared';

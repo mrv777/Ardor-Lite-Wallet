@@ -22,6 +22,7 @@ page-transactions-tab {
 		float: right;
 		position: absolute;
 		right: 10px;
+		text-align: right;
 	}
 	.cardRight > span {
 		font-weight: bold;
@@ -30,10 +31,11 @@ page-transactions-tab {
 		text-align: right;
 		float: right;
 		color: #bbb;
+		font-weight: normal;
 	}
 
 	.item-md, .item-ios {
 		margin: 10px auto;
-		font-size: 1.4rem;
+		font-size: 1.3rem;
 	}
 }

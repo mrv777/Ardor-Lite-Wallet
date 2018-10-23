@@ -94,6 +94,12 @@ page-home {
         //border-bottom: 2px solid #f57c00;
         border-bottom: 2px solid #1162a1;
     }
+    #tabMenu .activeTab:first-child {
+        border-radius: 0 0 0 10px;
+    }
+    #tabMenu .activeTab:last-child {
+        border-radius: 0 0 10px 0;
+    }
 
     .select-md, .select-ios {
     	padding: 0 8px;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ToastController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, PopoverController } from 'ionic-angular';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { ContactsMenuPage } from '../contacts-menu/contacts-menu';
@@ -14,11 +14,10 @@ export class ContactsPage {
   contacts: object[];
   guest: boolean = false;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public modalCtrl: ModalController, private toastCtrl: ToastController, public popoverCtrl: PopoverController) {
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactsPage');
     this.loadContacts();
   }
 

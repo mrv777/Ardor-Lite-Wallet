@@ -1,3 +1,15 @@
 page-contacts-menu {
+	.list-md > .item-md, .list-ios > .item-ios {
+    box-shadow: none;
+    background: transparent;
+    border: none !important;
+	}
 
+	.list-md > .item-block:last-child .item-inner, .list-ios > .item-block:last-child .item-inner {
+		border-bottom: 0;
+	}
+
+	.item-md, .item-ios {
+		width: 100%;
+	}
 }

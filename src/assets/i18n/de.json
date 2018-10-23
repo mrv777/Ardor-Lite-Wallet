@@ -70,7 +70,7 @@
     "TESTNET": "Testnet",
     "DEFAULT_CHAIN": "Standard Chain",
     "OK": "OK",
-    "CANCEL": "Stornieren",
+    "CANCEL": "Abbrechen",
     "FULLHASH": "Voller Hash",
     "MESSAGE": "Nachricht",
     "SENDER": "Absender",
@@ -101,7 +101,7 @@
     "NO_CORDOVA": "Das Speichern von Konten funktioniert nur auf mobilen Ger\u00e4ten mit gesichertem Ger\u00e4t",
     "ALL_TRADES": "Alle Trades",
     "YOUR_TRADES": "Deine Trades",
-    "CANCEL_ORDER": "Order Stornieren",
+    "CANCEL_ORDER": "Order Abbrechen",
     "NO_OPEN_ORDERS": "Keine offenen Orders",
     "NO_TRADES": "Keine Trades"
 }
