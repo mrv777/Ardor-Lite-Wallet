@@ -34,7 +34,7 @@
     "@ngx-translate/core": "9.1.1",
     "@ngx-translate/http-loader": "2.0.1",
     "angular-highcharts": "^5.2.13",
-    "ardorjs": "^0.1.1",
+    "ardorjs": "git+https://github.com/mrv777/ardorjs.git",
     "bip39": "^2.5.0",
     "cordova-android": "7.1.1",
     "cordova-browser": "~5.0.4",
