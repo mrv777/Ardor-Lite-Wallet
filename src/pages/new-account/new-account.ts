@@ -21,12 +21,14 @@ export class NewAccountPage {
   blur: string = '';
   fingerAvailable: boolean = false;
   pin: string;
+  secureDevice: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public platform: Platform, private faio: FingerprintAIO, private pinDialog: PinDialog) {
   }
 
   ionViewDidLoad() {
   	if (this.platform.is('cordova')) {
+  		this.secureDevice = this.accountData.isDeviceSecure();
        this.faio.isAvailable().then((available) => {
         if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
           this.fingerAvailable = true;
@@ -105,7 +107,7 @@ export class NewAccountPage {
   }
 
   closeModal() {
-  	if (this.platform.is('cordova')) {
+  	if (this.secureDevice) {
   		this.accountData.saveSavedPassword(this.passphrase, this.accountID.toUpperCase(), this.accountName, 1, this.savePassphrase);
   	}
     this.viewCtrl.dismiss(this.accountID);

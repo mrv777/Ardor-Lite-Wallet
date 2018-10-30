@@ -102,6 +102,19 @@
     "ALL_TRADES": "Alle Trades",
     "YOUR_TRADES": "Deine Trades",
     "CANCEL_ORDER": "Order Abbrechen",
+    "SELL_ORDERS": "Sell Orders",
+    "BUY_ORDERS": "Buy Orders",
+    "OPEN_ORDERS": "Open Orders",
     "NO_OPEN_ORDERS": "Keine offenen Orders",
-    "NO_TRADES": "Keine Trades"
+    "NO_TRADES": "Keine Trades",
+    "CURRENT_PRICE": "Current Price",
+    "SET_PIN": "Set Account Pin",
+    "CHANGE_PIN": "Change Account Pin",
+    "NO_PIN_SET": "No PIN set, please set one first",
+    "SAVE_ACCOUNT": "Remember Guest Account on Device",
+    "DEFAULY_CURRENCY": "Default Currency Conversion",
+    "PUBLIC_KEY": "Public Key",
+    "ACCOUNT_INFO": "Account Information",
+    "GENERATE_PUBLIC": "Generate Public Key",
+    "DESCRIPTION": "Description"
 }

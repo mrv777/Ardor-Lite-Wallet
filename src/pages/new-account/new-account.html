@@ -13,7 +13,7 @@
   <p class="secureLoc">{{ 'SECURE_LOCATION' | translate }} <br />
   <span class="cannotRecover">{{ 'CANNOT_RECOVER' | translate }}</span></p>
   <form>
-	<ion-list no-lines>
+	<ion-list no-lines *ngIf="secureDevice">
 		<ion-item>
 		    <ion-label>{{ 'SAVE_TO_DEVICE' | translate }}</ion-label>
 		    <ion-checkbox [(ngModel)]="savePassphrase" name="savePassphrase"></ion-checkbox>

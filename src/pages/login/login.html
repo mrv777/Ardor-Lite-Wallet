@@ -60,18 +60,20 @@
 		<ion-fab left bottom #fab>
 		    <button ion-fab mini id="langFab"><ion-icon name="globe"></ion-icon></button>
 		    <ion-fab-list id="langFabList" side="top">
-		      	<button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Español</ion-label></button>
+		      <button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Español</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'ru') ? 'currentLang' : ''" (click)="setLanguage('ru',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Pусский</ion-label></button>
+		    	<button ion-fab [ngClass]="(language == 'pt-PT') ? 'currentLang' : ''" (click)="setLanguage('pt-PT',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Português</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'pl') ? 'currentLang' : ''" (click)="setLanguage('pl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Polskie</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'ko') ? 'currentLang' : ''" (click)="setLanguage('ko',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>한국어</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'ja') ? 'currentLang' : ''" (click)="setLanguage('ja',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>日本語</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'it') ? 'currentLang' : ''" (click)="setLanguage('it',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Italiano</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'id') ? 'currentLang' : ''" (click)="setLanguage('id',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Bahasa Indonesia</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'de') ? 'currentLang' : ''" (click)="setLanguage('de',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Deutsch</ion-label></button>
+		    	<button ion-fab [ngClass]="(language == 'gl-ES') ? 'currentLang' : ''" (click)="setLanguage('gl-ES',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Galego</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'fr') ? 'currentLang' : ''" (click)="setLanguage('fr',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Français</ion-label></button>
-		        <button ion-fab [ngClass]="(language == 'en') ? 'currentLang' : ''" (click)="setLanguage('en',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>English</ion-label></button>
-		        <button ion-fab [ngClass]="(language == 'nl') ? 'currentLang' : ''" (click)="setLanguage('nl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Nederlands</ion-label></button> 
-		        <button ion-fab [ngClass]="(language == 'zh') ? 'currentLang' : ''" (click)="setLanguage('zh',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>中文</ion-label></button> 
+		      <button ion-fab [ngClass]="(language == 'en') ? 'currentLang' : ''" (click)="setLanguage('en',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>English</ion-label></button>
+		      <button ion-fab [ngClass]="(language == 'nl') ? 'currentLang' : ''" (click)="setLanguage('nl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Nederlands</ion-label></button> 
+		      <button ion-fab [ngClass]="(language == 'zh') ? 'currentLang' : ''" (click)="setLanguage('zh',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>中文</ion-label></button> 
 		    </ion-fab-list>
 		</ion-fab>
 	</ng-container>
@@ -107,16 +109,18 @@
 	    <ion-fab-list id="langFabList" side="top">
 	    	<button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Español</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'ru') ? 'currentLang' : ''" (click)="setLanguage('ru',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Pусский</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'pt-PT') ? 'currentLang' : ''" (click)="setLanguage('pt-PT',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Português</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'pl') ? 'currentLang' : ''" (click)="setLanguage('pl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Polskie</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'ko') ? 'currentLang' : ''" (click)="setLanguage('ko',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>한국어</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'ja') ? 'currentLang' : ''" (click)="setLanguage('ja',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>日本語</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'it') ? 'currentLang' : ''" (click)="setLanguage('it',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Italiano</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'id') ? 'currentLang' : ''" (click)="setLanguage('id',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Bahasa Indonesia</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'de') ? 'currentLang' : ''" (click)="setLanguage('de',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Deutsch</ion-label></button>
+	    	<button ion-fab [ngClass]="(language == 'gl-ES') ? 'currentLang' : ''" (click)="setLanguage('gl-ES',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Galego</ion-label></button>
 	    	<button ion-fab [ngClass]="(language == 'fr') ? 'currentLang' : ''" (click)="setLanguage('fr',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Français</ion-label></button>
-	        <button ion-fab [ngClass]="(language == 'en') ? 'currentLang' : ''" (click)="setLanguage('en',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>English</ion-label></button>
-	        <button ion-fab [ngClass]="(language == 'nl') ? 'currentLang' : ''" (click)="setLanguage('nl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Nederlands</ion-label></button> 
-	        <button ion-fab [ngClass]="(language == 'zh') ? 'currentLang' : ''" (click)="setLanguage('zh',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>中文</ion-label></button> 
+	      <button ion-fab [ngClass]="(language == 'en') ? 'currentLang' : ''" (click)="setLanguage('en',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>English</ion-label></button>
+	      <button ion-fab [ngClass]="(language == 'nl') ? 'currentLang' : ''" (click)="setLanguage('nl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Nederlands</ion-label></button> 
+	      <button ion-fab [ngClass]="(language == 'zh') ? 'currentLang' : ''" (click)="setLanguage('zh',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>中文</ion-label></button> 
 	    </ion-fab-list>
 	  </ion-fab>
 
