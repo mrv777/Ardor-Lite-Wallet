@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, AlertController, Platform } from 'ionic-angular';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 import * as bip39 from 'bip39';
 
@@ -23,10 +24,36 @@ export class NewAccountPage {
   pin: string;
   secureDevice: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public platform: Platform, private faio: FingerprintAIO, private pinDialog: PinDialog) {
+  verifyPassString: string;
+  verifyString: string;
+  cancelString: string;
+  setPinString: string;
+  okString: string;
+  verifyWordString: string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public platform: Platform, private faio: FingerprintAIO, private pinDialog: PinDialog, public translate: TranslateService) {
   }
 
   ionViewDidLoad() {
+  	this.translate.get('VERIFY_PASS').subscribe((res: string) => {
+        this.verifyPassString = res;
+    });
+    this.translate.get('VERIFY').subscribe((res: string) => {
+        this.verifyString = res;
+    });
+		this.translate.get('CANCEL').subscribe((res: string) => {
+        this.cancelString = res;
+    });
+    this.translate.get('SET_PIN').subscribe((res: string) => {
+        this.setPinString = res;
+    });
+    this.translate.get('OK').subscribe((res: string) => {
+        this.okString = res;
+    });
+    this.translate.get('VERIFY_WORD_NUMBER').subscribe((res: string) => {
+        this.verifyWordString = res;
+    });
+
   	if (this.platform.is('cordova')) {
   		this.secureDevice = this.accountData.isDeviceSecure();
        this.faio.isAvailable().then((available) => {
@@ -46,10 +73,11 @@ export class NewAccountPage {
   	let words = this.passphrase.split(" ");
   	let randomNum = Math.floor(Math.random() * 12);
   	let word = words.splice(randomNum, 1);
+  	randomNum++;
   	//let random = words.sort(() => .5 - Math.random()).slice(0,4)
 	  let alert = this.alertCtrl.create({
-	    title: 'Verify Passphrase',
-	    message: `Please enter word number ${randomNum+1} in your passphrase to verify you have saved it correctly.`,
+	    title: this.verifyPassString,
+	    message: this.verifyWordString + randomNum,
 	    inputs: [
 	      {
 	        name: 'password',
@@ -59,14 +87,14 @@ export class NewAccountPage {
 	    ],
 	    buttons: [
 	      {
-	        text: 'Cancel',
+	        text: this.cancelString,
 	        role: 'cancel',
 	        handler: data => {
 	          console.log('Cancel clicked');
 	        }
 	      },
 	      {
-	        text: 'Verify',
+	        text: this.verifyString,
 	        handler: data => {
 	          if (data.password == word) {
 	            // Success
@@ -96,7 +124,7 @@ export class NewAccountPage {
 	}
 
 	setPin() {
-    this.pinDialog.prompt('Please enter a pin that will be used to retrieve your saved passphrase', 'Set your PIN', ['OK', 'Cancel'])
+    this.pinDialog.prompt('Please enter a pin that will be used to retrieve your saved passphrase', this.setPinString, [this.okString, this.cancelString])
     .then(
       (result: any) => {
         if (result.buttonIndex == 1) {

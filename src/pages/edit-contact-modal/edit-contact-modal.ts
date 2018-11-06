@@ -53,10 +53,8 @@ export class EditContactModalPage {
   editContact(){
     if (this.account == null || this.account == '') {
       this.message = "Account is required."
-    // } else if (!ADDRESS_CHECK.test(this.account)) {
-    //   this.message = "Invalid Account."
     } else {
-      if (this.title == 'Edit Contact') {
+      if (this.type != 'new') {
         this.accountData.editContact(this.name,this.account).then(() => {
           this.viewCtrl.dismiss();
         });
