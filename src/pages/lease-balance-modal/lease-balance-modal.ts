@@ -5,6 +5,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
 
+import * as bip39 from 'bip39';
+
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { SharedProvider } from '../../providers/shared/shared';
 import { TransactionsProvider } from '../../providers/transactions/transactions';
@@ -33,6 +35,9 @@ export class LeaseBalanceModalPage {
   contacts: object[];
   disableRec: boolean = false;
 
+  soloForge: boolean = false;
+  soloPassword: string;
+
   theme: string;
 
   constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, private pinDialog: PinDialog, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public viewCtrl: ViewController, private alertCtrl: AlertController) {
@@ -42,7 +47,13 @@ export class LeaseBalanceModalPage {
       passwordForm: ['', Validators.required]
     });
     if (navParams.get('address')) {
-      this.recipient = navParams.get('address');
+      if (navParams.get('address') == 'solo') {
+        this.soloForge = true;
+        this.soloPassword = bip39.generateMnemonic();
+        this.recipient = this.accountData.convertPasswordToAccount(this.soloPassword);
+      } else {
+        this.recipient = navParams.get('address');
+      }
       this.disableRec = true;
     }
   }
@@ -71,6 +82,54 @@ export class LeaseBalanceModalPage {
       });
     }
     this.loadContacts();
+  }
+
+  onSoloSend() {
+    if (this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) {
+      this.transactions.startForging(this.soloPassword)
+      .subscribe(
+        soloForgeStatus => {
+          this.disableSend = true;
+          this.resultTxt = `Attempting to enable solo forging`;
+          this.status = 0;
+          this.accountData.setPublicKeyPassword(this.password);
+          this.transactions.leaseBalance(this.days, this.recipient)
+          .subscribe(
+            unsignedBytes => {
+              if (unsignedBytes['errorDescription']) {
+                  this.resultTxt = unsignedBytes['errorDescription'];
+                  this.disableSend = false;
+                  this.status = -1;
+              } else {
+                let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'leaseBalance', { recipient: this.recipient, amountNQT: 0 });
+                if (signedTx != 'failed') {
+                  this.transactions.broadcastTransaction(signedTx)
+                  .subscribe(
+                    broadcastResults => {
+                      if (broadcastResults['fullHash'] != null) {
+                        this.resultTxt = `Successfully leased balance to ${this.recipient}`;
+                        this.status = 1;
+                      } else {
+                        this.resultTxt = 'Lease Failed';
+                        this.status = -1;
+                        this.disableSend = false;
+                      }
+                    }
+                  );
+                } else {
+                  this.resultTxt = 'Lease Failed - WARNING: Transaction returned from node is incorrect';
+                  this.status = -1;
+                  this.disableSend = false;
+                }
+              }
+            }
+          );
+        }
+      );
+    } else {
+      this.resultTxt = "Incorrect Passphrase";
+      this.status = -1;
+    }
   }
 
   onSend() {

@@ -152,18 +152,35 @@ export class SendTabPage {
   }
 
   onSend() {
+    if (this.recipient.substring(0, 4) != "NXT-" && this.recipient.substring(0, 6) != "ARDOR-" && this.recipient.substring(0, 6) != "IGNIS-" && this.recipient.substring(0, 4) != "BITS-" && this.recipient.substring(0, 5) != "AEUR-") {
+       this.accountData.getAlias('ignis', this.recipient)
+        .subscribe(
+          alias => {
+            if (alias['errorDescription']) {
+              this.resultTxt = "Alias not found";
+              this.status = -1;
+            } else {
+              this.onSendAfterAliasCheck(alias['accountRS']);
+            }
+          });
+    } else {
+      this.onSendAfterAliasCheck(this.recipient);
+    }
+  }
+
+  onSendAfterAliasCheck(recipient:string) {
     if (this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) {
       this.disableSend = true;
       let amountBig = new Big(this.amount);
       let convertedAmount = new Big(amountBig.times(this.decimals));
       let chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
-      this.resultTxt = `Attempting to send ${this.recipient} ${amountBig} ${chainName}`;
+      this.resultTxt = `Attempting to send ${recipient} ${amountBig} ${chainName}`;
       this.status = 0;
       this.accountData.setPublicKeyPassword(this.password);
-      this.transactions.sendMoney(this.chain, this.recipient, convertedAmount, this.message, this.privateMsg)
+      this.transactions.sendMoney(this.chain, recipient, convertedAmount, this.message, this.privateMsg)
       .subscribe(
         unsignedBytes => {
-          this.resultTxt = `Signing transaction and sending ${this.recipient} ${amountBig} ${chainName}`;
+          this.resultTxt = `Signing transaction and sending ${recipient} ${amountBig} ${chainName}`;
           let attachment = null;
           if (this.message && this.message != '') {
             attachment = unsignedBytes['transactionJSON']['attachment'];
@@ -173,7 +190,7 @@ export class SendTabPage {
               this.disableSend = false;
               this.status = -1;
           } else {
-            let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'sendMoney', { recipient: this.recipient, amountNQT: convertedAmount.toString() });
+            let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'sendMoney', { recipient: recipient, amountNQT: convertedAmount.toString() });
             if (signedTx != 'failed') {
               this.transactions.broadcastTransaction(signedTx, attachment)
               .subscribe(
@@ -181,7 +198,7 @@ export class SendTabPage {
                   console.log(broadcastResults);
                   if (broadcastResults['fullHash'] != null) {
                     // this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
-                    this.resultTxt = `Successfully sent ${this.recipient} ${amountBig} ${chainName}`;
+                    this.resultTxt = `Successfully sent ${recipient} ${amountBig} ${chainName}`;
                     this.status = 1;
                   } else {
                     this.resultTxt = `Send Failed - ${broadcastResults['errorDescription']}`;

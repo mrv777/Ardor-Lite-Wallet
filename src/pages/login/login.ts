@@ -158,14 +158,31 @@ export class LoginPage {
     account = account.toUpperCase();
     this.shared.getConstantsHttp().subscribe((shared) => {
     	this.shared.setConstants(shared);
-    	this.accountData.login(account, type);
-      if (!this.guest) {
-         let accountChain = this.accountData.getAccountChain();
-         let chainName = this.shared.getConstants()['chainProperties'][accountChain]['name'];
-         this.shared.emitChain(chainName, accountChain);
-      }
-      
-    	this.navCtrl.setRoot(HomePage);
+      if (type == "Account" && (account.substring(0, 4) != "NXT-" && account.substring(0, 6) != "ARDOR-" && account.substring(0, 6) != "IGNIS-" && account.substring(0, 4) != "BITS-" && account.substring(0, 5) != "AEUR-")) {
+      this.accountData.getAlias('ignis', account)
+        .subscribe(
+          alias => {
+            if (alias['errorDescription']) {
+              console.log(alias['errorDescription']);
+            } else {
+              this.accountData.login(alias['accountRS'], type);
+              if (!this.guest) {
+                 let accountChain = this.accountData.getAccountChain();
+                 let chainName = this.shared.getConstants()['chainProperties'][accountChain]['name'];
+                 this.shared.emitChain(chainName, accountChain);
+              }
+              this.navCtrl.setRoot(HomePage);
+            }
+          });
+      } else {
+        this.accountData.login(account, type);
+        if (!this.guest) {
+           let accountChain = this.accountData.getAccountChain();
+           let chainName = this.shared.getConstants()['chainProperties'][accountChain]['name'];
+           this.shared.emitChain(chainName, accountChain);
+        }
+        this.navCtrl.setRoot(HomePage);
+      }	
     });
   }
 

@@ -61,6 +61,13 @@ export class TransactionsProvider {
     return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=broadcastTransaction`, data, {headers: headers});
   }
 
+  startForging(passphrase: string): Observable<object> {
+    const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
+    let data = "secretPhrase=" + passphrase;
+    
+    return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=startForging`, data, {headers: headers});
+  }
+
   getTransaction(chain: number, fullHash: string): Observable<object> {
     // return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getTransaction&chain=${chain}&fullHash=${fullHash}`)
     //   .map((res:Response) => res.json())

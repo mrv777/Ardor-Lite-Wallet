@@ -99,13 +99,13 @@ export class AccountDataProvider {
           );
       }).catch((err) => {
           console.error('The device is not secured!!');
-      });;
+      });
   }
 
   login(password: string, loginType: string): void {
     if (loginType == "Account") {
-    	if (password.substring(0, 3) == "NXT") {
-	      password = password.replace("NXT","ARDOR");
+    	if (password.substring(0, 4) == "NXT-") {
+	      password = password.replace("NXT-","ARDOR-");
 	    }
     	this.ACCOUNT_ID = password;
       this.setAccountID(password);
@@ -526,6 +526,10 @@ export class AccountDataProvider {
       });
     }
     return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getBalance&chain=${chain}&account=${accountID}`);
+  }
+
+  getAlias(chain: string, alias: string): Observable<object> {
+    return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getAlias&chain=${chain}&aliasName=${alias}`);
   }
 
   getBalance(chain: number, accountID: string): Observable<object> {

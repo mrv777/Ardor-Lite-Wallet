@@ -11,7 +11,7 @@
 
   <form [formGroup]="leaseForm">
 	<ion-list *ngIf="status != 1">
-		<ion-item>
+		<ion-item *ngIf="!soloForge">
 			<ion-label stacked color="primary">{{ 'TO' | translate }} <canvas *ngIf="recipient != null && recipient != ''" class="idIcon" width="30" height="30" [attr.data-jdenticon-value]="recipient"></canvas></ion-label>
 			<ion-input [(ngModel)]="recipient" [disabled]="disableSend || disableRec" name="recipient" type="text" formControlName="recipientForm" (ngModelChange)="recipient = recipient.toUpperCase()">
    			</ion-input>
@@ -49,7 +49,8 @@
 
 	<ion-row responsive-sm>
 		<ion-col>
-			<button ion-button [disabled]="disableSend || !leaseForm.valid" (click)="onSend()" type="submit" block>{{ 'SEND' | translate }}</button>
+			<button ion-button *ngIf="!soloForge" [disabled]="disableSend || !leaseForm.valid" (click)="onSend()" type="submit" block>{{ 'SEND' | translate }}</button>
+			<button ion-button *ngIf="soloForge" [disabled]="disableSend || !leaseForm.valid" (click)="onSoloSend()" type="submit" block>{{ 'START' | translate }}</button>
 		</ion-col>
     </ion-row>
     <ion-row responsive-sm>
