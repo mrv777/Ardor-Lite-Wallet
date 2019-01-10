@@ -46,7 +46,7 @@
 					
 				</ion-item>
 				<ion-item>
-					<button ion-button color="light" (click)="generatePublicKey()" [disabled]="!password" block>{{ 'GENERATE_PUBLIC' | translate }}</button>
+					<button class="bigButton" ion-button color="light" (click)="generatePublicKey()" [disabled]="!password" block>{{ 'GENERATE_PUBLIC' | translate }}</button>
 				</ion-item>
 	    </ion-col>
 	  </ion-row>
@@ -58,6 +58,17 @@
 	      <span (click)="copyText(publicKey, 'Public Key')">{{publicKey}}</span>
 	    </ion-col>
 	  </ion-row>
+	  <ion-row>
+	    <ion-col col-3>
+	      {{ 'ALIASES' | translate }}: 
+	    </ion-col>
+	    <ion-col col-9 *ngIf="aliases != null && aliases.length != 0">
+	      <span *ngFor="let alias of aliases">{{alias.aliasName}}, </span>
+	    </ion-col>
+	    <ion-col col-9 *ngIf="aliases == null || aliases.length == 0">
+	      <span>{{ 'NO_ALIASES' | translate }}</span>
+	    </ion-col>
+	  </ion-row>
 	  <ion-row *ngIf="message && message != ''">
 	    <ion-col>
 	      Status: {{message}}
@@ -66,7 +77,7 @@
 	  <ion-row>
 	    <ion-col>
 	    	
-	      <button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+	      <button class="bigButton" ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
 	    </ion-col>
 	  </ion-row>
 	</ion-grid>

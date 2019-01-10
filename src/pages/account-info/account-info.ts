@@ -6,6 +6,7 @@ import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
+import { AliasesProvider } from '../../providers/aliases/aliases';
 
 @IonicPage()
 @Component({
@@ -26,8 +27,9 @@ export class AccountInfoPage {
   hasPassphrase: boolean = false;
 	darkMode: boolean = false;
 	loaded: boolean = false;
+  aliases: object;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private toastCtrl: ToastController, private barcodeScanner: BarcodeScanner, private faio: FingerprintAIO, private pinDialog: PinDialog, private clipboard: Clipboard, public platform: Platform, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private toastCtrl: ToastController, private barcodeScanner: BarcodeScanner, private faio: FingerprintAIO, private pinDialog: PinDialog, private clipboard: Clipboard, public platform: Platform, private alertCtrl: AlertController, public aliasesProvider: AliasesProvider) {
   }
 
   ionViewDidLoad() {
@@ -51,6 +53,11 @@ export class AccountInfoPage {
       }
     }
     this.accountID = this.accountData.getAccountID();
+    this.aliasesProvider.getAliases(this.accountID).subscribe((aliases) => {
+      if (aliases['aliases'] && aliases['aliases'].length > 0) {
+        this.aliases = aliases['aliases'];
+      }
+    });
     this.accountData.getAccount(this.accountID).subscribe((account) => {
       if (account['errorCode'] && !this.publicKey && !this.password) {
       	this.message = account['errorDescription'];

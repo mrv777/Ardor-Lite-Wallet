@@ -174,6 +174,11 @@ page-login {
         color: #fff;
     }
 
+    .error {
+        text-align: center;
+        color: red;
+    }
+
     @media(max-width: 1023px){
         #headerLogo {
             width: 192px;

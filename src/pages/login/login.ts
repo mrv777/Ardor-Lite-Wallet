@@ -29,6 +29,7 @@ export class LoginPage {
   accountsLoaded: boolean = false;
   loopIndex: number = 0;
   error: string;
+  loginError: string;
   language: string = "en";
   accountIcon: any;
   guest: boolean = false;
@@ -150,6 +151,7 @@ export class LoginPage {
   }
 
   onLogin(account: string, type: string = "Account") {
+    this.loginError = null;
     if (!this.platform.is('cordova')) {
       this.accountData.setGuestLogin();
       this.guest = true;
@@ -163,6 +165,11 @@ export class LoginPage {
         .subscribe(
           alias => {
             if (alias['errorDescription']) {
+              if (alias['errorDescription'] == 'Unknown alias') {
+                this.loginError = "Unknown Account or Alias";
+              } else {
+                this.loginError = alias['errorDescription'];
+              }
               console.log(alias['errorDescription']);
             } else {
               this.accountData.login(alias['accountRS'], type);

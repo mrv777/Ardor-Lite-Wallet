@@ -46,12 +46,14 @@ import { TransactionsProvider } from '../providers/transactions/transactions';
 import { SharedProvider } from '../providers/shared/shared';
 import { CurrenciesProvider } from '../providers/currencies/currencies';
 import { CoinExchangeProvider } from '../providers/coin-exchange/coin-exchange';
+import { AliasesProvider } from '../providers/aliases/aliases';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 import jdenticon from 'jdenticon';
+
 jdenticon.config = {
   replaceMode: "observe"
 };
@@ -116,7 +118,8 @@ jdenticon.config = {
     TransactionsProvider,
     SharedProvider,
     CurrenciesProvider,
-    CoinExchangeProvider
+    CoinExchangeProvider,
+    AliasesProvider
   ]
 })
 export class AppModule {}

@@ -96,6 +96,7 @@ export class NewAccountPage {
 	      {
 	        text: this.verifyString,
 	        handler: data => {
+            data.password = data.password.toLowerCase();
 	          if (data.password == word) {
 	            // Success
 	            this.closeModal();

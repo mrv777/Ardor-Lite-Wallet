@@ -14,7 +14,7 @@ page-account-info {
         box-shadow: none !important;
     }
 
-    .button {
+    .bigButton {
       width: 100%;
       background: #1162a1;
       background: -moz-linear-gradient(180deg, #1162a1 0%, #3a86c7 100%);
@@ -22,5 +22,9 @@ page-account-info {
       background: linear-gradient(180deg, #1162a1 0%,#3a86c7 100%);
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1162a1', endColorstr='#3a86c7',GradientType=1 );
       color: #fff;
+    }
+
+    .item-md.item-block .item-inner {
+      border: 0;
     }
 }

@@ -117,5 +117,8 @@
     "ACCOUNT_INFO": "Account Information",
     "GENERATE_PUBLIC": "Generate Public Key",
     "DESCRIPTION": "Description",
-    "ACCOUNT_NUMBER_ALIAS": "Account Number or Alias"
+    "ACCOUNT_NUMBER_ALIAS": "Account Number or Alias",
+    "ALIASES": "Aliases",
+    "ALIAS": "Alias",
+    "NO_ALIASES": "No Aliases"
 }
