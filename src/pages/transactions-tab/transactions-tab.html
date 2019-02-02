@@ -18,7 +18,7 @@
           &nbsp;&nbsp;
           <ion-icon *ngIf="transaction.recipientRS != accountID && transaction.recipientRS != null && !transaction.unconfirmed && contacts.indexOf(transaction.recipientRS) === -1 && !guest" class="addContact" (click)="addNewContact(transaction.recipientRS)" name="person-add"></ion-icon>
           <ion-icon *ngIf="transaction.senderRS != accountID && transaction.senderRS != null && !transaction.unconfirmed && contacts.indexOf(transaction.senderRS) === -1 && !guest" class="addContact" (click)="addNewContact(transaction.senderRS)" name="person-add"></ion-icon>
-          &nbsp;<a *ngIf="transaction.attachment != null && transaction.attachment.message != null" (click)="openModal('message',transaction.fullHash)"><ion-icon name="mail"></ion-icon></a>
+          &nbsp;<a *ngIf="transaction.attachment != null && (transaction.attachment.message != null || transaction.attachment.encryptedMessage != null)" (click)="openModal('message',transaction.fullHash)"><ion-icon name="mail"></ion-icon></a>
           <br />
           <span *ngIf="transaction.recipientRS != accountID && transaction.recipientRS != null && !transaction.unconfirmed">
             <span *ngIf="contacts.indexOf(transaction.recipientRS) != -1">{{contactNames[contacts.indexOf(transaction.recipientRS)]}}</span> 

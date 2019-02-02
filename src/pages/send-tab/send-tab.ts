@@ -180,16 +180,16 @@ export class SendTabPage {
       this.transactions.sendMoney(this.chain, recipient, convertedAmount, this.message, this.privateMsg)
       .subscribe(
         unsignedBytes => {
-          this.resultTxt = `Signing transaction and sending ${recipient} ${amountBig} ${chainName}`;
-          let attachment = null;
-          if (this.message && this.message != '') {
-            attachment = unsignedBytes['transactionJSON']['attachment'];
-          }
-          if (unsignedBytes['errorDescription']) {
+          if (unsignedBytes['errorDescription'] || !unsignedBytes['unsignedTransactionBytes']) {
               this.resultTxt = unsignedBytes['errorDescription'];
               this.disableSend = false;
               this.status = -1;
           } else {
+            this.resultTxt = `Signing transaction and sending ${recipient} ${amountBig} ${chainName}`;
+            let attachment = null;
+            if (this.message && this.message != '') {
+              attachment = unsignedBytes['transactionJSON']['attachment'];
+            }
             let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'sendMoney', { recipient: recipient, amountNQT: convertedAmount.toString() });
             if (signedTx != 'failed') {
               this.transactions.broadcastTransaction(signedTx, attachment)
