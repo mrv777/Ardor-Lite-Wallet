@@ -5,6 +5,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
 import { Subscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
 import * as Big from 'big.js';
 
@@ -40,6 +41,7 @@ export class SendTabPage {
   hasPassphrase: boolean = false;
   passwordType: string = 'password';
   privateMsg: boolean = false;
+  noContacts: string = 'No Saved Contacts';
 
   disableCurrency: boolean = false;
   currencyPlaceholder: string;
@@ -55,7 +57,7 @@ export class SendTabPage {
   subscriptionChain: Subscription;
   subscriptionCurrancy: Subscription;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, private pinDialog: PinDialog, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public currenciesProv: CurrenciesProvider, public platform: Platform, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, private pinDialog: PinDialog, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public currenciesProv: CurrenciesProvider, public platform: Platform, private alertCtrl: AlertController, public translate: TranslateService) {
   	this.sendForm = this.formBuilder.group({
       recipientForm: ['', Validators.required],
       amountForm: ['', Validators.required],
@@ -89,6 +91,9 @@ export class SendTabPage {
         });
       }
     }
+    this.translate.get('NO_SAVED_CONTACTS').subscribe((res: string) => {
+        this.noContacts = res;
+    });
     this.loadContacts();
     this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => {
       this.chain = sharedChain; 
@@ -230,7 +235,7 @@ export class SendTabPage {
       if (currentContacts != null) {
         this.contacts = currentContacts;
       } else {
-        this.contacts = [{ name:'No Saved Contacts',account:'' }];
+        this.contacts = [{ name:this.noContacts,account:'' }];
       }
     });
   }

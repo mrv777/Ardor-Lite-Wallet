@@ -120,5 +120,6 @@
     "ACCOUNT_NUMBER_ALIAS": "Account Number or Alias",
     "ALIASES": "Aliases",
     "ALIAS": "Alias",
-    "NO_ALIASES": "No Aliases"
+    "NO_ALIASES": "No Aliases",
+    "NO_SAVED_CONTACTS": "No Saved Contacts"
 }

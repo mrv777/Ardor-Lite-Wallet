@@ -10,26 +10,26 @@
 <ion-content padding [ngClass]="{'darkTheme' : (darkMode == true)}">
 	<ion-grid>
 	  <ion-row>
-	    <ion-col col-3>
+	    <ion-col col-4>
 	      {{ 'ACCOUNT' | translate }}:
 	    </ion-col>
-	    <ion-col col-9>
+	    <ion-col col-8>
 	      <span (click)="copyText(accountID, 'Account ID')">{{accountID}}</span>
 	    </ion-col>
 	  </ion-row>
 	  <ion-row *ngIf="accountname && accountname != ''">
-	    <ion-col col-3>
+	    <ion-col col-4>
 	      {{ 'NAME' | translate }}:
 	    </ion-col>
-	    <ion-col col-9>
+	    <ion-col col-8>
 	      <span>{{accountname}}</span>
 	    </ion-col>
 	  </ion-row>
 	  <ion-row *ngIf="accountDes && accountDes != ''">
-	    <ion-col col-3>
+	    <ion-col col-4>
 	      {{ 'DESCRIPTION' | translate }}:
 	    </ion-col>
-	    <ion-col col-9>
+	    <ion-col col-8>
 	      <span>{{accountDes}}</span>
 	    </ion-col>
 	  </ion-row>
@@ -51,21 +51,21 @@
 	    </ion-col>
 	  </ion-row>
 	  <ion-row *ngIf="publicKey && publicKey != ''">
-	    <ion-col col-3>
+	    <ion-col col-4>
 	      {{ 'PUBLIC_KEY' | translate }}: 
 	    </ion-col>
-	    <ion-col col-9>
+	    <ion-col col-8>
 	      <span (click)="copyText(publicKey, 'Public Key')">{{publicKey}}</span>
 	    </ion-col>
 	  </ion-row>
 	  <ion-row>
-	    <ion-col col-3>
+	    <ion-col col-4>
 	      {{ 'ALIASES' | translate }}: 
 	    </ion-col>
-	    <ion-col col-9 *ngIf="aliases != null && aliases.length != 0">
+	    <ion-col col-8 *ngIf="aliases != null && aliases.length != 0">
 	      <span *ngFor="let alias of aliases">{{alias.aliasName}}, </span>
 	    </ion-col>
-	    <ion-col col-9 *ngIf="aliases == null || aliases.length == 0">
+	    <ion-col col-8 *ngIf="aliases == null || aliases.length == 0">
 	      <span>{{ 'NO_ALIASES' | translate }}</span>
 	    </ion-col>
 	  </ion-row>

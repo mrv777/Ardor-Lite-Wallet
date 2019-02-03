@@ -20,6 +20,10 @@ page-guest-login {
         margin: 9px 9px 9px 4px;
     }
 
+    .item.item-md, .item.item-ios {
+        font-size: 1.15em;
+    }
+
     .failedBox {
         background-color: #f53d3d;
         color: white;

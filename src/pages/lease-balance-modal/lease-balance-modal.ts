@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, Select, ViewController, AlertContr
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 import * as bip39 from 'bip39';
 
@@ -34,13 +35,14 @@ export class LeaseBalanceModalPage {
   resultTxt: string = '';
   contacts: object[];
   disableRec: boolean = false;
+  noContacts: string = 'No Saved Contacts';
 
   soloForge: boolean = false;
   soloPassword: string;
 
   theme: string;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, private pinDialog: PinDialog, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public viewCtrl: ViewController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public navParams: NavParams, private barcodeScanner: BarcodeScanner, private formBuilder: FormBuilder, private faio: FingerprintAIO, private pinDialog: PinDialog, public sharedProvider: SharedProvider, public transactions: TransactionsProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public translate: TranslateService) {
   	this.leaseForm = this.formBuilder.group({
       recipientForm: ['', Validators.required],
       daysForm: ['', Validators.required],
@@ -65,6 +67,9 @@ export class LeaseBalanceModalPage {
     for (let i=45;i > 0; i--) {
     	this.daysArray.push(i);
     }
+    this.translate.get('NO_SAVED_CONTACTS').subscribe((res: string) => {
+        this.noContacts = res;
+    });
     this.guest = this.accountData.isGuestLogin();
     if (!this.guest) {
       this.hasPassphrase = this.accountData.hasSavedPassword();
@@ -184,7 +189,7 @@ export class LeaseBalanceModalPage {
       if (currentContacts != null) {
         this.contacts = currentContacts;
       } else {
-        this.contacts = [{ name:'No Saved Contacts',account:'' }];
+        this.contacts = [{ name:this.noContacts,account:'' }];
       }
     });
   }
