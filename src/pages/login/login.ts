@@ -120,7 +120,7 @@ export class LoginPage {
     this.accountData.getBalanceOnce(this.accounts[this.loopIndex]['chain'], this.accounts[this.loopIndex]['account'])
     .subscribe(
          account => {
-	      if (!account || !account['balanceNQT']) {
+	      if (!account || !account['unconfirmedBalanceNQT']) {
           this.error = "Error getting balance";
           this.accounts[this.loopIndex]['balance'] = 0;
           if (this.loopIndex == this.accounts.length-1) {
@@ -130,8 +130,8 @@ export class LoginPage {
             this.setBalances();
           }
 	      } else {
-	        if (account && account['balanceNQT']) {
-	          this.accounts[this.loopIndex]['balance'] = account['balanceNQT'];
+	        if (account && account['unconfirmedBalanceNQT']) {
+	          this.accounts[this.loopIndex]['balance'] = account['unconfirmedBalanceNQT'];
 	        } else {
 	          this.accounts[this.loopIndex]['balance'] = 0;
 	        }
@@ -221,15 +221,19 @@ export class LoginPage {
       let myModal = this.modalCtrl.create(FingerprintWizardPage);
 	    myModal.present();
 	    myModal.onDidDismiss(data => {
-	      this.setBalances();
+        if (data) {
+	        this.setBalances();
+        }
 	    });
     } else if (modal == 'guest') {    
       let myModal = this.modalCtrl.create(GuestLoginPage);
       myModal.present();
       myModal.onDidDismiss(data => {
-        this.accountData.setGuestLogin();
-        this.guest = true;
-        this.onLogin(data);
+        if (data) {
+          this.accountData.setGuestLogin();
+          this.guest = true;
+          this.onLogin(data);
+        }
       });
     } else if (modal == 'offlineTx') {
        let myModal = this.modalCtrl.create(SendOfflineTxPage);
@@ -238,7 +242,9 @@ export class LoginPage {
       let myModal = this.modalCtrl.create(NewAccountPage);
 	    myModal.present();
 	    myModal.onDidDismiss(data => {
-        this.onLogin(data);
+        if (data) {
+          this.onLogin(data);
+        }
 	    });
     }
   }

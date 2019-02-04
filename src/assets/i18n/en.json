@@ -121,5 +121,6 @@
     "ALIASES": "Aliases",
     "ALIAS": "Alias",
     "NO_ALIASES": "No Aliases",
-    "NO_SAVED_CONTACTS": "No Saved Contacts"
+    "NO_SAVED_CONTACTS": "No Saved Contacts",
+    "AVAILABLE": "Available"
 }

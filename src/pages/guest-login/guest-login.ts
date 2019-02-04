@@ -54,6 +54,10 @@ export class GuestLoginPage {
     this.node = this.nodeSelect;
   }
 
+  closeModalNoLogin() {
+    this.viewCtrl.dismiss();
+  }
+
   closeModal() {
   	this.accountData.setNode(this.node).then(() => {
       this.accountData.checkNode().subscribe(

@@ -65,7 +65,7 @@
 		<ion-fab left bottom #fab>
 		    <button ion-fab mini id="langFab"><ion-icon name="globe"></ion-icon></button>
 		    <ion-fab-list id="langFabList" side="top">
-		      <button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Español</ion-label></button>
+		      <button ion-fab [ngClass]="(language == 'es') ? 'currentLang' : ''" (click)="setLanguage('es',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label (click)="setLanguage('es',fab)">Español</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'ru') ? 'currentLang' : ''" (click)="setLanguage('ru',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Pусский</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'pt-PT') ? 'currentLang' : ''" (click)="setLanguage('pt-PT',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Português</ion-label></button>
 		    	<button ion-fab [ngClass]="(language == 'pl') ? 'currentLang' : ''" (click)="setLanguage('pl',fab)"><ion-icon name="chatboxes"></ion-icon><ion-label>Polskie</ion-label></button>

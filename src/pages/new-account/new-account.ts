@@ -135,6 +135,10 @@ export class NewAccountPage {
     );
   }
 
+  closeModalNoLogin() {
+    this.viewCtrl.dismiss();
+  }
+
   closeModal() {
   	if (this.secureDevice) {
   		this.accountData.saveSavedPassword(this.passphrase, this.accountID.toUpperCase(), this.accountName, 1, this.savePassphrase);

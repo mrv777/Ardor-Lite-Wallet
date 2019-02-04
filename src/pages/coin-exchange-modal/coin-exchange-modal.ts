@@ -131,7 +131,7 @@ export class CoinExchangeModalPage {
           this.accountData.getBalanceOnce(this.feeChainNumber, this.accountID)
           .subscribe(
             balance => {
-              this.balance = balance['balanceNQT']/this.feeChainDecimals;
+              this.balance = balance['unconfirmedBalanceNQT']/this.feeChainDecimals;
 
               if (this.balance < this.fee) {
                 this.disableExchange = true;

@@ -12,7 +12,7 @@
   <form>
 		<ion-list *ngIf="status != 1">
 			<ion-item>
-				<ion-label stacked color="primary">{{exchangeChain}} {{ 'QUANTITY' | translate }} (Available at {{orginalRate}}: {{max | number}})</ion-label>
+				<ion-label stacked color="primary">{{exchangeChain}} {{ 'QUANTITY' | translate }} ({{ 'AVAILABLE' | translate }} at {{orginalRate}}: {{max | number}})</ion-label>
 				<ion-input [(ngModel)]="quantity" name="quantity" type="number" max="{{max}}" (keyup)="updateExchangeQuantity($event)"></ion-input>
       </ion-item>
       <ion-item>

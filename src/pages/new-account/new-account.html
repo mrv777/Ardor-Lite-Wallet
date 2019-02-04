@@ -1,6 +1,11 @@
 <ion-header no-border [class]="blur">
 
   <ion-navbar>
+    <ion-buttons left>
+          <button ion-button clear icon-only (click)="closeModalNoLogin()">
+              <ion-icon name="arrow-round-back"></ion-icon>
+          </button>
+      </ion-buttons>
     <ion-title>{{ 'GENERATE' | translate }}</ion-title>
   </ion-navbar>
 

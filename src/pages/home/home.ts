@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, PopoverController } from 'ionic-angular';
+import { NavController, ModalController, PopoverController, MenuController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 import { TransactionsTabPage } from '../transactions-tab/transactions-tab';
@@ -46,12 +46,13 @@ export class HomePage {
   private receivePage = ReceiveTabPage;
   private sendPage = SendTabPage;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public shared: SharedProvider, public modalCtrl: ModalController, public popoverCtrl: PopoverController, public currenciesProv: CurrenciesProvider) {
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public shared: SharedProvider, private menu: MenuController, public modalCtrl: ModalController, public popoverCtrl: PopoverController, public currenciesProv: CurrenciesProvider) {
 
   }
 
   ionViewWillEnter() {
     if (this.accountData.hasLoggedIn()) {
+      this.menu.swipeEnable(true);
       this.guest = this.accountData.isGuestLogin();
       this.accountID = this.accountData.getAccountID();
       this.chain = this.shared.getChainOnce();
