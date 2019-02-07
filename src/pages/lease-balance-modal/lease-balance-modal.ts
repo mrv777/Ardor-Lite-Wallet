@@ -138,12 +138,29 @@ export class LeaseBalanceModalPage {
   }
 
   onSend() {
+    if ((this.recipient.substring(0, 3) != "NXT" && this.recipient.substring(0, 5) != "ARDOR" && this.recipient.substring(0, 5) != "IGNIS" && this.recipient.substring(0, 3) != "BITS" && this.recipient.substring(0, 4) != "AEUR") || this.recipient.length < 20 || this.recipient.length > 25) {
+       this.accountData.getAlias('ignis', this.recipient)
+        .subscribe(
+          alias => {
+            if (alias['errorDescription']) {
+              this.resultTxt = "Alias not found";
+              this.status = -1;
+            } else {
+              this.onSendAfterAliasCheck(alias['accountRS']);
+            }
+          });
+    } else {
+      this.onSendAfterAliasCheck(this.recipient);
+    }
+  }
+
+  onSendAfterAliasCheck(recipient:string) {
     if (this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) {
       this.disableSend = true;
-      this.resultTxt = `Attempting to send lease balance to ${this.recipient}`;
+      this.resultTxt = `Attempting to send lease balance to ${recipient}`;
       this.status = 0;
       this.accountData.setPublicKeyPassword(this.password);
-      this.transactions.leaseBalance(this.days, this.recipient)
+      this.transactions.leaseBalance(this.days, recipient)
       .subscribe(
         unsignedBytes => {
           if (unsignedBytes['errorDescription']) {
@@ -151,13 +168,13 @@ export class LeaseBalanceModalPage {
               this.disableSend = false;
               this.status = -1;
           } else {
-            let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'leaseBalance', { recipient: this.recipient, amountNQT: 0 });
+            let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'leaseBalance', { recipient: recipient, amountNQT: 0 });
             if (signedTx != 'failed') {
               this.transactions.broadcastTransaction(signedTx)
               .subscribe(
                 broadcastResults => {
                   if (broadcastResults['fullHash'] != null) {
-                    this.resultTxt = `Successfully leased balance to ${this.recipient}`;
+                    this.resultTxt = `Successfully leased balance to ${recipient}`;
                     this.status = 1;
                   } else {
                     this.resultTxt = 'Lease Failed';

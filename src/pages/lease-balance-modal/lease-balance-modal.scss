@@ -20,13 +20,18 @@ page-lease-balance-modal {
     }
 
     #qrIcon, #fingerIcon, #contactsIcon, #eyeIcon {
-        font-size: 1.5em;
+        font-size: 1.3em;
         margin: 0;
         padding: 0 0.4em;
         height: 100%;
         color: #777;
-        top: 13px;
-    	position: relative;
+        top: 8px;
+        position: relative;
+    }
+
+    .item-label-stacked .text-input-md, .item-label-floating .text-input-md, .item-label-stacked .text-input-ios, .item-label-floating .text-input-ios {
+        margin: 4px 0;
+        font-size: 12px;
     }
 
     ion-content {

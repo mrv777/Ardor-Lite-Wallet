@@ -159,4 +159,9 @@ page-home {
             display:none;
         }
     }
+
+    #navContainer {
+        top: 214px;
+        height: calc(100% - 214px);
+    }
 }

@@ -120,31 +120,31 @@ export class LoginPage {
     this.accountData.getBalanceOnce(this.accounts[this.loopIndex]['chain'], this.accounts[this.loopIndex]['account'])
     .subscribe(
          account => {
-	      if (!account || !account['unconfirmedBalanceNQT']) {
-          this.error = "Error getting balance";
-          this.accounts[this.loopIndex]['balance'] = 0;
-          if (this.loopIndex == this.accounts.length-1) {
-            this.accountsLoaded = true;
-          } else {
-            this.loopIndex = this.loopIndex + 1;
-            this.setBalances();
-          }
-	      } else {
-	        if (account && account['unconfirmedBalanceNQT']) {
-	          this.accounts[this.loopIndex]['balance'] = account['unconfirmedBalanceNQT'];
-	        } else {
-	          this.accounts[this.loopIndex]['balance'] = 0;
-	        }
-          let chainName = this.shared.getConstants()['chainProperties'][this.accounts[this.loopIndex]['chain']]['name'];
-          this.accounts[this.loopIndex]['chainName'] = chainName;
-	        if (this.loopIndex == this.accounts.length-1) {
-	          this.accountsLoaded = true;
-	        } else {
-	          this.loopIndex = this.loopIndex + 1;
-	          this.setBalances();
-	        }
-	      }
-	    },
+  	      if (!account || !account['unconfirmedBalanceNQT']) {
+            this.error = "Error getting balance";
+            this.accounts[this.loopIndex]['balance'] = 0;
+            if (this.loopIndex >= this.accounts.length-1) {
+              this.accountsLoaded = true;
+            } else {
+              this.loopIndex = this.loopIndex + 1;
+              this.setBalances();
+            }
+  	      } else {
+  	        if (account && account['unconfirmedBalanceNQT']) {
+  	          this.accounts[this.loopIndex]['balance'] = account['unconfirmedBalanceNQT'];
+  	        } else {
+  	          this.accounts[this.loopIndex]['balance'] = 0;
+  	        }
+            let chainName = this.shared.getConstants()['chainProperties'][this.accounts[this.loopIndex]['chain']]['name'];
+            this.accounts[this.loopIndex]['chainName'] = chainName;
+  	        if (this.loopIndex >= this.accounts.length-1) {
+  	          this.accountsLoaded = true;
+  	        } else {
+  	          this.loopIndex = this.loopIndex + 1;
+  	          this.setBalances();
+  	        }
+  	      }
+  	    },
          error => console.log("Error :: " + error)
      );
 
@@ -221,9 +221,8 @@ export class LoginPage {
       let myModal = this.modalCtrl.create(FingerprintWizardPage);
 	    myModal.present();
 	    myModal.onDidDismiss(data => {
-        if (data) {
-	        this.setBalances();
-        }
+        this.loopIndex = 0;
+	      this.setBalances();
 	    });
     } else if (modal == 'guest') {    
       let myModal = this.modalCtrl.create(GuestLoginPage);

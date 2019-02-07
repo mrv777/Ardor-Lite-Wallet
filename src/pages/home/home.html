@@ -5,7 +5,7 @@
     </button>
     <ion-title>
       <img id="chainLogo" src="assets/imgs/{{chainName | lowercase}}.png" />
-      <ion-select id="chainSelect" [(ngModel)]="chainName" name="chainName" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}" (ionChange)="changeChain()">
+      <ion-select id="chainSelect" [(ngModel)]="chainName" interface="action-sheet" name="chainName" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}" (ionChange)="changeChain()">
         <ion-option *ngFor="let arrayChain of chains" [value]="arrayChain">
           {{ arrayChain | uppercase }}
         </ion-option>
@@ -68,6 +68,6 @@
   </ion-grid>
 
   <ion-grid id="txTable">
-    <ion-nav #content [root]="rootPage" style="top: 210px"></ion-nav>
+    <ion-nav id="navContainer" #content [root]="rootPage"></ion-nav>
   </ion-grid>
 </ion-content>

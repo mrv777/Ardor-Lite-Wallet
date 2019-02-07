@@ -157,7 +157,7 @@ export class SendTabPage {
   }
 
   onSend() {
-    if (this.recipient.substring(0, 4) != "NXT-" && this.recipient.substring(0, 6) != "ARDOR-" && this.recipient.substring(0, 6) != "IGNIS-" && this.recipient.substring(0, 4) != "BITS-" && this.recipient.substring(0, 5) != "AEUR-") {
+    if ((this.recipient.substring(0, 3) != "NXT" && this.recipient.substring(0, 5) != "ARDOR" && this.recipient.substring(0, 5) != "IGNIS" && this.recipient.substring(0, 3) != "BITS" && this.recipient.substring(0, 4) != "AEUR") || this.recipient.length < 20 || this.recipient.length > 25) {
        this.accountData.getAlias('ignis', this.recipient)
         .subscribe(
           alias => {
