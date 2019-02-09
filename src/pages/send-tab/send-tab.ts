@@ -157,12 +157,12 @@ export class SendTabPage {
   }
 
   onSend() {
-    if ((this.recipient.substring(0, 3) != "NXT" && this.recipient.substring(0, 5) != "ARDOR" && this.recipient.substring(0, 5) != "IGNIS" && this.recipient.substring(0, 3) != "BITS" && this.recipient.substring(0, 4) != "AEUR") || this.recipient.length < 20 || this.recipient.length > 25) {
+    if ((this.recipient.substring(0, 3) != "NXT" && this.recipient.substring(0, 5) != "ARDOR" && this.recipient.substring(0, 5) != "IGNIS" && this.recipient.substring(0, 3) != "BITS" && this.recipient.substring(0, 4) != "AEUR") || this.recipient.length < 20 || this.recipient.length > 26) {
        this.accountData.getAlias('ignis', this.recipient)
         .subscribe(
           alias => {
             if (alias['errorDescription']) {
-              this.resultTxt = "Alias not found";
+              this.resultTxt = "Alias not found, or incorrect account address";
               this.status = -1;
             } else {
               this.onSendAfterAliasCheck(alias['accountRS']);
