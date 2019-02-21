@@ -2,41 +2,63 @@
 
   <ion-navbar>
     <ion-buttons left>
-          <button ion-button clear icon-only (click)="closeModalNoLogin()">
+          <button *ngIf="!verifyPage" ion-button clear icon-only (click)="closeModalNoLogin()">
+              <ion-icon name="arrow-round-back"></ion-icon>
+          </button>
+          <button *ngIf="verifyPage" ion-button clear icon-only (click)="this.verifyPage = false">
               <ion-icon name="arrow-round-back"></ion-icon>
           </button>
       </ion-buttons>
-    <ion-title>{{ 'GENERATE' | translate }}</ion-title>
+    <ion-title *ngIf="!verifyPage">{{ 'GENERATE' | translate }}</ion-title>
+    <ion-title *ngIf="verifyPage">{{ 'VERIFY_PASS' | translate }}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding [class]="blur">
-  <h6>{{ 'ACCOUNT' | translate }}:</h6> <h4 class="account">{{accountID}}</h4>
-  <h6>{{ 'PASSPHRASE' | translate }}:</h6> <div id="passphraseParent"><h4 class="passphrase">{{passphrase}}</h4></div>
-  <p class="secureLoc">{{ 'SECURE_LOCATION' | translate }} <br />
-  <span class="cannotRecover">{{ 'CANNOT_RECOVER' | translate }}</span></p>
-  <form>
-	<ion-list no-lines *ngIf="secureDevice">
-		<ion-item>
-		    <ion-label>{{ 'SAVE_TO_DEVICE' | translate }}</ion-label>
-		    <ion-checkbox [(ngModel)]="savePassphrase" name="savePassphrase"></ion-checkbox>
-		</ion-item>	
-    <ion-item *ngIf="savePassphrase && !fingerAvailable && !pin">
-      {{ 'NO_PIN_SET' | translate }}.
-      <button ion-button (click)="setPin()" type="submit" block>{{ 'SET_PIN' | translate }}</button>
-    </ion-item>
-		<ion-item>
-			<ion-input [(ngModel)]="accountName" name="accountName" type="text" required placeholder="{{ 'CHOOSE_ACCOUNT_NAME' | translate }}">
-			</ion-input>
-		</ion-item>
-	</ion-list>
-  </form>
-  <ion-row responsive-sm>
-    <ion-col>
-      <button ion-button id="closeButton" [disabled]="savePassphrase && !fingerAvailable && !pin" (click)="presentPrompt()" block>{{ 'DONE' | translate }}</button>
-    </ion-col>
-  </ion-row>
+<ion-content padding>
+  <ng-container *ngIf="!verifyPage">
+    <h6>{{ 'ACCOUNT' | translate }}:</h6> <h4 class="account">{{accountID}}</h4>
+    <h6>{{ 'PASSPHRASE' | translate }}:</h6> <div id="passphraseParent"><h4 class="passphrase">{{passphrase}}</h4></div>
+    <p class="secureLoc">{{ 'SECURE_LOCATION' | translate }} <br />
+    <span class="cannotRecover">{{ 'CANNOT_RECOVER' | translate }}</span></p>
+    <form>
+  	<ion-list no-lines *ngIf="secureDevice">
+  		<ion-item>
+  		    <ion-label>{{ 'SAVE_TO_DEVICE' | translate }}</ion-label>
+  		    <ion-checkbox [(ngModel)]="savePassphrase" name="savePassphrase"></ion-checkbox>
+  		</ion-item>	
+      <ion-item *ngIf="savePassphrase && !fingerAvailable && !pin">
+        {{ 'NO_PIN_SET' | translate }}.
+        <button ion-button (click)="setPin()" type="submit" block>{{ 'SET_PIN' | translate }}</button>
+      </ion-item>
+  		<ion-item>
+  			<ion-input [(ngModel)]="accountName" name="accountName" type="text" required placeholder="{{ 'CHOOSE_ACCOUNT_NAME' | translate }}">
+  			</ion-input>
+  		</ion-item>
+  	</ion-list>
+    </form>
+    <ion-row responsive-sm>
+      <ion-col>
+        <button ion-button id="closeButton" [disabled]="savePassphrase && !fingerAvailable && !pin" (click)="verifyPassphrase()" block>{{ 'DONE' | translate }}</button>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+
+  <ng-container *ngIf="verifyPage">
+    <p>{{ 'VERIFY_WORDS' | translate }}
+    <h5 id="verifyPass" *ngIf="verifyPass">
+      <ng-container *ngFor="let word of verifyPass; index as i">
+        <span class="word" (click)="removeWord(i)">{{word}}</span>
+      </ng-container>
+    </h5>
+    <hr />
+    <h4 *ngIf="shuffledPass.length > 0">Word Pool</h4>
+    <h6 id="shuffledPass">
+      <ng-container *ngFor="let word of shuffledPass; index as i">
+        <span class="word" (click)="addWordToVerifyArray(i)">{{word}}</span>
+      </ng-container>
+    </h6>
+  </ng-container>
 </ion-content>
 

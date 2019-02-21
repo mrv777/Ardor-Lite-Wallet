@@ -97,6 +97,7 @@
     "VERIFY": "Verify",
     "VERIFY_PASS": "Verify Passphrase",
     "VERIFY_WORD_NUMBER": "To verify you have saved your passphrase correctly, please enter word number:",
+    "VERIFY_WORDS": "Please verify your passphrase",
     "TRY_DIFFERENT": "Try a different node",
     "NO_CORDOVA": "Account saving only works on mobile devices with the device secured",
     "ALL_TRADES": "All Trades",
@@ -122,5 +123,6 @@
     "ALIAS": "Alias",
     "NO_ALIASES": "No Aliases",
     "NO_SAVED_CONTACTS": "No Saved Contacts",
-    "AVAILABLE": "Available"
+    "AVAILABLE": "Available",
+    "SUCCESS_SEND": "Successfully sent {{recipient}} {{amountBig}} {{chainName}}"
 }

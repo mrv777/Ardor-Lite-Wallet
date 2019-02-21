@@ -23,9 +23,20 @@ page-new-account {
     	margin: 9px 9px 9px 4px;
     }
 
-    .blur {
-        filter: blur(4px);
+    .word {
+        background-color: #fff;
+        border-radius: 3px;
+        color: #000;
+        padding: 5px;
     }
+
+    #shuffledPass, #verifyPass {
+        line-height: 40px;
+    }
+
+    // .blur {
+    //     filter: blur(4px);
+    // }
 
     // .secureLoc {
     //     color: rgba(255, 255, 255, 0.8)
@@ -37,7 +48,7 @@ page-new-account {
         font-size: 1.5rem;
     }
 
-    p, h4, h6 {
+    p, h4, h5, h6 {
     	text-align: center;
     }
 

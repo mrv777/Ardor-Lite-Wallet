@@ -1,4 +1,10 @@
 {
+    "AVAILABLE": "Disponible",
+    "ACCOUNT_NUMBER_ALIAS": "N\u00famero de Cuenta o Alias",
+    "ALIASES": "Alias",
+    "ALIAS": "Alias",
+    "NO_ALIASES": "No Se Encuentran Alias",
+    "NO_SAVED_CONTACTS": "No Hay Contactos Guardados",
     "LOGIN": "Iniciar Sesi\u00f3n",
     "LOGOUT": "Cerrar Sesi\u00f3n",
     "CONTACTS": "Contactos",

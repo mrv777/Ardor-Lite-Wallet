@@ -24,12 +24,16 @@ export class NewAccountPage {
   pin: string;
   secureDevice: boolean = false;
 
+  // Translation variables
   verifyPassString: string;
   verifyString: string;
   cancelString: string;
   setPinString: string;
   okString: string;
-  verifyWordString: string;
+
+  verifyPage: boolean = false;
+  verifyPass: string[];
+  shuffledPass: string[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private alertCtrl: AlertController, public platform: Platform, private faio: FingerprintAIO, private pinDialog: PinDialog, public translate: TranslateService) {
   }
@@ -50,9 +54,6 @@ export class NewAccountPage {
     this.translate.get('OK').subscribe((res: string) => {
         this.okString = res;
     });
-    this.translate.get('VERIFY_WORD_NUMBER').subscribe((res: string) => {
-        this.verifyWordString = res;
-    });
 
   	if (this.platform.is('cordova')) {
   		this.secureDevice = this.accountData.isDeviceSecure();
@@ -68,53 +69,34 @@ export class NewAccountPage {
     this.accountID = this.accountData.convertPasswordToAccount(this.passphrase);
   }
 
-  presentPrompt() {
-  	this.blur = 'blur';
-  	let words = this.passphrase.split(" ");
-  	let randomNum = Math.floor(Math.random() * 12);
-  	let word = words.splice(randomNum, 1);
-  	randomNum++;
-  	//let random = words.sort(() => .5 - Math.random()).slice(0,4)
-	  let alert = this.alertCtrl.create({
-	    title: this.verifyPassString,
-	    message: this.verifyWordString + randomNum,
-	    inputs: [
-	      {
-	        name: 'password',
-	        placeholder: '',
-	        type: 'text'
-	      }
-	    ],
-	    buttons: [
-	      {
-	        text: this.cancelString,
-	        role: 'cancel',
-	        handler: data => {
-	          console.log('Cancel clicked');
-	        }
-	      },
-	      {
-	        text: this.verifyString,
-	        handler: data => {
-            data.password = data.password.toLowerCase();
-	          if (data.password == word) {
-	            // Success
-	            this.closeModal();
-	            return true;
-	          } else {
-	            // invalid passphrase
-	            this.presentMessage("Incorrect Word");
-	            return true;
-	          }
-	        }
-	      }
-	    ]
-	  });
-	  alert.present();
-	  alert.onDidDismiss(data => {
-	    this.blur = '';
-	  });
-	}
+  verifyPassphrase() {
+    this.verifyPass = [];
+    this.verifyPage = true;
+    let fakePassphrase = bip39.generateMnemonic();
+    let passphraseWords = fakePassphrase.split(" ").slice(0,6).concat(this.passphrase.split(" ").slice());
+    this.shuffledPass = this.shuffle(passphraseWords);
+  }
+
+  addWordToVerifyArray(num: number) {
+    if (this.verifyPass.length < 12) {
+      this.verifyPass.push(this.shuffledPass.splice(num, 1)[0]);
+      if (this.verifyPass.length >= 12) {
+        this.checkPass();
+      }
+    }
+  }
+
+  removeWord(num: number) {
+    this.shuffledPass.push(this.verifyPass.splice(num, 1)[0]);
+  }
+
+  checkPass() {
+    if (this.verifyPass.join(" ") == this.passphrase) {
+      this.closeModal();
+    } else {
+      this.presentMessage("Incorrect Passphrase");
+    }
+  }
 
 	presentMessage(msg: string) {
 	  let alert = this.alertCtrl.create({
@@ -123,6 +105,32 @@ export class NewAccountPage {
 	  });
 	  alert.present();
 	}
+
+  /**
+   * Randomly shuffle an array
+   * https://stackoverflow.com/a/2450976/1293256
+   * @param  {Array} array The array to shuffle
+   * @return {String}      The first item in the shuffled array
+   */
+  shuffle(array) {
+    var currentIndex = array.length;
+    var temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  };
+
 
 	setPin() {
     this.pinDialog.prompt('Please enter a pin that will be used to retrieve your saved passphrase', this.setPinString, [this.okString, this.cancelString])

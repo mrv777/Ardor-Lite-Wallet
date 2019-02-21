@@ -42,6 +42,7 @@ export class SendTabPage {
   passwordType: string = 'password';
   privateMsg: boolean = false;
   noContacts: string = 'No Saved Contacts';
+  successSend: string = 'Successfully Sent';
 
   disableCurrency: boolean = false;
   currencyPlaceholder: string;
@@ -157,7 +158,7 @@ export class SendTabPage {
   }
 
   onSend() {
-    if ((this.recipient.substring(0, 3) != "NXT" && this.recipient.substring(0, 5) != "ARDOR" && this.recipient.substring(0, 5) != "IGNIS" && this.recipient.substring(0, 3) != "BITS" && this.recipient.substring(0, 4) != "AEUR") || this.recipient.length < 20 || this.recipient.length > 26) {
+    if ((this.recipient.substring(0, 3) != "NXT" && this.recipient.substring(0, 5) != "ARDOR" && this.recipient.substring(0, 5) != "IGNIS" && this.recipient.substring(0, 4) != "BITS" && this.recipient.substring(0, 4) != "AEUR") || this.recipient.length < 20 || this.recipient.length > 26) {
        this.accountData.getAlias('ignis', this.recipient)
         .subscribe(
           alias => {
@@ -202,9 +203,12 @@ export class SendTabPage {
                 broadcastResults => {
                   console.log(broadcastResults);
                   if (broadcastResults['fullHash'] != null) {
-                    // this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
-                    this.resultTxt = `Successfully sent ${recipient} ${amountBig} ${chainName}`;
-                    this.status = 1;
+                    this.translate.get('SUCCESS_SEND', {recipient: recipient, amountBig: amountBig, chainName: chainName}).subscribe((res: string) => {
+                        this.successSend = res;
+                        // this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
+                        this.resultTxt = this.successSend;
+                        this.status = 1;
+                    });
                   } else {
                     this.resultTxt = `Send Failed - ${broadcastResults['errorDescription']}`;
                     this.status = -1;

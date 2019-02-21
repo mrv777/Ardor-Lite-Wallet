@@ -545,4 +545,8 @@ export class AccountDataProvider {
         .catch((error:any) => Observable.throw(error.json().error|| 'Server Error'));
     });
   }
+
+  generateToken(message: string, password: string): string {
+    return ardorjs.generateToken(message, password);
+  }
 }
