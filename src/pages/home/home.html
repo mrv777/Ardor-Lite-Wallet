@@ -28,7 +28,7 @@
       <ion-col>
         <div *ngIf="balance != null">
           <h5 id="balance">{{ 'BALANCE' | translate }}
-            <ion-select id="currancySelect" [(ngModel)]="currency" name="currency" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}" (ionChange)="changeCurrency()">
+            <ion-select id="currancySelect" [(ngModel)]="currency" interface="action-sheet" name="currency" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}" (ionChange)="changeCurrency()">
               <ion-option *ngFor="let arrayCurrency of currencies" [value]="arrayCurrency">
                 {{ arrayCurrency | uppercase }}
               </ion-option>

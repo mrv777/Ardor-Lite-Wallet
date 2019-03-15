@@ -157,6 +157,30 @@ export class SendTabPage {
     }
   }
 
+  presentConfirm() {
+    let chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
+    let alert = this.alertCtrl.create({
+      title: 'Confirm transfer',
+      message: `Please confirm you want to send <b>${this.amount} ${chainName}</b><br />to<br /><b>${this.recipient}</b>.<br/><br/><b>This cannot be reversed.</b>`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Send',
+          handler: () => {
+            this.onSend();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   onSend() {
     if ((this.recipient.substring(0, 3) != "NXT" && this.recipient.substring(0, 5) != "ARDOR" && this.recipient.substring(0, 5) != "IGNIS" && this.recipient.substring(0, 4) != "BITS" && this.recipient.substring(0, 4) != "AEUR") || this.recipient.length < 20 || this.recipient.length > 26) {
        this.accountData.getAlias('ignis', this.recipient)
