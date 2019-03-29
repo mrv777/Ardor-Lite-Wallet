@@ -27,7 +27,7 @@
     </ion-item>
     <ion-item>
 	    <ion-label>{{ 'DEFAULY_CURRENCY' | translate }}</ion-label>
-	    <ion-select class="chainSelect" [(ngModel)]="currency" name="currency" (ionChange)="setCurrency()">
+	    <ion-select class="chainSelect" interface="action-sheet" [(ngModel)]="currency" name="currency" (ionChange)="setCurrency()">
 	      <ion-option *ngFor="let arrayCurrency of currencies" [value]="arrayCurrency">
 	        {{ arrayCurrency | uppercase }}
 	      </ion-option>

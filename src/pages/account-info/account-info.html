@@ -14,7 +14,7 @@
 	      {{ 'ACCOUNT' | translate }}:
 	    </ion-col>
 	    <ion-col col-8>
-	      <span (click)="copyText(accountID, 'Account ID')">{{accountID}}</span>
+	      <span (click)="copyText(accountID, 'Account ID')">{{accountID}} <ion-icon name="copy"></ion-icon></span>
 	    </ion-col>
 	  </ion-row>
 	  <ion-row *ngIf="accountname && accountname != ''">
@@ -55,7 +55,7 @@
 	      {{ 'PUBLIC_KEY' | translate }}: 
 	    </ion-col>
 	    <ion-col col-8>
-	      <span (click)="copyText(publicKey, 'Public Key')">{{publicKey}}</span>
+	      <span (click)="copyText(publicKey, 'Public Key')">{{publicKey}} <ion-icon name="copy"></ion-icon></span>
 	    </ion-col>
 	  </ion-row>
 	  <ion-row>

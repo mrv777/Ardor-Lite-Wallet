@@ -21,6 +21,8 @@ export class HomePage {
   guest: boolean = false;
   accountID: string;
   balance: object;
+  balanceFirst: string;
+  balanceSecond: string;
   chain: number = 1;
   chainName: string = 'ARDR';
   chains: string[] = [];
@@ -35,9 +37,9 @@ export class HomePage {
   price: number = 0;
   change: number = 0;
   currency: string = 'USD';
-  currencies: string[] = ['BTC','ETH','USD','EUR','CNY','AUD','KRW'];
+  currencies: string[] = ['BTC','ETH','USD','EUR','CNY','KRW','AUD'];
   symbol: string = '$';
-  currencySymbols: string[] = ['฿','Ξ','$','€','¥','A$'];
+  currencySymbols: string[] = ['฿','Ξ','$','€','¥','₩','A$'];
 
   subscriptionBalance;
 
@@ -88,6 +90,14 @@ export class HomePage {
     }
   	this.subscriptionBalance = this.accountData.getBalance(this.chain, this.accountID).subscribe((balance) => {
 	  	this.balance = balance;
+      if (balance && balance['unconfirmedBalanceNQT']) {
+        let balanceConverted = balance['unconfirmedBalanceNQT']/this.decimals;
+        this.balanceFirst = balanceConverted.toString().split(".")[0]
+        this.balanceSecond = balanceConverted.toString().split(".")[1]
+      } else {
+        this.balanceFirst = '0';
+        this.balanceSecond = '0';
+      }
 	  });
   }
 

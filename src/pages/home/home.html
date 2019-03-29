@@ -35,7 +35,7 @@
             </ion-select>
           </h5>
           <h4 *ngIf="balance.unconfirmedBalanceNQT != null">
-            <b>{{balance.unconfirmedBalanceNQT/decimals | number : '1.0-8'}}</b> <span class="lighterText smallerText"><br />{{chainName}}</span>
+            <b>{{balanceFirst | number : '1.0-0'}}.<sub>{{balanceSecond}}</sub></b> <span class="lighterText smallerText"><br />{{chainName}}</span>
           </h4>
           <h4 *ngIf="balance.unconfirmedBalanceNQT == null"><b>0</b> <span class="lighterText smallerText"><br />{{chainName}}</span></h4>
 

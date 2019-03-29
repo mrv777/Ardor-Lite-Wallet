@@ -13,7 +13,7 @@ export class AccountSettingsPage {
   guest: boolean = false;
   darkMode: boolean = false;
   currency: string = 'USD';
-  currencies: string[] = ['BTC','ETH','USD','EUR','CNY','AUD'];
+  currencies: string[] = ['BTC','ETH','USD','EUR','CNY','KRW','AUD'];
   chains: string[] = [];
   chainNumbers: number[] = [];
   chainName: string = 'ARDR';
