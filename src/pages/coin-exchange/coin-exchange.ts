@@ -112,7 +112,7 @@ export class CoinExchangePage {
          for (let i=0;i < this.trades.length; i++) {
           this.trades[i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.trades[i]['timestamp'])*1000);
           this.trades[i]['price'] = parseFloat((1/this.trades[i]['exchangeRate']).toFixed(8));
-          this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.decimals;
+          this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.exchangeDecimals;
         }
 
         this.trades.sort(function(b,a) {return (a['date'] > b['date']) ? 1 : ((b['date'] > a['date']) ? -1 : 0);} ); 
@@ -128,7 +128,7 @@ export class CoinExchangePage {
         for (let i=0;i < this.trades.length; i++) {
           this.trades[i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.trades[i]['timestamp'])*1000);
           this.trades[i]['price'] = parseFloat((1/this.trades[i]['exchangeRate']).toFixed(8));
-          this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.decimals;
+          this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.exchangeDecimals;
         }
 
         this.trades.sort(function(b,a) {return (a['date'] > b['date']) ? 1 : ((b['date'] > a['date']) ? -1 : 0);} ); 
@@ -220,7 +220,7 @@ export class CoinExchangePage {
   		    
   		    dataTemp.push([this.trades[i]['date'].getTime(), this.trades[i]['price'], this.trades[i]['price'], this.trades[i]['price'], this.trades[i]['price']]);
   		    
-  		    this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.decimals;
+  		    this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.exchangeDecimals;
   		    //this.trades[i]['quantity'] = (parseFloat(this.trades[i]['quantityQNT'])/this.decimals)/(1/this.trades[i]['exchangeRate']);
   		    dataVolume.push([this.trades[i]['date'].getTime(), parseFloat(this.trades[i]['quantity'].toFixed(8))]);
     		}

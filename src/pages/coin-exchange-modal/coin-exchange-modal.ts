@@ -152,13 +152,13 @@ export class CoinExchangeModalPage {
       if (this.type == "Buy") {
         txChain = this.chain;
         txExchangeChain = this.exchangeChain;
-        txRate = this.rate*this.chainDecimals;
-        txQuantity = this.quantity*this.exchangeDecimals;
+        txRate = (this.rate*this.chainDecimals).toFixed(0);
+        txQuantity = (this.quantity*this.exchangeDecimals).toFixed(0);
       } else {
         txChain = this.exchangeChain;
         txExchangeChain = this.chain;
         txRate = ((1/this.rate)*this.exchangeDecimals).toFixed(0);
-        txQuantity = this.exchangeQuantity*this.chainDecimals;
+        txQuantity = (this.exchangeQuantity*this.chainDecimals).toFixed(0);
       }
       this.transactionsProvider.exchangeCoins(txChain, txExchangeChain, txRate, txQuantity)
         .subscribe(
