@@ -26,6 +26,7 @@ export class CoinExchangeModalPage {
 
   accountID: string;
   balance: Big;
+  balanceFee: Big;
   chain: string;
   chainNumber: number;
   exchangeChain: string;
@@ -100,6 +101,21 @@ export class CoinExchangeModalPage {
   		    this.exchangeChainNumber = this.chainNumbers[this.chains.indexOf(this.exchangeChain)];
           this.chainDecimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.chainNumber]['decimals']);
           this.exchangeDecimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.exchangeChainNumber]['decimals']);
+
+          let sellChain; let sellDecimals;
+          if (this.type == "Buy") {
+            sellChain = this.chain;
+            sellDecimals = this.chainDecimals;
+          } else {
+            sellChain = this.exchangeChain;
+            sellDecimals = this.exchangeDecimals;
+          }
+          this.accountData.getBalanceOnce(sellChain, this.accountID)
+          .subscribe(
+            balance => {
+              this.balance = balance['unconfirmedBalanceNQT']/sellDecimals;
+            }
+          );
           
 
           /* Calculate fee for exchange */
@@ -131,9 +147,9 @@ export class CoinExchangeModalPage {
           this.accountData.getBalanceOnce(this.feeChainNumber, this.accountID)
           .subscribe(
             balance => {
-              this.balance = balance['unconfirmedBalanceNQT']/this.feeChainDecimals;
+              this.balanceFee = balance['unconfirmedBalanceNQT']/this.feeChainDecimals;
 
-              if (this.balance < this.fee) {
+              if (this.balanceFee < this.fee) {
                 this.disableExchange = true;
                 this.resultTxt = `Not enough ${this.feeChain} to cover the fee`;
               }
@@ -285,7 +301,7 @@ export class CoinExchangeModalPage {
   }
 
   openBarcodeScannerPassword(password: string) {
-  	this.barcodeScanner.scan().then((barcodeData) => {
+  	this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
      	this.password = barcodeData['text'];
     }, (err) => {
         // An error occurred

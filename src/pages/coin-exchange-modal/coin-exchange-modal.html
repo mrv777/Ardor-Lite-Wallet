@@ -12,19 +12,19 @@
   <form>
 		<ion-list *ngIf="status != 1">
 			<ion-item>
-				<ion-label stacked color="primary">{{exchangeChain}} {{ 'QUANTITY' | translate }} ({{ 'AVAILABLE' | translate }} at {{orginalRate}}: {{max | number}})</ion-label>
+				<ion-label stacked color="primary">{{exchangeChain}} {{ 'QUANTITY' | translate }} <span *ngIf="type == 'Sell'">({{ 'BALANCE' | translate }}: {{balance}})</span></ion-label>
 				<ion-input [(ngModel)]="quantity" name="quantity" type="number" max="{{max}}" (keyup)="updateExchangeQuantity($event)"></ion-input>
       </ion-item>
       <ion-item>
-				<ion-label stacked color="primary">{{ 'RATE' | translate }}</ion-label>
+				<ion-label stacked color="primary">{{ 'RATE' | translate }} ({{ 'AVAILABLE' | translate }} at {{orginalRate}}: {{max | number}})</ion-label>
 				<ion-input [(ngModel)]="rate" name="rate" type="number"></ion-input>
       </ion-item>
       <ion-item>
-				<ion-label stacked color="primary">{{ 'QUANTITY_OF' | translate }} {{chain}}</ion-label>
+				<ion-label stacked color="primary">{{ 'QUANTITY_OF' | translate }} {{chain}} <span *ngIf="type == 'Buy'">({{ 'BALANCE' | translate }}: {{balance}})</span></ion-label>
 				<ion-input [(ngModel)]="exchangeQuantity" name="exchangeQuantity" type="number" (keyup)="updateExchangeQuantityExchange($event)"></ion-input>
       </ion-item>
       <ion-item>
-				<ion-label stacked color="primary">{{ 'FEE' | translate }} ({{feeChain}} {{ 'BALANCE' | translate }}: {{balance}})</ion-label>
+				<ion-label stacked color="primary">{{ 'FEE' | translate }} ({{feeChain}} {{ 'BALANCE' | translate }}: {{balanceFee}})</ion-label>
 				<ion-input [(ngModel)]="fee" name="exchangeFee" disabled type="text"></ion-input>
       </ion-item>
       <ion-item>

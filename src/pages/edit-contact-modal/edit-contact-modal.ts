@@ -67,7 +67,7 @@ export class EditContactModalPage {
   }
 
   openBarcodeScannerAccount() {
-    this.barcodeScanner.scan().then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
       this.account = barcodeData['text'];
     }, (err) => {
         // An error occurred

@@ -312,7 +312,7 @@ export class SendTabPage {
   }
 
   openBarcodeScanner() {
-    this.barcodeScanner.scan().then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
       this.recipient = barcodeData['text'];
     }, (err) => {
         // An error occurred
@@ -320,7 +320,7 @@ export class SendTabPage {
   }
 
   openBarcodeScannerPassword(password: string) {
-  	this.barcodeScanner.scan().then((barcodeData) => {
+  	this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
      	this.password = barcodeData['text'];
     }, (err) => {
         // An error occurred

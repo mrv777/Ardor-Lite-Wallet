@@ -44,7 +44,7 @@ export class SendOfflineTxPage {
   }
 
   openBarcodeScanner() {
-    this.barcodeScanner.scan().then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
       this.tx = barcodeData['text'];
     }, (err) => {
         // An error occurred
