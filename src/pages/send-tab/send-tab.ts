@@ -43,6 +43,11 @@ export class SendTabPage {
   privateMsg: boolean = false;
   noContacts: string = 'No Saved Contacts';
   successSend: string = 'Successfully Sent';
+  incorrectPass: string = 'Incorrect Passphrase';
+  unknownAccount: string = 'Alias not found, or incorrect account address';
+  enterPin: string = 'Enter your PIN';
+  verifyPin: string = 'Verify your PIN';
+  qrText: string = 'Place QR code inside the scan area';
 
   disableCurrency: boolean = false;
   currencyPlaceholder: string;
@@ -92,9 +97,27 @@ export class SendTabPage {
         });
       }
     }
+
     this.translate.get('NO_SAVED_CONTACTS').subscribe((res: string) => {
         this.noContacts = res;
     });
+    this.translate.get('INCORRECT_PASS').subscribe((res: string) => {
+        this.incorrectPass = res;
+    });
+    this.translate.get('UNKNOWN_ALIAS_ADDRESS').subscribe((res: string) => {
+        this.unknownAccount = res;
+    });
+    this.translate.get('ENTER_PIN').subscribe((res: string) => {
+        this.enterPin = res;
+    });
+    this.translate.get('VERIFY_PIN').subscribe((res: string) => {
+        this.verifyPin = res;
+    });
+    this.translate.get('QR_SCAN').subscribe((res: string) => {
+        this.qrText = res;
+    });
+
+
     this.loadContacts();
     this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => {
       this.chain = sharedChain; 
@@ -187,7 +210,7 @@ export class SendTabPage {
         .subscribe(
           alias => {
             if (alias['errorDescription']) {
-              this.resultTxt = "Alias not found, or incorrect account address";
+              this.resultTxt = this.unknownAccount;
               this.status = -1;
             } else {
               this.onSendAfterAliasCheck(alias['accountRS']);
@@ -249,7 +272,7 @@ export class SendTabPage {
         }
       );
     } else {
-      this.resultTxt = "Incorrect Passphrase";
+      this.resultTxt = this.incorrectPass;
       this.status = -1;
     }
   }
@@ -295,7 +318,7 @@ export class SendTabPage {
   }
 
   showPin() {
-    this.pinDialog.prompt('Enter your PIN', 'Verify PIN', ['OK', 'Cancel'])
+    this.pinDialog.prompt(this.enterPin, this.verifyPin, ['OK', 'Cancel'])
     .then(
       (result: any) => {
         if (result.buttonIndex == 1) {
@@ -312,7 +335,7 @@ export class SendTabPage {
   }
 
   openBarcodeScanner() {
-    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
       this.recipient = barcodeData['text'];
     }, (err) => {
         // An error occurred
@@ -320,7 +343,7 @@ export class SendTabPage {
   }
 
   openBarcodeScannerPassword(password: string) {
-  	this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+  	this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
      	this.password = barcodeData['text'];
     }, (err) => {
         // An error occurred

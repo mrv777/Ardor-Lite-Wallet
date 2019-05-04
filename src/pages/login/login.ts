@@ -36,6 +36,10 @@ export class LoginPage {
   loading: boolean = true;
   firstTimeLoading: boolean = false;
 
+  qrText: string = 'Place QR code inside the scan area';
+  unknownAccount: string = 'Alias not found, or incorrect account address';
+  notSecure: string = 'Account importing only works on mobile devices with the device secured';
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public shared: SharedProvider, public accountData: AccountDataProvider, private barcodeScanner: BarcodeScanner, public modalCtrl: ModalController, public platform: Platform, private menu: MenuController, public translate: TranslateService, private alertCtrl: AlertController) {
 
   }
@@ -65,6 +69,16 @@ export class LoginPage {
         });
       }
 
+      this.translate.get('QR_SCAN').subscribe((res: string) => {
+        this.qrText = res;
+      });
+      this.translate.get('UNKNOWN_ALIAS_ADDRESS').subscribe((res: string) => {
+        this.unknownAccount = res;
+      });
+      this.translate.get('DEVICE_NOT_SECURE').subscribe((res: string) => {
+        this.notSecure = res;
+      });
+
       this.setNode();
   	});
   }
@@ -92,7 +106,7 @@ export class LoginPage {
                     this.setBalances();
                   } else {
                     if (this.firstTimeLoading) {
-                      this.presentMessage("Account importing only works on mobile devices with the device secured");
+                      this.presentMessage(this.notSecure);
                     }
                   }
                 });
@@ -166,7 +180,7 @@ export class LoginPage {
           alias => {
             if (alias['errorDescription']) {
               if (alias['errorDescription'] == 'Unknown alias') {
-                this.loginError = "Unknown Account or Alias";
+                this.loginError = this.unknownAccount;
               } else {
                 this.loginError = alias['errorDescription'];
               }
@@ -194,7 +208,7 @@ export class LoginPage {
   }
 
   openBarcodeScanner() {
-    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
       this.password = barcodeData['text'];
     }, (err) => {
         // An error occurred

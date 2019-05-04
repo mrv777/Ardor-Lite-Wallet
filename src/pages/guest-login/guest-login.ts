@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 
@@ -19,11 +20,20 @@ export class GuestLoginPage {
   savePassphrase: boolean = false;
 
   theme: string;
+  qrText: string = 'Place QR code inside the scan area';
+  nodeOffline: string = 'Node not online. Please try again.';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, public accountData: AccountDataProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private translate: TranslateService, private barcodeScanner: BarcodeScanner, public accountData: AccountDataProvider) {
   }
 
   ionViewWillEnter() {
+    this.translate.get('QR_SCAN').subscribe((res: string) => {
+      this.qrText = res;
+    });
+    this.translate.get('NODE_OFFLINE').subscribe((res: string) => {
+      this.nodeOffline = res;
+    });
+
     this.accountData.getTheme().then((theme) => {
       this.theme = theme;
     });
@@ -38,7 +48,7 @@ export class GuestLoginPage {
   }
 
   openBarcodeScanner() {
-    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
       this.accountID = barcodeData['text'];
     }, (err) => {
         // An error occurred
@@ -74,7 +84,7 @@ export class GuestLoginPage {
           }
         },
         (err) => {
-          this.error = "Node not online. Please try again.";
+          this.error = this.nodeOffline;
         });
     });
   }

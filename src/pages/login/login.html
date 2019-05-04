@@ -51,7 +51,7 @@
 			</ion-row>
 			<ion-row responsive-sm *ngIf="!cordovaAvailable">
 				<ion-col class="noCordova">
-					*Account importing only works on mobile devices with the device secured
+					*{{ 'DEVICE_NOT_SECURE' | translate }}
 				</ion-col>
 			</ion-row>
 			<ion-row responsive-sm *ngIf="loginError">

@@ -53,7 +53,7 @@
       </ng-container>
     </h5>
     <hr />
-    <h4 *ngIf="shuffledPass.length > 0">Word Pool</h4>
+    <h4 *ngIf="shuffledPass.length > 0">{{ 'WORD_POOL' | translate }}</h4>
     <h6 id="shuffledPass">
       <ng-container *ngFor="let word of shuffledPass; index as i">
         <span class="word" (click)="addWordToVerifyArray(i)">{{word}}</span>

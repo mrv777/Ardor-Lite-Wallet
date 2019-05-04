@@ -30,6 +30,7 @@ export class NewAccountPage {
   cancelString: string;
   setPinString: string;
   okString: string;
+  incorrectPass: string = 'Incorrect Passphrase';
 
   verifyPage: boolean = false;
   verifyPass: string[];
@@ -53,6 +54,9 @@ export class NewAccountPage {
     });
     this.translate.get('OK').subscribe((res: string) => {
         this.okString = res;
+    });
+    this.translate.get('INCORRECT_PASS').subscribe((res: string) => {
+        this.incorrectPass = res;
     });
 
   	if (this.platform.is('cordova')) {
@@ -94,7 +98,7 @@ export class NewAccountPage {
     if (this.verifyPass.join(" ") == this.passphrase) {
       this.closeModal();
     } else {
-      this.presentMessage("Incorrect Passphrase");
+      this.presentMessage(this.incorrectPass);
     }
   }
 

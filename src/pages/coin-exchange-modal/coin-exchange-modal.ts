@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ViewController, AlertController } 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 import * as Big from 'big.js';
 
@@ -56,7 +57,12 @@ export class CoinExchangeModalPage {
   usePin: boolean = false;
   guest: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, public coinExchangeProvider: CoinExchangeProvider, public sharedProvider: SharedProvider, public transactionsProvider: TransactionsProvider, private barcodeScanner: BarcodeScanner, private faio: FingerprintAIO, private pinDialog: PinDialog, private alertCtrl: AlertController) {
+  qrText: string = 'Place QR code inside the scan area';
+  incorrectPass: string = 'Incorrect Passphrase';
+  enterPin: string = 'Enter your PIN';
+  verifyPin: string = 'Verify your PIN';
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, public coinExchangeProvider: CoinExchangeProvider, public sharedProvider: SharedProvider, public transactionsProvider: TransactionsProvider, private barcodeScanner: BarcodeScanner, private faio: FingerprintAIO, private pinDialog: PinDialog, private alertCtrl: AlertController, public translate: TranslateService) {
   	this.exchangeChain = navParams.get('chain');
     this.chain = navParams.get('exchangeChain');
     this.rate = navParams.get('rate');
@@ -86,6 +92,19 @@ export class CoinExchangeModalPage {
         this.usePin = true;
       });
     }
+
+    this.translate.get('QR_SCAN').subscribe((res: string) => {
+      this.qrText = res;
+    });
+    this.translate.get('INCORRECT_PASS').subscribe((res: string) => {
+      this.incorrectPass = res;
+    });
+    this.translate.get('ENTER_PIN').subscribe((res: string) => {
+      this.enterPin = res;
+    });
+    this.translate.get('VERIFY_PIN').subscribe((res: string) => {
+      this.verifyPin = res;
+    });
 
     this.coinExchangeProvider.getBundlerRates()
       .subscribe(
@@ -209,7 +228,7 @@ export class CoinExchangeModalPage {
           }
         );
     } else {
-      this.resultTxt = "Incorrect Passphrase";
+      this.resultTxt = this.incorrectPass;
       this.status = -1;
     }
   }
@@ -278,7 +297,7 @@ export class CoinExchangeModalPage {
   }
 
   showPin() {
-    this.pinDialog.prompt('Enter your PIN', 'Verify PIN', ['OK', 'Cancel'])
+    this.pinDialog.prompt(this.enterPin, this.verifyPin, ['OK', 'Cancel'])
     .then(
       (result: any) => {
         if (result.buttonIndex == 1) {
@@ -301,7 +320,7 @@ export class CoinExchangeModalPage {
   }
 
   openBarcodeScannerPassword(password: string) {
-  	this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+  	this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
      	this.password = barcodeData['text'];
     }, (err) => {
         // An error occurred

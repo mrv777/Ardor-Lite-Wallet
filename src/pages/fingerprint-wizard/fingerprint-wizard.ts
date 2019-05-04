@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, ViewController, Platform } from 'i
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { SharedProvider } from '../../providers/shared/shared';
@@ -30,8 +31,9 @@ export class FingerprintWizardPage {
 
   message: string;
   theme: string;
+  qrText: string = 'Place QR code inside the scan area';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, private formBuilder: FormBuilder, private barcodeScanner: BarcodeScanner, public sharedProvider: SharedProvider, private faio: FingerprintAIO, private pinDialog: PinDialog, public platform: Platform) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public accountData: AccountDataProvider, private formBuilder: FormBuilder, private barcodeScanner: BarcodeScanner, public sharedProvider: SharedProvider, private faio: FingerprintAIO, private pinDialog: PinDialog, public platform: Platform, private translate: TranslateService) {
   	this.loginForm = this.formBuilder.group({
       accountForm: ['', Validators.compose([Validators.required,Validators.minLength(26),Validators.maxLength(26)])],
       passwordForm: [''],
@@ -42,6 +44,9 @@ export class FingerprintWizardPage {
   }
 
   ionViewWillEnter() {
+    this.translate.get('QR_SCAN').subscribe((res: string) => {
+      this.qrText = res;
+    });
     if (this.platform.is('cordova')) {
        this.faio.isAvailable().then((available) => {
         if (available == 'OK' || available == 'Available' || available == 'finger' || available == 'face') {
@@ -62,7 +67,7 @@ export class FingerprintWizardPage {
   }
 
   openBarcodeScannerAccount() {
-    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
       this.account = barcodeData['text'];
     }, (err) => {
         // An error occurred
@@ -70,7 +75,7 @@ export class FingerprintWizardPage {
   }
 
   openBarcodeScannerPassword() {
-    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
       this.password = barcodeData['text'];
     }, (err) => {
         // An error occurred

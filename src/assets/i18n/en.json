@@ -124,5 +124,19 @@
     "NO_ALIASES": "No Aliases",
     "NO_SAVED_CONTACTS": "No Saved Contacts",
     "AVAILABLE": "Available",
-    "SUCCESS_SEND": "Successfully sent {{recipient}} {{amountBig}} {{chainName}}"
+    "SUCCESS_SEND": "Successfully sent {{recipient}} {{amountBig}} {{chainName}}",
+    "QR_SCAN": "Place QR code inside the scan area",
+    "PRESS_EXIT": "Press Again to Exit",
+    "CHAIN_GATEWAY": "Chain Gateway",
+    "U_TX": "Unconfirmed Transaction",
+    "ENTER_PIN": "Enter your PIN",
+    "VERIFY_PIN": "Verify your PIN",
+    "INCORRECT_PASS": "Incorrect Passphrase",
+    "FAIL_SEND": "Send Failed",
+    "UNKNOWN_ALIAS_ADDRESS": "Unknown Account or Alias",
+    "SUCCESS_LEASE": "Successfully leased balance to {{recipient}}",
+    "FAIL_LEASE": "Lease Failed",
+    "NODE_OFFLINE": "Node not online. Please try again",
+    "WORD_POOL": "Word Pool",
+    "DEVICE_NOT_SECURE": "Account importing only works on mobile devices with the device secured"
 }

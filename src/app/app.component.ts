@@ -25,12 +25,13 @@ export class MyApp {
   coActive: object = {};
   ceActive: object = {};
   abActive: object = {};
+  pressExit: string = 'Press Again to Exit';
 
   pages: Array<{title: string, component: any}>;
 
   backButtonPressedOnceToExit: boolean = false;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private menuCtrl: MenuController, private ionicApp: IonicApp,  private toastCtrl: ToastController, public accountData: AccountDataProvider, translate: TranslateService, private headerColor: HeaderColor) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private menuCtrl: MenuController, private ionicApp: IonicApp,  private toastCtrl: ToastController, public accountData: AccountDataProvider, private translate: TranslateService, private headerColor: HeaderColor) {
     this.initializeApp();
 
     translate.setDefaultLang('en');
@@ -48,6 +49,10 @@ export class MyApp {
       this.splashScreen.hide();
 
       this.platform.registerBackButtonAction(() => {
+        this.translate.get('PRESS_EXIT').subscribe((res: string) => {
+          this.pressExit = res;
+        });
+
         let activePortal = this.ionicApp._loadingPortal.getActive() ||
            this.ionicApp._modalPortal.getActive() ||
            this.ionicApp._overlayPortal.getActive();
@@ -103,7 +108,7 @@ export class MyApp {
 
   showToast() {
     let toast = this.toastCtrl.create({
-      message: 'Press Again to Exit',
+      message: this.pressExit,
       duration: 2000,
       position: 'bottom'
     });

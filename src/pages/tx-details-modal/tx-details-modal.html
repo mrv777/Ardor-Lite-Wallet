@@ -1,7 +1,7 @@
 <ion-header no-border>
 
   <ion-navbar>
-    <ion-title *ngIf="tx != null && tx['fullHash'] != null">{{chainName}} Transaction</ion-title>
+    <ion-title *ngIf="tx != null && tx['fullHash'] != null">{{chainName}} {{ 'TX' | translate }}</ion-title>
   </ion-navbar>
 
 </ion-header>

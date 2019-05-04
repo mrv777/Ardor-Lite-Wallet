@@ -36,6 +36,13 @@ export class LeaseBalanceModalPage {
   contacts: object[];
   disableRec: boolean = false;
   noContacts: string = 'No Saved Contacts';
+  failLease: string = 'Lease Failed';
+  successLease: string = 'Successfully leased balance';
+  incorrectPass: string = 'Incorrect Passphrase';
+  unknownAccount: string = 'Alias not found, or incorrect account address';
+  enterPin: string = 'Enter your PIN';
+  verifyPin: string = 'Verify your PIN';
+  qrText: string = 'Place QR code inside the scan area';
 
   soloForge: boolean = false;
   soloPassword: string;
@@ -67,9 +74,32 @@ export class LeaseBalanceModalPage {
     for (let i=45;i > 0; i--) {
     	this.daysArray.push(i);
     }
+
     this.translate.get('NO_SAVED_CONTACTS').subscribe((res: string) => {
         this.noContacts = res;
     });
+    this.translate.get('FAIL_LEASE').subscribe((res: string) => {
+        this.failLease = res;
+    });
+    this.translate.get('SUCCESS_LEASE').subscribe((res: string) => {
+        this.successLease = res;
+    });
+    this.translate.get('INCORRECT_PASS').subscribe((res: string) => {
+        this.incorrectPass = res;
+    });
+    this.translate.get('UNKNOWN_ALIAS_ADDRESS').subscribe((res: string) => {
+        this.unknownAccount = res;
+    });
+    this.translate.get('ENTER_PIN').subscribe((res: string) => {
+        this.enterPin = res;
+    });
+    this.translate.get('VERIFY_PIN').subscribe((res: string) => {
+        this.verifyPin = res;
+    });
+    this.translate.get('QR_SCAN').subscribe((res: string) => {
+        this.qrText = res;
+    });
+
     this.guest = this.accountData.isGuestLogin();
     if (!this.guest) {
       this.hasPassphrase = this.accountData.hasSavedPassword();
@@ -112,17 +142,17 @@ export class LeaseBalanceModalPage {
                   .subscribe(
                     broadcastResults => {
                       if (broadcastResults['fullHash'] != null) {
-                        this.resultTxt = `Successfully leased balance to ${this.recipient}`;
+                        this.resultTxt = this.successLease;
                         this.status = 1;
                       } else {
-                        this.resultTxt = 'Lease Failed';
+                        this.resultTxt = this.failLease;
                         this.status = -1;
                         this.disableSend = false;
                       }
                     }
                   );
                 } else {
-                  this.resultTxt = 'Lease Failed - WARNING: Transaction returned from node is incorrect';
+                  this.resultTxt = `${this.failLease} - WARNING: Transaction returned from node is incorrect`;
                   this.status = -1;
                   this.disableSend = false;
                 }
@@ -132,7 +162,7 @@ export class LeaseBalanceModalPage {
         }
       );
     } else {
-      this.resultTxt = "Incorrect Passphrase";
+      this.resultTxt = this.incorrectPass;
       this.status = -1;
     }
   }
@@ -143,7 +173,7 @@ export class LeaseBalanceModalPage {
         .subscribe(
           alias => {
             if (alias['errorDescription']) {
-              this.resultTxt = "Alias not found, or incorrect account address";
+              this.resultTxt = this.unknownAccount;
               this.status = -1;
             } else {
               this.onSendAfterAliasCheck(alias['accountRS']);
@@ -174,17 +204,17 @@ export class LeaseBalanceModalPage {
               .subscribe(
                 broadcastResults => {
                   if (broadcastResults['fullHash'] != null) {
-                    this.resultTxt = `Successfully leased balance to ${recipient}`;
+                    this.resultTxt = this.successLease;
                     this.status = 1;
                   } else {
-                    this.resultTxt = 'Lease Failed';
+                    this.resultTxt = this.failLease;
                     this.status = -1;
                     this.disableSend = false;
                   }
                 }
               );
             } else {
-              this.resultTxt = 'Lease Failed - WARNING: Transaction returned from node is incorrect';
+              this.resultTxt = `${this.failLease} - WARNING: Transaction returned from node is incorrect`;
               this.status = -1;
               this.disableSend = false;
             }
@@ -192,7 +222,7 @@ export class LeaseBalanceModalPage {
         }
       );
     } else {
-      this.resultTxt = "Incorrect Passphrase";
+      this.resultTxt = this.incorrectPass;
       this.status = -1;
     }
   }
@@ -234,7 +264,7 @@ export class LeaseBalanceModalPage {
   }
 
   showPin() {
-    this.pinDialog.prompt('Enter your PIN', 'Verify PIN', ['OK', 'Cancel'])
+    this.pinDialog.prompt(this.enterPin, this.verifyPin, ['OK', 'Cancel'])
     .then(
       (result: any) => {
         if (result.buttonIndex == 1) {
@@ -257,7 +287,7 @@ export class LeaseBalanceModalPage {
   }
 
   openBarcodeScanner() {
-    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
       this.recipient = barcodeData['text'];
     }, (err) => {
         // An error occurred
@@ -265,7 +295,7 @@ export class LeaseBalanceModalPage {
   }
 
   openBarcodeScannerPassword(password: string) {
-  	this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+  	this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
      	this.password = barcodeData['text'];
     }, (err) => {
         // An error occurred
