@@ -1,4 +1,4 @@
-<ion-list>
+<ion-list [ngClass]="{'darkTheme' : (darkMode == true)}">
     <ion-item tappable (click)="editContact(name,account)">
     	<label>{{ 'EDIT_CONTACT' | translate }}</label>
     </ion-item>

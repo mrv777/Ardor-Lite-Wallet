@@ -23,14 +23,14 @@
       <ion-col col-6>
 				<ion-item>
 					<ion-label stacked color="primary">{{ 'AMOUNT' | translate }} {{chainName}}</ion-label>
-					<ion-input [(ngModel)]="amount" [disabled]="disableSend" name="amount" (change)="updateConversion('chain')" type="number" formControlName="amountForm">
+					<ion-input [(ngModel)]="amount" [disabled]="disableSend" name="amount" (keyup.enter)="handleEnter()" (change)="updateConversion('chain')" type="number" formControlName="amountForm">
 					</ion-input>
 				</ion-item>
 			</ion-col>
 			<ion-col col-6>
 				<ion-item>
 					<ion-label stacked color="primary">{{ 'AMOUNT' | translate }} {{currency}}</ion-label>
-					<ion-input [(ngModel)]="amountCurrency" [disabled]="disableSend || disableCurrency" name="amountCurrency" placeholder="{{currencyPlaceholder}}" (change)="updateConversion('currency')" type="number" formControlName="amountCurrencyForm">
+					<ion-input [(ngModel)]="amountCurrency" [disabled]="disableSend || disableCurrency" name="amountCurrency" (keyup.enter)="handleEnter()" placeholder="{{currencyPlaceholder}}" (change)="updateConversion('currency')" type="number" formControlName="amountCurrencyForm">
 					</ion-input>
 				</ion-item>
 			</ion-col>

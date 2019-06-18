@@ -120,6 +120,21 @@ export class MyApp {
     toast.present();
   }
 
+  showInfo() {
+    let toast = this.toastCtrl.create({
+      message: "Blockchain feature where you can swap tokens between the various chains on Ardor",
+      showCloseButton: true,
+      dismissOnPageChange: true,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
+  }
+
   openPage(page) {
     if (page == 'Account'){
       this.acActive = {'background-color': '#07426e'};

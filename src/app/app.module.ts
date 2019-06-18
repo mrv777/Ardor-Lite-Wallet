@@ -10,6 +10,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FingerprintAIO } from '@ionic-native/fingerprint-aio';
 import { PinDialog } from '@ionic-native/pin-dialog';
 import { HeaderColor } from '@ionic-native/header-color';
+import { Keyboard } from '@ionic-native/keyboard';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -114,6 +115,7 @@ jdenticon.config = {
     FingerprintAIO,
     PinDialog,
     HeaderColor,
+    Keyboard,
     AccountDataProvider,
     TransactionsProvider,
     SharedProvider,

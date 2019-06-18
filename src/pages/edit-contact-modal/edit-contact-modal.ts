@@ -27,20 +27,23 @@ export class EditContactModalPage {
     this.account = navParams.get('account');
     this.startingAccount = navParams.get('account');
     this.type = navParams.get('type');
+    this.translate.get('DONE').subscribe((res: string) => {
+        this.buttonText = res;
+      });
     if (this.type == 'new') {
       this.translate.get('ADD_CONTACT').subscribe((res: string) => {
         this.title = res;
       });
-      this.translate.get('ADD').subscribe((res: string) => {
-        this.buttonText = res;
-      });
+      // this.translate.get('ADD').subscribe((res: string) => {
+      //   this.buttonText = res;
+      // });
     } else {
       this.translate.get('EDIT_CONTACT').subscribe((res: string) => {
         this.title = res;
       });
-      this.translate.get('EDIT').subscribe((res: string) => {
-        this.buttonText = res;
-      });
+      // this.translate.get('EDIT').subscribe((res: string) => {
+      //   this.buttonText = res;
+      // });
     }
   }
 
@@ -53,6 +56,8 @@ export class EditContactModalPage {
   editContact(){
     if (this.account == null || this.account == '') {
       this.message = "Account is required."
+    } else if (this.account.length < 20 || this.account.length > 26) {
+      this.message = "Invalid account."
     } else {
       if (this.type != 'new') {
         this.accountData.editContact(this.name,this.account).then(() => {

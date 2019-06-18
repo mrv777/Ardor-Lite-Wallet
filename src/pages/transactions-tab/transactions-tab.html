@@ -22,11 +22,11 @@
           <br />
           <span *ngIf="transaction.recipientRS != accountID && transaction.recipientRS != null && !transaction.unconfirmed">
             <span *ngIf="contacts.indexOf(transaction.recipientRS) != -1">{{contactNames[contacts.indexOf(transaction.recipientRS)]}}</span> 
-            <span *ngIf="contacts.indexOf(transaction.recipientRS) == -1">{{transaction.recipientRS}} </span>
+            <span *ngIf="contacts.indexOf(transaction.recipientRS) == -1"><a (click)="copyAccount(transaction.recipientRS)">{{transaction.recipientRS}}</a> </span>
           </span>
           <span *ngIf="transaction.senderRS != accountID && transaction.senderRS != null && !transaction.unconfirmed">
             <span *ngIf="contacts.indexOf(transaction.senderRS) != -1">{{contactNames[contacts.indexOf(transaction.senderRS)]}}</span> 
-            <span *ngIf="contacts.indexOf(transaction.senderRS) == -1">{{transaction.senderRS}} </span>
+            <span *ngIf="contacts.indexOf(transaction.senderRS) == -1"><a (click)="copyAccount(transaction.senderRS)">{{transaction.senderRS}}</a> </span>
           </span>
           <span *ngIf="((transaction.senderRS == accountID && transaction.recipientRS == accountID) || transaction.recipientRS == null || transaction.senderRS == null)  && !transaction.unconfirmed">
             You

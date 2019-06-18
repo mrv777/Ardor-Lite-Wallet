@@ -31,7 +31,7 @@ export class AccountDataProvider {
   OPTIONS: object = { testnet: false };
   LOGIN_STORAGE: SecureStorageObject;
   FINGER_SECRET: string = "CHANGE";
-  MAINNET_NODES = ['https://ardor.tools/ardor/','https://enricoip.no-ip.biz:27876/','https://ardortools.com/ardor/'];
+  MAINNET_NODES = ['https://ardor.tools/ardor/','https://enricoip.no-ip.biz:27876/','https://ardortools.com/ardor/','https://node1.ardor.tools/'];
   TESTNET_NODES = ['https://testardor.jelurida.com/','https://enricoip.no-ip.biz:26877/','https://ardortools.com/ardorTest/'];
 
   constructor(

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
 import { StockChart } from 'angular-highcharts';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -52,7 +52,7 @@ export class CoinExchangePage {
   buyOrders: object[];
   sellOrders: object[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public sharedProvider: SharedProvider, public coinExchangeProvider: CoinExchangeProvider, public modalCtrl: ModalController, public translate: TranslateService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public sharedProvider: SharedProvider, public coinExchangeProvider: CoinExchangeProvider, private toastCtrl: ToastController, public modalCtrl: ModalController, public translate: TranslateService) {
   }
 
   ionViewWillEnter() {
@@ -83,6 +83,21 @@ export class CoinExchangePage {
     this.loaded = false;
     this.changeChain();
     refresher.complete();
+  }
+
+  showInfo() {
+    let toast = this.toastCtrl.create({
+      message: "The Chain Gateway is an Ardor feature where you can swap tokens between the various chains on the blockchain",
+      showCloseButton: true,
+      dismissOnPageChange: true,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 
   changeNode() {

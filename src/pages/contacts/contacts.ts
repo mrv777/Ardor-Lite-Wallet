@@ -27,11 +27,13 @@ export class ContactsPage {
       this.accountData.getContacts().then((currentContacts) => {
         if (currentContacts != null && currentContacts.length != 0) {
           this.contacts = currentContacts;
-          this.contacts.sort((b, a) => {
-            if (a['name'] < b['name']) return -1;
-            else if (a['name'] > b['name']) return 1;
-            else return 0;
-          });
+          this.contacts.sort((a, b) => a['name'].localeCompare(b['name']));
+
+          // this.contacts.sort((b, a) => {
+          //   if (a['name'] < b['name']) return -1;
+          //   else if (a['name'] > b['name']) return 1;
+          //   else return 0;
+          // });
         } else {
           this.contacts = null;
         }

@@ -1,5 +1,6 @@
 page-home {
     > .content.content-md > .scroll-content, > .content.content-ios > .scroll-content {
+        padding: 0 4px;
         background: #1162a1;
         background: -moz-linear-gradient(0deg, #1162a1 0%, #3a86c7 100%);
         background: -webkit-linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
@@ -32,6 +33,7 @@ page-home {
 
     #balance {
         text-align: left;
+        margin-bottom: 2px;
     }
 
     sub {
@@ -103,6 +105,9 @@ page-home {
     }
     #tabMenu .activeTab:last-child {
         border-radius: 0 0 10px 0;
+    }
+    #tabMenu .col {
+        padding: 5px 5px 0 5px;
     }
 
     .select-md, .select-ios {

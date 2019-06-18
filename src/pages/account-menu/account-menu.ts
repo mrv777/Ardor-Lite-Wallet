@@ -19,6 +19,7 @@ export class AccountMenuPage {
   guest: boolean = false;
   fingerAvailable: boolean = false;
   hasPin: boolean = false;
+  darkMode: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private faio: FingerprintAIO, private pinDialog: PinDialog,public accountData: AccountDataProvider, public modalCtrl: ModalController, public platform: Platform, private alertCtrl: AlertController) {
   }
@@ -42,7 +43,38 @@ export class AccountMenuPage {
     if (!this.guest) {
       this.hasPassphrase = this.accountData.hasSavedPassword();
     }
+
+    this.accountData.getTheme().then((theme) => {
+      if (theme == 'darkTheme') {
+        this.darkMode = true;
+      } else {
+        this.darkMode = false;
+      }
+    });
     
+  }
+
+  presentRemove() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirm transfer',
+      message: `Please confirm you want to remove this account`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            this.removeAccount();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   removeAccount() {

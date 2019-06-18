@@ -18,7 +18,7 @@ export class NewAccountPage {
   accountID: string;
   saved: boolean = false;
   accountName: string = '';
-  savePassphrase: boolean = false;
+  savePassphrase: boolean = true;
   blur: string = '';
   fingerAvailable: boolean = false;
   pin: string;

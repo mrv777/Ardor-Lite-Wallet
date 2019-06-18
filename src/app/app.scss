@@ -57,7 +57,7 @@
 }
 
 #sideNav ion-icon {
-	padding: 15px;
+	padding: 15px 5px;
 }
 
 .activePage {
@@ -96,7 +96,7 @@ ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
     background-color: #f9f9fb;
 }
 
-.darkTheme, .darkTheme .content-md, .darkTheme .content-ios, .darkTheme #txTable .content-md, .darkTheme #txTable .content-ios {
+.darkTheme, .darkTheme .content-md, .darkTheme .content-ios, .darkTheme #txTable .content-md, .darkTheme #txTable .content-ios, .darkTheme #homeTop, .darkTheme .popover-md .popover-content, .darkTheme .popover-ios .popover-content, .darkTheme page-coin-exchange #topRow, .darkTheme page-coin-exchange #currentPriceNum {
     background-color: #222 !important;
     color: #fff !important;
 }
@@ -109,9 +109,12 @@ ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
 .darkTheme #homeTop {
     color: #000;
 }
-.darkTheme .content-md .pairSelect, .darkTheme .content-ios .pairSelect {
-    color: #000 !important;
+.darkTheme.list-md, .darkTheme.list-ios {
+    margin: -4px 0;
 }
+// .darkTheme .content-md .pairSelect, .darkTheme .content-ios .pairSelect {
+//     color: #000 !important;
+// }
 .darkTheme .item-md, .darkTheme .item-ios {
     color: #fff !important;
     background-color: #000;
@@ -132,6 +135,15 @@ ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
 }
 .darkTheme page-receive-tab .grid {
     background-color: #000;
+}
+.darkTheme page-home #tabMenu {
+    background-color: #222 !important;
+    color: rgba(255, 255, 255, 0.51) !important;
+}
+.darkTheme page-home #tabMenu .activeTab {
+    color: #fff !important;
+    // border-bottom: 2px solid #1162a1;
+    border-bottom: 2px solid #fff;
 }
 
 .list-md .item-input:last-child, .list-ios .item-input:last-child {

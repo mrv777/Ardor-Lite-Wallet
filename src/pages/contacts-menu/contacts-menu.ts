@@ -12,6 +12,7 @@ import { EditContactModalPage } from '../edit-contact-modal/edit-contact-modal';
 export class ContactsMenuPage {
   account;
   name;
+  darkMode: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController,  public modalCtrl: ModalController,  public accountData: AccountDataProvider) {
   	this.account = navParams.get('account');
@@ -19,7 +20,13 @@ export class ContactsMenuPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactsMenuPage');
+    this.accountData.getTheme().then((theme) => {
+      if (theme == 'darkTheme') {
+        this.darkMode = true;
+      } else {
+        this.darkMode = false;
+      }
+    });
   }
 
   removeContact(removedAccount) {

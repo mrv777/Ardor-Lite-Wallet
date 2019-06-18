@@ -3,7 +3,7 @@ page-about {
         font-size: 1.5em;
     }
 
-    .scroll-content, .scroll-content a {
+    .scroll-content {
         background: #1162a1;
         background: -moz-linear-gradient(0deg, #1162a1 0%, #3a86c7 100%);
         background: -webkit-linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
@@ -30,5 +30,9 @@ page-about {
     #donateButton {
         background-color: #fff;
         color: #1162a1;
+    }
+
+    a {
+        color: white;
     }
 }

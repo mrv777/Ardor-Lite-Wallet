@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, ViewController, ToastController } from 'ionic-angular';
+import { Clipboard } from '@ionic-native/clipboard';
 import { Subscription } from 'rxjs/Subscription';
 
 import { MessageModalPage } from '../message-modal/message-modal'
@@ -43,7 +44,7 @@ export class TransactionsTabPage {
   subscriptionUnconfirmedTxs: Subscription;
   subscriptionChain: Subscription;
 
-  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public modalCtrl: ModalController, private viewCtrl: ViewController, public sharedProvider: SharedProvider) {
+  constructor(public navCtrl: NavController, public accountData: AccountDataProvider, public modalCtrl: ModalController, private viewCtrl: ViewController, public sharedProvider: SharedProvider, private clipboard: Clipboard, private toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -152,6 +153,25 @@ export class TransactionsTabPage {
       });
       this.viewCtrl.dismiss();
     });
+  }
+
+  copyAccount(address: string) {
+    this.clipboard.copy(address);
+    this.showToast('Address copied to clipboard');
+  }
+
+  showToast(message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 
   pageChanged(event){

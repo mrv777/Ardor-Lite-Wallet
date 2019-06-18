@@ -57,12 +57,15 @@
     <ion-row id="tabMenu">
       <ion-col (click)="openPage(txPage)" [class.activeTab]="txSelected">
         <ion-icon name="time"></ion-icon>
+        <div class="smallerText">Transactions</div>
       </ion-col>
       <ion-col (click)="openPage(sendPage)" [class.activeTab]="sendSelected">
         <ion-icon name="send"></ion-icon>
+        <div class="smallerText">{{ 'SEND' | translate }}</div>
       </ion-col>
       <ion-col (click)="openPage(receivePage)" [class.activeTab]="receiveSelected">
         <ion-icon name="barcode"></ion-icon>
+        <div class="smallerText">{{ 'RECEIVE' | translate }}</div>
       </ion-col>
     </ion-row>
   </ion-grid>
