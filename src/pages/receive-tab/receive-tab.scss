@@ -17,10 +17,20 @@ page-receive-tab {
 		text-align: center;
 	}
 
+	.noBottomMargin {
+		margin-top: 10px;
+		margin-bottom: 0;
+	}
+
+	.littleMargin {
+		margin-top: 5px;
+	}
+
 	p {
 		text-align: center;
 		color: #555;
 		margin-top: 0;
+		margin-bottom: 5px;
 	}
 	h6 {
 		text-align: center;

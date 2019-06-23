@@ -1,6 +1,6 @@
 {
   "name": "ardor",
-  "version": "2.2.17",
+  "version": "2.2.18",
   "author": "MrV",
   "homepage": "",
   "private": true,
@@ -64,7 +64,7 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "^3.2.0",
+    "@ionic/app-scripts": "^3.2.4",
     "@types/highcharts": "^5.0.25",
     "typescript": "~2.6.2"
   },

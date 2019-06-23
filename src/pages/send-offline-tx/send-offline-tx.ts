@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
@@ -23,7 +23,7 @@ export class SendOfflineTxPage {
 
   theme: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private barcodeScanner: BarcodeScanner, public viewCtrl: ViewController, public transactions: TransactionsProvider, public accountData: AccountDataProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private barcodeScanner: BarcodeScanner, public viewCtrl: ViewController, private toastCtrl: ToastController, public transactions: TransactionsProvider, public accountData: AccountDataProvider) {
   }
 
   ionViewWillEnter() {
@@ -49,6 +49,21 @@ export class SendOfflineTxPage {
     }, (err) => {
         // An error occurred
     });
+  }
+
+  showInfo() {
+    let toast = this.toastCtrl.create({
+      message: "For generating offline transactions, you can use the Ardor API (if you are running a full node, an easy to use page can be found at http://localhost:27876/test) or you can use SIGBRO OFFLINE",
+      showCloseButton: true,
+      dismissOnPageChange: true,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 
   onSend() {

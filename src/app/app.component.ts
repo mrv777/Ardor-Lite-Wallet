@@ -31,7 +31,7 @@ export class MyApp {
 
   backButtonPressedOnceToExit: boolean = false;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private menuCtrl: MenuController, private ionicApp: IonicApp,  private toastCtrl: ToastController, public accountData: AccountDataProvider, private translate: TranslateService, private headerColor: HeaderColor) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private menuCtrl: MenuController, private ionicApp: IonicApp, private toastCtrl: ToastController, public accountData: AccountDataProvider, private translate: TranslateService, private headerColor: HeaderColor) {
     this.initializeApp();
 
     translate.setDefaultLang('en');
@@ -110,21 +110,6 @@ export class MyApp {
     let toast = this.toastCtrl.create({
       message: this.pressExit,
       duration: 2000,
-      position: 'bottom'
-    });
-
-    toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
-
-    toast.present();
-  }
-
-  showInfo() {
-    let toast = this.toastCtrl.create({
-      message: "Blockchain feature where you can swap tokens between the various chains on Ardor",
-      showCloseButton: true,
-      dismissOnPageChange: true,
       position: 'bottom'
     });
 

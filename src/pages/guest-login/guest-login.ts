@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -23,7 +23,7 @@ export class GuestLoginPage {
   qrText: string = 'Place QR code inside the scan area';
   nodeOffline: string = 'Node not online. Please try again.';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private translate: TranslateService, private barcodeScanner: BarcodeScanner, public accountData: AccountDataProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, private translate: TranslateService, private barcodeScanner: BarcodeScanner, public accountData: AccountDataProvider) {
   }
 
   ionViewWillEnter() {
@@ -62,6 +62,21 @@ export class GuestLoginPage {
       this.hideCustom = true;
     }
     this.node = this.nodeSelect;
+  }
+
+  showInfo() {
+    let toast = this.toastCtrl.create({
+      message: "On this page you can login without saving the account to device.  It also allows login to the testnet.",
+      showCloseButton: true,
+      dismissOnPageChange: true,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 
   closeModalNoLogin() {
