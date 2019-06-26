@@ -31,6 +31,7 @@ export class NewAccountPage {
   setPinString: string;
   okString: string;
   incorrectPass: string = 'Incorrect Passphrase';
+  enterSetPin: string = 'Please enter a pin that will be used to retrieve the saved passphrase to access your account';
 
   verifyPage: boolean = false;
   verifyPass: string[];
@@ -57,6 +58,9 @@ export class NewAccountPage {
     });
     this.translate.get('INCORRECT_PASS').subscribe((res: string) => {
         this.incorrectPass = res;
+    });
+    this.translate.get('ENTER_SET_PIN').subscribe((res: string) => {
+        this.enterSetPin = res;
     });
 
   	if (this.platform.is('cordova')) {
@@ -137,7 +141,7 @@ export class NewAccountPage {
 
 
 	setPin() {
-    this.pinDialog.prompt('Please enter a pin that will be used to retrieve your saved passphrase', this.setPinString, [this.okString, this.cancelString])
+    this.pinDialog.prompt(this.enterSetPin, this.setPinString, [this.okString, this.cancelString])
     .then(
       (result: any) => {
         if (result.buttonIndex == 1) {

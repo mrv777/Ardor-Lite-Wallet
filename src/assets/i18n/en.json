@@ -138,5 +138,16 @@
     "FAIL_LEASE": "Lease Failed",
     "NODE_OFFLINE": "Node not online. Please try again",
     "WORD_POOL": "Word Pool",
-    "DEVICE_NOT_SECURE": "Account importing only works on mobile devices with the device secured"
+    "DEVICE_NOT_SECURE": "Account importing only works on mobile devices with the device secured",
+    "INVALID_ACCOUNT": "Invalid account.",
+    "TXS": "Transactions",
+    "YOUR_ICON": "Your account's unique icon:",
+    "YOUR_QR": "Your account's QR code:",
+    "INFO_GUEST": "On this page you can login without saving the account to device.  It also allows login to the testnet.",
+    "INFO_OFFLINE": "For generating offline transactions, you can use the Ardor API (if you are running a full node, an easy to use page can be found at http://localhost:27876/test) or you can use SIGBRO OFFLINE",
+    "ENTER_SET_PIN": "Please enter a pin that will be used to retrieve the saved passphrase to access your account",
+    "INFO_CE": "The Chain Gateway is an Ardor feature where you can swap tokens between the various chains on the blockchain.",
+    "SAVE_TO_DEVICE_FINGERPRINT": "Save passphrase and retrieve it with fingerprint/FaceID",
+    "SAVE_TO_DEVICE_PIN": "Save passphrase and retrieve it with a PIN",
+    "STOLEN_LOST": "If your device gets stolen or lost, it is recommended to transfer your balances out of all accounts that have saved passphrases on the device."
 }

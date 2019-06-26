@@ -22,6 +22,8 @@ export class GuestLoginPage {
   theme: string;
   qrText: string = 'Place QR code inside the scan area';
   nodeOffline: string = 'Node not online. Please try again.';
+  infoGuest: string = 'On this page you can login without saving the account to device.  It also allows login to the testnet.';
+  closeText: string = 'Close';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, private translate: TranslateService, private barcodeScanner: BarcodeScanner, public accountData: AccountDataProvider) {
   }
@@ -32,6 +34,12 @@ export class GuestLoginPage {
     });
     this.translate.get('NODE_OFFLINE').subscribe((res: string) => {
       this.nodeOffline = res;
+    });
+    this.translate.get('INFO_GUEST').subscribe((res: string) => {
+      this.infoGuest = res;
+    });
+    this.translate.get('CLOSE').subscribe((res: string) => {
+      this.closeText = res;
     });
 
     this.accountData.getTheme().then((theme) => {
@@ -66,8 +74,9 @@ export class GuestLoginPage {
 
   showInfo() {
     let toast = this.toastCtrl.create({
-      message: "On this page you can login without saving the account to device.  It also allows login to the testnet.",
+      message: this.infoGuest,
       showCloseButton: true,
+      closeButtonText: this.closeText,
       dismissOnPageChange: true,
       position: 'bottom'
     });

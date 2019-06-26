@@ -4,9 +4,9 @@
       <ion-col>
           <p>{{ 'YOUR_ADDRESS' | translate }}</p>
           <h6 (click)="copyAccount()">{{accountID}} <ion-icon name="copy"></ion-icon></h6>
-          <p class="noBottomMargin">Your account's unique icon:</p>
+          <p class="noBottomMargin">{{ 'YOUR_ICON' | translate }}</p>
           <canvas class="idIcon" width="40" height="40" [attr.data-jdenticon-value]="accountID"></canvas>
-          <p class="littleMargin">Your account's QR code:</p>
+          <p class="littleMargin">{{ 'YOUR_QR' | translate }}</p>
       </ion-col>
     </ion-row>
     <ion-row>

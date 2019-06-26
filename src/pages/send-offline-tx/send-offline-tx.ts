@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { TransactionsProvider } from '../../providers/transactions/transactions';
@@ -23,7 +24,11 @@ export class SendOfflineTxPage {
 
   theme: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private barcodeScanner: BarcodeScanner, public viewCtrl: ViewController, private toastCtrl: ToastController, public transactions: TransactionsProvider, public accountData: AccountDataProvider) {
+  qrText: string = 'Place QR code inside the scan area';
+  infoOffline: string = 'For generating offline transactions, you can use the Ardor API (if you are running a full node, an easy to use page can be found at http://localhost:27876/test) or you can use SIGBRO OFFLINE';
+  closeText: string = 'Close';
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private barcodeScanner: BarcodeScanner, public viewCtrl: ViewController, private toastCtrl: ToastController, public transactions: TransactionsProvider, private translate: TranslateService, public accountData: AccountDataProvider) {
   }
 
   ionViewWillEnter() {
@@ -32,6 +37,16 @@ export class SendOfflineTxPage {
     });
     this.nodeSelect = "mainnet/";
     this.node = this.nodeSelect;
+
+    this.translate.get('CLOSE').subscribe((res: string) => {
+      this.closeText = res;
+    });
+    this.translate.get('QR_SCAN').subscribe((res: string) => {
+      this.qrText = res;
+    });
+    this.translate.get('INFO_OFFLINE').subscribe((res: string) => {
+      this.infoOffline = res;
+    });
   }
 
   changeNode() {
@@ -44,7 +59,7 @@ export class SendOfflineTxPage {
   }
 
   openBarcodeScanner() {
-    this.barcodeScanner.scan({prompt : "Place QR code inside the scan area", disableSuccessBeep: true}).then((barcodeData) => {
+    this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
       this.tx = barcodeData['text'];
     }, (err) => {
         // An error occurred
@@ -53,8 +68,9 @@ export class SendOfflineTxPage {
 
   showInfo() {
     let toast = this.toastCtrl.create({
-      message: "For generating offline transactions, you can use the Ardor API (if you are running a full node, an easy to use page can be found at http://localhost:27876/test) or you can use SIGBRO OFFLINE",
+      message: this.infoOffline,
       showCloseButton: true,
+      closeButtonText: this.closeText,
       dismissOnPageChange: true,
       position: 'bottom'
     });

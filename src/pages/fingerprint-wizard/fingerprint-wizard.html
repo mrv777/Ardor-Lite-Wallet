@@ -24,8 +24,8 @@
 				<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerAccount()"> <ion-icon name="barcode"> </ion-icon> </button>
 			</ion-item>
 			<ion-item class="failedBox" text-wrap *ngIf="!loginForm.controls.accountForm.valid && (loginForm.controls.accountForm.dirty|| submitAttempt)">
-                Please enter a valid account address (ARDOR-XXXX-XXXX-XXXX-XXXXX).
-            </ion-item>
+          Please enter a valid account address (ARDOR-XXXX-XXXX-XXXX-XXXXX).
+      </ion-item>
 			<ion-item>
 				<ion-label item-start stacked color="primary">{{ 'DEFAULT_CHAIN' | translate }}</ion-label>
 				<ion-select class="chainSelect" [(ngModel)]="chainName" name="chainName" id="nodeSelect" (ionChange)="changeChain()" formControlName="accountChainForm">
@@ -35,7 +35,8 @@
 			    </ion-select>
 			</ion-item>	
 			<ion-item>
-			    <ion-label>{{ 'SAVE_TO_DEVICE' | translate }}</ion-label>
+			    <ion-label text-wrap *ngIf="fingerAvailable">{{ 'SAVE_TO_DEVICE_FINGERPRINT' | translate }}</ion-label>
+			    <ion-label text-wrap *ngIf="!fingerAvailable">{{ 'SAVE_TO_DEVICE_PIN' | translate }}</ion-label>
 			    <ion-checkbox [(ngModel)]="savePassphrase" formControlName="saveForm"></ion-checkbox>
 			</ion-item>
 			<ion-item *ngIf="savePassphrase && !fingerAvailable && !pin">
@@ -50,7 +51,7 @@
 				<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerPassword()"> <ion-icon name="barcode"> </ion-icon> </button>
 			</ion-item>
 			<ion-item *ngIf="savePassphrase" text-wrap style="color: red">
-				If your device gets stolen or lost, it is recommended to transfer your balances out of all accounts that have saved passphrases on the device.
+				{{ 'STOLEN_LOST' | translate }}
 			</ion-item>
 		</ion-list>
 

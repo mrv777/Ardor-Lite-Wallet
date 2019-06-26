@@ -57,7 +57,7 @@
     <ion-row id="tabMenu">
       <ion-col (click)="openPage(txPage)" [class.activeTab]="txSelected">
         <ion-icon name="time"></ion-icon>
-        <div class="smallerText">Transactions</div>
+        <div class="smallerText">{{ 'TXS' | translate }}</div>
       </ion-col>
       <ion-col (click)="openPage(sendPage)" [class.activeTab]="sendSelected">
         <ion-icon name="send"></ion-icon>

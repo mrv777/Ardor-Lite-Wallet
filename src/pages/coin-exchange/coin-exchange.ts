@@ -34,6 +34,8 @@ export class CoinExchangePage {
 
   volumeString: string = 'Volume';
   priceString: string = 'Price';
+  infoCE: string = 'The Chain Gateway is an Ardor feature where you can swap tokens between the various chains on the blockchain.';
+  closeText: string = 'Close';
 
   buyOrdersPage: number = 1;
   sellOrdersPage: number = 1;
@@ -72,6 +74,12 @@ export class CoinExchangePage {
     this.translate.get('PRICE').subscribe((res: string) => {
         this.priceString = res;
     });
+    this.translate.get('INFO_CE').subscribe((res: string) => {
+      this.infoCE = res;
+    });
+    this.translate.get('CLOSE').subscribe((res: string) => {
+      this.closeText = res;
+    });
 
 	  this.accountData.getTheme().then((theme) => {
         this.theme = theme;
@@ -87,8 +95,9 @@ export class CoinExchangePage {
 
   showInfo() {
     let toast = this.toastCtrl.create({
-      message: "The Chain Gateway is an Ardor feature where you can swap tokens between the various chains on the blockchain",
+      message: this.infoCE,
       showCloseButton: true,
+      closeButtonText: this.closeText,
       dismissOnPageChange: true,
       position: 'bottom'
     });

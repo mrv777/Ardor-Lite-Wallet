@@ -25,7 +25,8 @@
     <form>
   	<ion-list no-lines *ngIf="secureDevice">
   		<ion-item>
-  		    <ion-label>{{ 'SAVE_TO_DEVICE' | translate }}</ion-label>
+  		    <ion-label text-wrap *ngIf="fingerAvailable">{{ 'SAVE_TO_DEVICE_FINGERPRINT' | translate }}</ion-label>
+          <ion-label text-wrap *ngIf="!fingerAvailable">{{ 'SAVE_TO_DEVICE_PIN' | translate }}</ion-label>
   		    <ion-checkbox [(ngModel)]="savePassphrase" name="savePassphrase"></ion-checkbox>
   		</ion-item>	
       <ion-item *ngIf="savePassphrase && !fingerAvailable && !pin">

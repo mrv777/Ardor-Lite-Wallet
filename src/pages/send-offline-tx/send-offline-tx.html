@@ -23,11 +23,11 @@
    			<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScanner()"> <ion-icon name="barcode"> </ion-icon> </button>
 		</ion-item>
 		<ion-item id="nodeSelect">
-			<ion-label item-start stacked color="primary">Node</ion-label>
+			<ion-label item-start stacked color="primary">{{ 'NODE' | translate }}</ion-label>
 			<ion-select item-start name="nodeSelect" id="nodeSelect" [(ngModel)]="nodeSelect" (ionChange)='changeNode()'>
-				<ion-option value="mainnet/">Mainnet</ion-option>
-				<ion-option value="testnet/">Testnet</ion-option>
-				<ion-option value="">Custom</ion-option>
+				<ion-option value="mainnet/">{{ 'MAINNET' | translate }}</ion-option>
+				<ion-option value="testnet/">{{ 'TESTNET' | translate }}</ion-option>
+				<ion-option value="">{{ 'CUSTOM' | translate }}</ion-option>
 			</ion-select>
 		</ion-item>			
 		<ion-item [class.hide]="hideCustom">
