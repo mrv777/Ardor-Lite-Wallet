@@ -21,6 +21,34 @@
         <p>{{message}}</p>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="sharedKey">
+      <ion-col>
+        <h6>
+          {{ 'SHARED_KEY' | translate }} 
+          <button ion-button clear color="dark" type="button" id="infoIcon" (click)="showInfo()">
+            <ion-icon name="information-circle"></ion-icon>
+          </button>
+        </h6>
+        <p (click)="copyKey()">{{sharedKey}} <ion-icon name="copy"></ion-icon></p>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="decryptNeeded">
+      <ion-col>
+        <ion-item>
+          <ion-label stacked color="primary">Enter passphrase to decrypt message</ion-label>
+          <ion-input [(ngModel)]="passphrase" name="password" type="{{passwordType}}"></ion-input>
+          
+          <button id="eyeIcon" ion-button clear color="dark" type="button" item-right (click)="togglePassword()"> <ion-icon *ngIf="passwordType == 'password'" name="eye"> </ion-icon><ion-icon *ngIf="passwordType == 'text'" name="eye-off"> </ion-icon> </button>
+          <button id="fingerIcon" *ngIf="fingerAvailable === true && hasPassphrase" ion-button clear color="dark" type="button" item-right (click)="showFingerprint()"> <ion-icon name="finger-print"></ion-icon> </button>
+          <button id="fingerIcon" *ngIf="usePin === true && hasPassphrase" ion-button clear color="dark" type="button" item-right (click)="showPin()"> <ion-icon name="keypad"></ion-icon> </button>
+          <button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerPassword('password')"> <ion-icon name="barcode"> </ion-icon> </button>
+          
+        </ion-item>
+        <ion-item>
+          <button class="bigButton" ion-button color="light" (click)="decryptMessage()" [disabled]="!passphrase" block>{{ 'DECRYPT' | translate }}</button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col>
         <button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>

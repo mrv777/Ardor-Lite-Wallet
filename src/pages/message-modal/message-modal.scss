@@ -2,4 +2,28 @@ page-message-modal {
 	ion-content {
 		background-color: #fff;
 	}
+
+	#qrIcon, #fingerIcon, #eyeIcon {
+    font-size: 1.3em;
+    margin: 0;
+    padding: 0 0.4em;
+    height: 100%;
+    color: #777;
+    top: 8px;
+  	position: relative;
+  }
+
+  #infoIcon {
+  	top: 0;
+  	font-size: 1.2em;
+    margin: 0;
+    padding: 0 0.4em;
+    height: 100%;
+    color: #777;
+  	position: relative;
+  }
+
+  .item-md, .item-ios {
+  	width: 100%;
+  }
 }

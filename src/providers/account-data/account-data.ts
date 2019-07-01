@@ -513,6 +513,11 @@ export class AccountDataProvider {
       //   .catch((error:any) => Observable.throw(error.json().error|| 'Server Error'));
     //});
   }
+
+  getAccountPublicKey(accountID: string) : Observable<object> {
+    return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getAccountPublicKey&account=${accountID}`);
+  }
+
   getUnconfirmedAccountTransactions(chain: number, accountID: string): Observable<object> {
     return Observable.interval(4000).startWith(0).flatMap(() => {
       return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getUnconfirmedTransactions&chain=${chain}&account=${accountID}`);
@@ -548,5 +553,9 @@ export class AccountDataProvider {
 
   generateToken(message: string, password: string): string {
     return ardorjs.generateToken(message, password);
+  }
+
+  decryptMsg(message: string, options, password: string): string {
+    return ardorjs.decryptNote(message, options, password);
   }
 }

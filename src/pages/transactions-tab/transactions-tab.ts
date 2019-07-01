@@ -70,7 +70,11 @@ export class TransactionsTabPage {
           for (let i=0;i < transactions['unconfirmedTransactions'].length; i++) {
             transactions['unconfirmedTransactions'][i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + transactions['unconfirmedTransactions'][i]['timestamp'])*1000);
             transactions['unconfirmedTransactions'][i]['unconfirmed'] = true;
-            this.total = this.transactions.unshift(transactions['unconfirmedTransactions'][i]); 
+            if (this.transactions) {
+              this.total = this.transactions.unshift(transactions['unconfirmedTransactions'][i]); 
+            } else {
+              this.total = 1;
+            }
           }           
         } else if (this.newTX && !transactions['unconfirmedTransactions'][0]) {
           this.loadTxs();

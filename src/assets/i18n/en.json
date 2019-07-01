@@ -149,5 +149,7 @@
     "INFO_CE": "The Chain Gateway is an Ardor feature where you can swap tokens between the various chains on the blockchain.",
     "SAVE_TO_DEVICE_FINGERPRINT": "Save passphrase and retrieve it with fingerprint/FaceID",
     "SAVE_TO_DEVICE_PIN": "Save passphrase and retrieve it with a PIN",
-    "STOLEN_LOST": "If your device gets stolen or lost, it is recommended to transfer your balances out of all accounts that have saved passphrases on the device."
+    "STOLEN_LOST": "If your device gets stolen or lost, it is recommended to transfer your balances out of all accounts that have saved passphrases on the device.",
+    "SHARED_KEY": "Shared Key",
+    "INFO_SHARED": "The key to decrypt this specific encrypted message without having to reveal the account passphrase."
 }
