@@ -65,21 +65,21 @@
 					<span id="currentPriceNum" *ngIf="!currentPrice">N/A</span>
 				</ion-col>
 				<ion-col col-4 col-sm-4 class="pairSelect" style="text-align: right;">
+					{{ selectedAsset.name }}
+				</ion-col>
+				<ion-col col-1 col-sm-1 class="pairSelect">
+					<h3 style="text-align: center;color:#999;">/</h3>
+				</ion-col>
+				<ion-col col-4 col-sm-4 class="pairSelect" style="text-align: left;">
 					<ion-select interface="popover" class="chainSelect" [(ngModel)]="chain" name="chain" (ionChange)="currentPrice = null;allTrades = true;getTrades()">
 			      <ng-container *ngFor="let arrayChain of chains">
 			      	<ion-option *ngIf="arrayChain != 'ARDR'" [value]="arrayChain">{{ arrayChain | uppercase }}</ion-option>
 			  	  </ng-container>
 			    </ion-select>
 				</ion-col>
-				<ion-col col-1 col-sm-1 class="pairSelect">
-					<h3 style="text-align: center;color:#999;">/</h3>
-				</ion-col>
-				<ion-col col-4 col-sm-4 class="pairSelect" style="text-align: left;">
-					{{ selectedAsset.name }}
-				</ion-col>
 			</ion-row>
 		</ion-grid>
-		<div id="chart">
+		<div id="chart" *ngIf="data && data.length > 0">
 			<div [chart]="chart" class="graph"></div>
 		</div>
 					

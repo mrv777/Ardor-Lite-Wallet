@@ -55,7 +55,7 @@
 	      	{{ 'AMOUNT' | translate }}: 
 	      </ion-col>
 	      <ion-col col-8>
-	      	{{tx['amountNQT']/100000000 | number : '1.0-8'}}
+	      	{{tx['amount'] | number : '1.0-8'}}
 	      </ion-col>
 	    </ion-row>
 
@@ -64,7 +64,7 @@
 	      	{{ 'FEE' | translate }}: 
 	      </ion-col>
 	      <ion-col col-8>
-	      	{{tx['feeNQT']/100000000 | number : '1.0-8'}}	
+	      	{{tx['feeNQT']/decimals | number : '1.0-8'}}	
 	      </ion-col>
 	    </ion-row>
 
