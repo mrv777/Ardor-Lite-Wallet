@@ -12,8 +12,11 @@
       </ion-select>
     </ion-title>
     <ion-buttons end>
-      <button ion-button secondary *ngIf="!leased && balance && balance.unconfirmedBalanceNQT != null && balance.unconfirmedBalanceNQT/decimals > 1000" (click)="presentPopoverLease($event)">
+      <button ion-button secondary *ngIf="chain == 1 && leasedLoaded && !leased && balance && balance.unconfirmedBalanceNQT != null && balance.unconfirmedBalanceNQT/decimals > 1000" (click)="presentPopoverLease($event)">
         <ion-icon name="warning"></ion-icon>
+      </button>
+      <button ion-button secondary *ngIf="chain == 1 && leasedLoaded && leased && balance && balance.unconfirmedBalanceNQT != null && balance.unconfirmedBalanceNQT/decimals > 1000" (click)="presentPopoverLease($event)">
+        <ion-icon name="checkmark-circle"></ion-icon>
       </button>
       <button ion-button secondary (click)="presentPopover($event)">
         <ion-icon name="more"></ion-icon>

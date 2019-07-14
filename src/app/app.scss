@@ -96,7 +96,7 @@ ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
     background-color: #f9f9fb;
 }
 
-.darkTheme, .darkTheme .content-md, .darkTheme .content-ios, .darkTheme #txTable .content-md, .darkTheme #txTable .content-ios, .darkTheme #homeTop, .darkTheme .popover-md .popover-content, .darkTheme .popover-ios .popover-content, .darkTheme page-coin-exchange #topRow, .darkTheme page-coin-exchange #currentPriceNum {
+.darkTheme, .darkTheme .content-md, .darkTheme .content-ios, .darkTheme #txTable .content-md, .darkTheme #txTable .content-ios, .darkTheme #homeTop, .darkTheme .popover-md .popover-content, .darkTheme .popover-ios .popover-content, .darkTheme page-coin-exchange #topRow, .darkTheme page-coin-exchange #currentPriceNum, .darkTheme page-assets #topRow, .darkTheme page-assets #currentPriceNum {
     background-color: #222 !important;
     color: #fff !important;
 }
@@ -136,14 +136,18 @@ ion-app.md [padding] .scroll-content, ion-app.ios [padding] .scroll-content {
 .darkTheme page-receive-tab .grid {
     background-color: #000;
 }
-.darkTheme page-home #tabMenu {
+.darkTheme #tabMenu {
     background-color: #222 !important;
     color: rgba(255, 255, 255, 0.51) !important;
 }
-.darkTheme page-home #tabMenu .activeTab {
+.darkTheme #tabMenu .activeTab {
     color: #fff !important;
     // border-bottom: 2px solid #1162a1;
     border-bottom: 2px solid #fff;
+}
+.darkTheme page-assets #searchAsset {
+    background-color: #000;
+    color: #fff;
 }
 
 .list-md .item-input:last-child, .list-ios .item-input:last-child {
@@ -212,4 +216,8 @@ a,
 .label-md-primary, .item-input .label-md-primary, .item-select .label-md-primary, .item-datetime .label-md-primary,
 .label-ios-primary, .item-input .label-ios-primary, .item-select .label-ios-primary, .item-datetime .label-ios-primary {
     color: #3a86c7;
+}
+
+.toast-message {
+  white-space: pre-line;
 }

@@ -39,6 +39,7 @@ import { LeaseMenuPageModule } from '../pages/lease-menu/lease-menu.module';
 import { LeasingInfoPageModule } from '../pages/leasing-info/leasing-info.module';
 import { CancelOrderModalPageModule } from '../pages/cancel-order-modal/cancel-order-modal.module';
 import { AccountInfoPageModule } from '../pages/account-info/account-info.module';
+import { AssetsPageModule } from '../pages/assets/assets.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -54,6 +55,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 import jdenticon from 'jdenticon';
+import { AssetsProvider } from '../providers/assets/assets';
 
 jdenticon.config = {
   replaceMode: "observe"
@@ -99,7 +101,8 @@ jdenticon.config = {
     LeaseMenuPageModule,
     LeasingInfoPageModule,
     CancelOrderModalPageModule,
-    AccountInfoPageModule
+    AccountInfoPageModule,
+    AssetsPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -121,7 +124,8 @@ jdenticon.config = {
     SharedProvider,
     CurrenciesProvider,
     CoinExchangeProvider,
-    AliasesProvider
+    AliasesProvider,
+    AssetsProvider
   ]
 })
 export class AppModule {}

@@ -8,12 +8,9 @@ import { AccountDataProvider } from '../account-data/account-data';
 
 @Injectable()
 export class AliasesProvider {
-  API_URL = "https://ardor.jelurida.com";
 
   constructor(public http: HttpClient, public accountData: AccountDataProvider) {
-    this.accountData.getNode().then((node) => {
-      this.API_URL = node;
-    });
+
   }
 
   getAliases(accountID: string): Observable<object> {

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ModalController, ViewController } 
 
 import { LeaseBalanceModalPage } from '../lease-balance-modal/lease-balance-modal';
 import { LeasingInfoPage } from '../leasing-info/leasing-info';
+import { AccountDataProvider } from '../../providers/account-data/account-data';
 
 @IonicPage()
 @Component({
@@ -10,12 +11,32 @@ import { LeasingInfoPage } from '../leasing-info/leasing-info';
   templateUrl: 'lease-menu.html',
 })
 export class LeaseMenuPage {
+  darkMode: boolean = false;
+  leased: boolean = false;
+  lease: string;
+  leaseBlock: number;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public viewCtrl: ViewController, public accountData: AccountDataProvider) {
+    this.leased = this.navParams.get('leased');
   }
 
-  ionViewDidLoad() {
-
+  ionViewWillEnter() {
+    if (this.leased) {
+      const accountID = this.accountData.getAccountID();
+      this.accountData.getAccount(accountID).subscribe((account) => {
+        this.lease = account['currentLesseeRS'];
+        this.accountData.checkNode().subscribe((blockchain) => {
+          this.leaseBlock = (account['currentLeasingHeightTo'] - blockchain['numberOfBlocks']) / 60 / 24; //Get number of blocks difference then convert to hours and then days
+        });
+      });
+    }
+    this.accountData.getTheme().then((theme) => {
+      if (theme == 'darkTheme') {
+        this.darkMode = true;
+      } else {
+        this.darkMode = false;
+      }
+    });
   }
 
   leaseBalance(address) {
@@ -29,6 +50,10 @@ export class LeaseMenuPage {
     myModal.onDidDismiss(data => {
       this.viewCtrl.dismiss('lease');
     });
+  }
+
+  closeMenu() {
+    this.viewCtrl.dismiss();
   }
 
   moreInfo() {

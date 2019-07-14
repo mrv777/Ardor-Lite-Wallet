@@ -24,7 +24,7 @@ export class AccountMenuPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private faio: FingerprintAIO, private pinDialog: PinDialog,public accountData: AccountDataProvider, public modalCtrl: ModalController, public platform: Platform, private alertCtrl: AlertController) {
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.guest = this.accountData.isGuestLogin();
     if (this.platform.is('cordova')) {
        this.faio.isAvailable().then((available) => {

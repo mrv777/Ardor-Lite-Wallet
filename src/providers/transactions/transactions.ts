@@ -8,12 +8,9 @@ import { AccountDataProvider } from '../account-data/account-data';
 
 @Injectable()
 export class TransactionsProvider {
-  API_URL = "https://ardor.jelurida.com";
 
   constructor(public http: HttpClient, public accountData: AccountDataProvider) {
-    this.accountData.getNode().then((node) => {
-      this.API_URL = node;
-    });
+
   }
 
   sendMoney(chain: number, recipient:string, amount:number, message:string, privateMsg: boolean = false): Observable<object> {

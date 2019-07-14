@@ -1,4 +1,4 @@
-<ion-content padding>
+<ion-content padding *ngIf="!leased" [ngClass]="{'darkTheme' : (darkMode == true)}">
 	<ion-row responsive-sm>
 		<ion-col>
 			{{ 'BALANCE_NOT_LEASED' | translate }}
@@ -33,6 +33,40 @@
 	<ion-row>
 		<ion-col>
 			<button ion-button color="light" (click)="moreInfo()" block>{{ 'MORE_INFO' | translate }}</button>
+		</ion-col>
+	</ion-row>
+</ion-content>
+
+<ion-content padding *ngIf="leased" [ngClass]="{'darkTheme' : (darkMode == true)}">
+	 <ion-row>
+    <ion-col col-12>
+      <h5>{{ 'ACTIVE_LEASE' | translate }}</h5>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col style="font-weight: bold;" col-12>
+      {{ 'TO' | translate }}:
+    </ion-col>
+  </ion-row>
+  <ion-row>
+  	<ion-col col-12>
+      <span>{{lease}}</span>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col style="font-weight: bold;" col-3>
+      {{ 'DAYS' | translate }}:
+    </ion-col>
+    <ion-col col-9 *ngIf="leaseBlock >= 1">
+      <span>{{leaseBlock | number : '1.0-0' }}</span>
+    </ion-col>
+    <ion-col col-9 *ngIf="leaseBlock < 1">
+      <span><1</span>
+    </ion-col>
+  </ion-row>
+	<ion-row>
+		<ion-col>
+			<button ion-button color="light" (click)="closeMenu()" block>{{ 'CLOSE' | translate }}</button>
 		</ion-col>
 	</ion-row>
 </ion-content>

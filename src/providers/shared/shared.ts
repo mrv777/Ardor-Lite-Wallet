@@ -34,6 +34,8 @@ export class SharedProvider {
       ['Coin Exchange Order Issue','Coin Exchange Order Cancel']
     ];
 
+  assetDisclaimer: boolean = true;
+
   public conversionObservable = new BehaviorSubject<string>('USD');
   public conversionSymbolObservable = new BehaviorSubject<string>('$');
 
@@ -104,6 +106,14 @@ export class SharedProvider {
 
   getPriceOnce(): number {
     return this.price;
+  }
+
+  setDisclaimer() {
+    this.assetDisclaimer = false;
+  }
+
+  getDisclaimer(): boolean {
+    return this.assetDisclaimer;
   }
 
 }

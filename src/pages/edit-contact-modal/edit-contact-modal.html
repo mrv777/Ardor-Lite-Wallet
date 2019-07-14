@@ -19,9 +19,9 @@
     <ion-list>
 			<ion-item>
 				<ion-label stacked color="primary">{{ 'ACCOUNT' | translate }}</ion-label>
-				<ion-input [(ngModel)]="account" [disabled]="startingAccount != ''" name="account" type="text">
-        		</ion-input>
-        		<button id="qrIcon" *ngIf="startingAccount == ''" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerAccount()"> <ion-icon name="barcode"> </ion-icon> </button>
+				<ion-input [(ngModel)]="account" [disabled]="startingAccount != ''" (ngModelChange)="account=$event.toLocaleUpperCase()" name="account" type="text">
+    		</ion-input>
+    		<button id="qrIcon" *ngIf="startingAccount == ''" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerAccount()"> <ion-icon name="barcode"> </ion-icon> </button>
 			</ion-item>
     </ion-list>
     {{message}}

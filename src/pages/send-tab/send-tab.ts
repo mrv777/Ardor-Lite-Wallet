@@ -26,6 +26,7 @@ export class SendTabPage {
   private sendForm : FormGroup;
   recipient: string = '';
   amount: number;
+  fee: number;
   amountCurrency: number;
   chain: number = 1;
   chainName: string = 'ARDR';
@@ -186,27 +187,32 @@ export class SendTabPage {
   }
 
   presentConfirm() {
-    let chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
-    let alert = this.alertCtrl.create({
-      title: 'Confirm transfer',
-      message: `Please confirm you want to send <b>${this.amount} ${chainName}</b><br />to<br /><b>${this.recipient}</b>.<br/><br/><b>This cannot be reversed.</b>`,
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
+    if (this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) {
+      let chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
+      let alert = this.alertCtrl.create({
+        title: 'Confirm transfer',
+        message: `Please confirm you want to send <b>${this.amount} ${chainName}</b><br />to<br /><b>${this.recipient}</b>.<br/><br/><b>This cannot be reversed.</b>`,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Send',
+            handler: () => {
+              this.onSend();
+            }
           }
-        },
-        {
-          text: 'Send',
-          handler: () => {
-            this.onSend();
-          }
-        }
-      ]
-    });
-    alert.present();
+        ]
+      });
+      alert.present();
+    } else {
+      this.resultTxt = this.incorrectPass;
+      this.status = -1;
+    }
   }
 
   onSend() {
@@ -227,59 +233,54 @@ export class SendTabPage {
   }
 
   onSendAfterAliasCheck(recipient:string) {
-    if (this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) {
-      this.disableSend = true;
-      let amountBig = new Big(this.amount);
-      let convertedAmount = new Big(amountBig.times(this.decimals));
-      let chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
-      this.resultTxt = `Attempting to send ${recipient} ${amountBig} ${chainName}`;
-      this.status = 0;
-      this.accountData.setPublicKeyPassword(this.password);
-      this.transactions.sendMoney(this.chain, recipient, convertedAmount, this.message, this.privateMsg)
-      .subscribe(
-        unsignedBytes => {
-          if (unsignedBytes['errorDescription'] || !unsignedBytes['unsignedTransactionBytes']) {
-              this.resultTxt = unsignedBytes['errorDescription'];
-              this.disableSend = false;
-              this.status = -1;
-          } else {
-            this.resultTxt = `Signing transaction and sending ${recipient} ${amountBig} ${chainName}`;
-            let attachment = null;
-            if (this.message && this.message != '') {
-              attachment = unsignedBytes['transactionJSON']['attachment'];
-            }
-            let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'sendMoney', { recipient: recipient, amountNQT: convertedAmount.toString() });
-            if (signedTx != 'failed') {
-              this.transactions.broadcastTransaction(signedTx, attachment)
-              .subscribe(
-                broadcastResults => {
-                  console.log(broadcastResults);
-                  if (broadcastResults['fullHash'] != null) {
-                    this.translate.get('SUCCESS_SEND', {recipient: recipient, amountBig: amountBig, chainName: chainName}).subscribe((res: string) => {
-                        this.successSend = res;
-                        // this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
-                        this.resultTxt = this.successSend;
-                        this.status = 1;
-                    });
-                  } else {
-                    this.resultTxt = `Send Failed - ${broadcastResults['errorDescription']}`;
-                    this.status = -1;
-                    this.disableSend = false;
-                  }
+    this.disableSend = true;
+    let amountBig = new Big(this.amount);
+    let convertedAmount = new Big(amountBig.times(this.decimals));
+    let chainName = this.sharedProvider.getConstants()['chainProperties'][this.chain]['name'];
+    this.resultTxt = `Attempting to send ${recipient} ${amountBig} ${chainName}`;
+    this.status = 0;
+    this.accountData.setPublicKeyPassword(this.password);
+    this.transactions.sendMoney(this.chain, recipient, convertedAmount, this.message, this.privateMsg)
+    .subscribe(
+      unsignedBytes => {
+        if (unsignedBytes['errorDescription'] || !unsignedBytes['unsignedTransactionBytes']) {
+            this.resultTxt = unsignedBytes['errorDescription'];
+            this.disableSend = false;
+            this.status = -1;
+        } else {
+          this.resultTxt = `Signing transaction and sending ${recipient} ${amountBig} ${chainName}`;
+          let attachment = null;
+          if (this.message && this.message != '') {
+            attachment = unsignedBytes['transactionJSON']['attachment'];
+          }
+          let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'sendMoney', { recipient: recipient, amountNQT: convertedAmount.toString() });
+          if (signedTx != 'failed') {
+            this.transactions.broadcastTransaction(signedTx, attachment)
+            .subscribe(
+              broadcastResults => {
+                console.log(broadcastResults);
+                if (broadcastResults['fullHash'] != null) {
+                  this.translate.get('SUCCESS_SEND', {recipient: recipient, amountBig: amountBig, chainName: chainName}).subscribe((res: string) => {
+                      this.successSend = res;
+                      // this.resultTxt = `Successfully sent! Transaction fullHash: ${broadcastResults['fullHash']}`;
+                      this.resultTxt = this.successSend;
+                      this.status = 1;
+                  });
+                } else {
+                  this.resultTxt = `Send Failed - ${broadcastResults['errorDescription']}`;
+                  this.status = -1;
+                  this.disableSend = false;
                 }
-              );
-            } else {
-              this.resultTxt = 'Send Failed - WARNING: Transaction returned from node is incorrect';
-              this.status = -1;
-              this.disableSend = false;
-            }
+              }
+            );
+          } else {
+            this.resultTxt = 'Send Failed - WARNING: Transaction returned from node is incorrect';
+            this.status = -1;
+            this.disableSend = false;
           }
         }
-      );
-    } else {
-      this.resultTxt = this.incorrectPass;
-      this.status = -1;
-    }
+      }
+    );
   }
 
   openContacts() {

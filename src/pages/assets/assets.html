@@ -1,0 +1,121 @@
+<ion-header no-border>
+  <ion-navbar hideBackButton="true">
+  	<ion-buttons left>
+	    <button *ngIf="listActive" ion-button menuToggle>
+	      <ion-icon name="menu"></ion-icon>
+	    </button>
+	    <button *ngIf="!listActive" ion-button clear icon-only (click)="listActive = true">
+	        <ion-icon name="arrow-round-back"></ion-icon>
+	    </button>
+    </ion-buttons>
+    <ion-title  *ngIf="listActive">{{ 'ASSETS' | translate }}</ion-title>
+    <ion-title  *ngIf="!listActive">{{ selectedAsset.name }}</ion-title>
+    <ion-buttons end *ngIf="!listActive">
+      <button ion-button secondary (click)="showInfo()">
+        <ion-icon name="information-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	<div *ngIf="assetsInfo == null" style="text-align: center;">
+		<h1 style="text-align: center;">{{ 'LOADING' | translate }}</h1>
+	</div>
+
+	<div *ngIf="assetsInfo && listActive">
+		<h2>{{message}}</h2>
+		<ion-list>
+			<ion-item>
+				<ion-input id="searchAsset" [(ngModel)]="searchAssetID" max="20" name="assetID" type="number" placeholder="Asset ID"></ion-input>
+				<button id="searchIcon" ion-button clear color="dark" type="button" item-right (click)="searchAsset()"> <ion-icon name="search"></ion-icon> </button>
+			</ion-item>
+
+			<ion-grid>
+			 	<ion-row id="tabMenu">
+		      <ion-col (click)="viewMyAssets(true)" [class.activeTab]="accountAssets">
+		        <div>{{ 'MY_ASSETS' | translate }}</div>
+		      </ion-col>
+		      <ion-col (click)="viewMyAssets(false)" [class.activeTab]="!accountAssets">
+		        <div>Verified Assets</div>
+		      </ion-col>
+		    </ion-row>
+		  </ion-grid>
+
+		  <div *ngIf="assetsInfo && assetsInfo.length == 0" style="text-align: center;">
+				<h2 style="text-align: center;">{{ 'LOADING' | translate }}</h2>
+			</div>
+			<div *ngIf="assetsInfo && assetsInfo.length > 0">
+		    <ion-item *ngFor="let assetInfo of assetsInfo" (click)="setAsset(assetInfo.asset)">
+		    	<h2>{{assetInfo.name}}</h2>
+		      <div *ngIf="!accountAssets" class="smallTxt">{{assetInfo.description}}</div>
+		      <div *ngIf="accountAssets" class="smallTxt">{{ 'BALANCE' | translate }}: {{assetInfo.quantity | number : '1.0-8'}}</div>
+	    	</ion-item>
+	    </div>
+	  </ion-list> 
+	</div>
+
+	<div *ngIf="!listActive">
+		<ion-grid>
+			<ion-row id="topRow">
+				<ion-col id="currentPrice" col-3 col-sm-3>
+					{{ 'CURRENT_PRICE' | translate }}<br />
+					<span id="currentPriceNum" *ngIf="currentPrice">{{currentPrice | number : '1.0-8'}}</span>
+					<span id="currentPriceNum" *ngIf="!currentPrice">N/A</span>
+				</ion-col>
+				<ion-col col-4 col-sm-4 class="pairSelect" style="text-align: right;">
+					<ion-select interface="popover" class="chainSelect" [(ngModel)]="chain" name="chain" (ionChange)="currentPrice = null;allTrades = true;getTrades()">
+			      <ng-container *ngFor="let arrayChain of chains">
+			      	<ion-option *ngIf="arrayChain != 'ARDR'" [value]="arrayChain">{{ arrayChain | uppercase }}</ion-option>
+			  	  </ng-container>
+			    </ion-select>
+				</ion-col>
+				<ion-col col-1 col-sm-1 class="pairSelect">
+					<h3 style="text-align: center;color:#999;">/</h3>
+				</ion-col>
+				<ion-col col-4 col-sm-4 class="pairSelect" style="text-align: left;">
+					{{ selectedAsset.name }}
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+		<div id="chart">
+			<div [chart]="chart" class="graph"></div>
+		</div>
+					
+		<h3 *ngIf="allTrades">{{ 'ALL_TRADES' | translate }} on {{chain}} <ion-toggle id="tradesToggle" [(ngModel)]="allTrades" (ionChange)="getTrades()"></ion-toggle></h3>
+		<h3 *ngIf="!allTrades">{{ 'YOUR_TRADES' | translate }} <ion-toggle id="tradesToggle" [(ngModel)]="allTrades" (ionChange)="getTrades()"></ion-toggle></h3>
+
+		<ion-grid *ngIf="trades != null && trades.length > 0">
+			<ion-row class="tableHeader">
+				<ion-col>{{ 'DATE' | translate }}</ion-col>
+				<ion-col>{{ 'QUANTITY' | translate }}</ion-col>
+				<ion-col>{{ chain }}</ion-col>
+			</ion-row>
+			<ng-container *ngFor="let trade of trades | paginate: { id: 'trades_pages',
+                                                  itemsPerPage: '10',
+                                                  currentPage: tradesOrdersPage }">
+				<ion-row>
+				<ion-col>{{trade.date | date:'M/d/yy H:mm'}}</ion-col>
+				<ion-col *ngIf="trade.quantity >= 0.001">{{trade.quantity | number : '1.0-3'}}</ion-col>
+				<ion-col *ngIf="trade.quantity < 0.001"><0.001</ion-col>
+				<ion-col>{{trade.price | number : '1.0-6'}}</ion-col>
+			</ion-row>
+			</ng-container>
+			<ion-row class="paginationRow">
+				<ion-col>
+					<div style="text-align: center;">
+						<pagination-controls (pageChange)="tradesOrdersPage = $event" previousLabel="" nextLabel="" id="trades_pages" maxSize="5"></pagination-controls>
+					</div>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+		<h5 *ngIf="trades.length == 0">{{ 'NO_TRADES' | translate }}</h5>
+
+<!-- 	  <button ion-button>{{ 'BUY' | translate }}</button> 
+	  <button ion-button>{{ 'SELL' | translate }}</button> 
+	  <button ion-button>{{ 'TRANSFER' | translate }}</button>  -->
+	</div>
+
+   
+</ion-content>

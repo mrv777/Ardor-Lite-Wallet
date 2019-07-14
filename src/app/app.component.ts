@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { CoinExchangePage } from '../pages/coin-exchange/coin-exchange';
 import { AboutPage } from '../pages/about/about';
+import { AssetsPage } from '../pages/assets/assets';
 
 import { AccountDataProvider } from '../providers/account-data/account-data';
 
@@ -25,6 +26,7 @@ export class MyApp {
   coActive: object = {};
   ceActive: object = {};
   abActive: object = {};
+  assetsActive: object = {};
   pressExit: string = 'Press Again to Exit';
 
   pages: Array<{title: string, component: any}>;
@@ -77,21 +79,31 @@ export class MyApp {
               this.coActive = {};
               this.ceActive = {};
               this.abActive = {};
+              this.assetsActive = {};
             } else if (page == ContactsPage){
               this.acActive = {};
               this.coActive = {'background-color': '#07426e'};
               this.ceActive = {};
               this.abActive = {};
+              this.assetsActive = {};
             } else if (page == CoinExchangePage){
               this.acActive = {};
               this.coActive = {};
               this.ceActive = {'background-color': '#07426e'};
               this.abActive = {};
+              this.assetsActive = {};
             } else if (page == AboutPage){
               this.acActive = {};
               this.coActive = {};
               this.ceActive = {};
               this.abActive = {'background-color': '#07426e'};
+              this.assetsActive = {};
+            } else if (page == AssetsPage){
+              this.acActive = {};
+              this.coActive = {};
+              this.ceActive = {};
+              this.abActive = {};
+              this.assetsActive = {'background-color': '#07426e'};
             }
           });
           
@@ -126,25 +138,37 @@ export class MyApp {
       this.coActive = {};
       this.ceActive = {};
       this.abActive = {};
+      this.assetsActive = {};
       this.nav.push(HomePage);
     } else if (page == 'Contacts'){
       this.acActive = {};
       this.coActive = {'background-color': '#07426e'};
       this.ceActive = {};
       this.abActive = {};
+      this.assetsActive = {};
       this.nav.push(ContactsPage);
     } else if (page == 'CoinExchange'){
       this.acActive = {};
       this.coActive = {};
       this.ceActive = {'background-color': '#07426e'};
       this.abActive = {};
+      this.assetsActive = {};
       this.nav.push(CoinExchangePage);
     } else if (page == 'About'){
       this.acActive = {};
       this.coActive = {};
       this.ceActive = {};
       this.abActive = {'background-color': '#07426e'};
+      this.assetsActive = {};
       this.nav.push(AboutPage);
+    }
+     else if (page == 'Assets'){
+      this.acActive = {};
+      this.coActive = {};
+      this.ceActive = {};
+      this.abActive = {};
+      this.assetsActive = {'background-color': '#07426e'};
+      this.nav.push(AssetsPage);
     }
   }
 
@@ -153,6 +177,7 @@ export class MyApp {
     this.coActive = {};
     this.ceActive = {};
     this.abActive = {};
+    this.assetsActive = {};
     this.accountData.logout();
     this.nav.setRoot(LoginPage);
   }

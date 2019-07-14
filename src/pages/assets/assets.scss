@@ -1,0 +1,89 @@
+page-assets {
+	.header button {
+      font-size: 1.3em;
+  }
+
+  #searchIcon {
+  	font-size: 1.5em;
+    margin: 0;
+    padding: 0 0.4em;
+    height: 100%;
+    color: #777;
+    top: 3px;
+    position: relative;
+  }
+
+  #tabMenu {
+    text-align: center;
+    font-size: 1.2em;
+    color: rgba(0, 0, 0, 0.51);
+    margin: 0 auto;
+    padding: 0;
+    z-index: 1000;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 90%;
+    box-shadow: 0px 0px 5px #555;
+  }
+
+  #tabMenu .activeTab {
+    color: #000;
+    border-bottom: 2px solid #000;
+  }
+  #tabMenu .activeTab:first-child {
+    border-radius: 0 0 0 10px;
+  }
+  #tabMenu .activeTab:last-child {
+    border-radius: 0 0 10px 0;
+  }
+
+  .smallTxt {
+  	font-size: 14px;
+  	color: #777;
+  }
+
+  .ngx-pagination {
+  	padding: 0;
+  }
+
+  .ngx-pagination a, .ngx-pagination button, .ngx-pagination .current, .ngx-pagination .disabled {
+      padding: 0.1875rem 0.5rem
+  }
+
+  .ngx-pagination .current {
+      background-color: #1162a1;
+  }
+
+  .paginationCol {
+      padding: 5px 0;
+  }
+
+  #tradesToggle {
+      float: right;
+  }
+
+  .tableHeader {
+  	font-weight: bold;
+  }
+
+  #currentPrice {
+      color: #999;
+      font-size: 12px;
+      padding-right: 0 !important;
+  }
+
+  #currentPriceNum {
+      color: #000;
+  }
+
+  .pairSelect {
+      margin-top: 7px;
+      font-size: 1.2em;
+  }
+  .select-md, .select-ios {
+      padding: 0 3px 0 0;
+      display: inline-flex;
+      max-width: 100%;
+  }
+
+}

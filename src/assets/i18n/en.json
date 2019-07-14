@@ -151,5 +151,8 @@
     "SAVE_TO_DEVICE_PIN": "Save passphrase and retrieve it with a PIN",
     "STOLEN_LOST": "If your device gets stolen or lost, it is recommended to transfer your balances out of all accounts that have saved passphrases on the device.",
     "SHARED_KEY": "Shared Key",
-    "INFO_SHARED": "The key to decrypt this specific encrypted message without having to reveal the account passphrase."
+    "INFO_SHARED": "The key to decrypt this specific encrypted message without having to reveal the account passphrase.",
+    "ACTIVE_LEASE": "Active Lease",
+    "ASSETS": "Assets",
+    "MY_ASSETS": "My Assets"
 }

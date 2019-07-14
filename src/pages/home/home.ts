@@ -29,6 +29,7 @@ export class HomePage {
   chainNumbers: number[] = [];
   decimals: number = 100000000;
   leased: boolean = true;
+  leasedLoaded: boolean = false;
 
   txSelected: boolean = true;
   sendSelected: boolean = false;
@@ -66,6 +67,7 @@ export class HomePage {
           } else {
             this.leased = true;
           }
+          this.leasedLoaded = true;
         });
       } else {
         this.leased = true;
@@ -138,7 +140,7 @@ export class HomePage {
   }
 
   presentPopoverLease(myEvent) {
-    let popover = this.popoverCtrl.create(LeaseMenuPage);
+    let popover = this.popoverCtrl.create(LeaseMenuPage, { leased: this.leased });
     popover.present({
       ev: myEvent,
 
@@ -187,6 +189,10 @@ export class HomePage {
   }
 
   changeChain() {
+    //Reset variables until new values are loaded
+    this.leasedLoaded = false;
+    this.balance = null;
+
   	this.chain = this.chainNumbers[this.chains.indexOf(this.chainName)];
     this.shared.emitChain(this.chainName,this.chain);
     if (this.chain == 1){ 
@@ -196,9 +202,8 @@ export class HomePage {
         } else {
           this.leased = true;
         }
+        this.leasedLoaded = true;
       });
-    } else {
-      this.leased = true;
     }
     this.changeCurrency();
   	this.loadBalance();
