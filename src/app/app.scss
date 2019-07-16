@@ -221,3 +221,8 @@ a,
 .toast-message {
   white-space: pre-line;
 }
+
+//Fix keyboard scroll
+ion-col {
+    position: initial !important;
+}
