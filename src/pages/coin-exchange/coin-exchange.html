@@ -28,7 +28,7 @@
 				<h5>N/A</h5>
 			</ion-col>
 			<ion-col col-3 col-sm-3 class="pairSelect" style="text-align: right;">
-				<ion-select class="chainSelect" [(ngModel)]="chainName" name="chainName" (ionChange)="updateChains()">
+				<ion-select interface="popover" class="chainSelect" [(ngModel)]="chainName" name="chainName" (ionChange)="updateChains()">
 			      <ng-container *ngFor="let arrayChain of chains">
 			      <ion-option *ngIf="arrayChain != exchangeChainName" [value]="arrayChain">{{ arrayChain | uppercase }}</ion-option>
 			  	  </ng-container>
@@ -38,7 +38,7 @@
 				<h3 style="text-align: center;color:#999;">|</h3>
 			</ion-col>
 			<ion-col col-3 col-sm-3 class="pairSelect" style="text-align: left;">
-				<ion-select class="chainSelect" [(ngModel)]="exchangeChainName" name="exchangeChainName" (ionChange)="updateChains()">
+				<ion-select interface="popover" class="chainSelect" [(ngModel)]="exchangeChainName" name="exchangeChainName" (ionChange)="updateChains()">
 				  <ng-container *ngFor="let arrayChain of chains">
 				  	<ion-option *ngIf="arrayChain != chainName" [value]="arrayChain">{{ arrayChain | uppercase }}</ion-option>
 				  </ng-container>
@@ -68,8 +68,9 @@
 		<ion-grid>
 			<ion-row>
 				<ion-col col-6>
-					<h3>{{ 'BUY_ORDERS' | translate }}</h3>			
-					<button *ngIf="buyOrders != null && buyOrders.length != 0" ion-button type="button" (click)="showExchange(sellOrders[0].bidNQTPerCoin/decimals,sellOrders[0].quantityQNT/decimals,'Sell')">{{ 'SELL' | translate }}</button> 
+					<h3>{{ 'BUY_ORDERS' | translate }}</h3>	
+					<button *ngIf="sellOrders == null || sellOrders.length == 0" ion-button type="button" (click)="showExchange(0,0,'Sell')">{{ 'SELL' | translate }}</button> 		
+					<button *ngIf="sellOrders != null && sellOrders.length != 0" ion-button type="button" (click)="showExchange(sellOrders[0].bidNQTPerCoin/decimals,sellOrders[0].quantityQNT/decimals,'Sell')">{{ 'SELL' | translate }}</button> 
 					<ion-grid *ngIf="sellOrders != null && sellOrders.length != 0">
 						<ion-row class="tableHeader">
 							<ion-col col-0 col-md-4 class="hidden-sm">{{ 'ACCOUNT' | translate }}</ion-col>
@@ -100,7 +101,8 @@
 				</ion-col>
 				<ion-col col-6>
 					<h3>{{ 'SELL_ORDERS' | translate }}</h3>
-					<button *ngIf="sellOrders != null && sellOrders.length != 0" ion-button type="button" (click)="showExchange(buyOrders[0].askNQTPerCoin/exchangeDecimals,(buyOrders[0].quantityQNT/decimals)/(buyOrders[0].askNQTPerCoin/decimals),'Buy')">{{ 'BUY' | translate }}</button>
+					<button *ngIf="buyOrders == null || buyOrders.length == 0" ion-button type="button" (click)="showExchange(0,0,'Buy')">{{ 'BUY' | translate }}</button> 
+					<button *ngIf="buyOrders != null && buyOrders.length != 0" ion-button type="button" (click)="showExchange(buyOrders[0].askNQTPerCoin/exchangeDecimals,(buyOrders[0].quantityQNT/decimals)/(buyOrders[0].askNQTPerCoin/decimals),'Buy')">{{ 'BUY' | translate }}</button>
 					<ion-grid *ngIf="buyOrders != null && buyOrders.length != 0">
 						<ion-row class="tableHeader">
 							<ion-col col-0 col-md-4 class="hidden-sm">{{ 'ACCOUNT' | translate }}</ion-col>

@@ -84,6 +84,50 @@ page-assets {
       padding: 0 3px 0 0;
       display: inline-flex;
       max-width: 100%;
+      position: relative;
+  }
+
+  .col .button {
+      width: 100%;
+      background: #1162a1;
+      background: -moz-linear-gradient(0deg, #1162a1 0%, #3a86c7 100%);
+      background: -webkit-linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+      background: linear-gradient(0deg, #1162a1 0%,#3a86c7 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1162a1', endColorstr='#3a86c7',GradientType=1 );
+  }
+
+  ion-grid ion-grid ion-row.yourTrade {
+      background-color: rgba(17, 98, 161, 0.3);
+  }
+
+  ion-grid ion-grid ion-row {
+      border-bottom: 1px #ddd solid;
+  }
+
+  ion-grid ion-grid ion-row.paginationRow {
+      border-bottom: none;
+  }
+
+  @media(max-width: 425px){
+      h5 {
+          font-size: 16px;
+      }
+  }
+
+  @media(max-width: 767px){
+      .hidden-sm {
+          display:none;
+      }
+
+      .no-top-bottom-padding {
+          padding: 0 5px;
+      }
+
+  }
+  @media(min-width: 768px){
+      .show-sm {
+          display:none;
+      }
   }
 
 }

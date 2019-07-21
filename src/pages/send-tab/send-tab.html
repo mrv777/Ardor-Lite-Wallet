@@ -68,7 +68,7 @@
 
 	<ion-row responsive-sm>
 		<ion-col>
-			<button ion-button [disabled]="disableSend || !sendForm.valid" (click)="presentConfirm()" type="submit" block>{{ 'SEND' | translate }}</button>
+			<button ion-button [disabled]="disableSend || !sendForm.valid" (click)="exchangeCheck()" type="submit" block>{{ 'SEND' | translate }}</button>
 		</ion-col>
     </ion-row>
 	</form>

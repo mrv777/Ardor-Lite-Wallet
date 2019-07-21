@@ -46,6 +46,22 @@ export class TransactionsProvider {
     return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=exchangeCoins`, data, {headers: headers});
   }
 
+  placeAskOrder(chain: string, asset:number, priceNQTPerShare:number, quantityQNT:number): Observable<object> {
+    let publicKey = this.accountData.getPublicKey();
+    const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
+
+    let data = "chain=" + chain + "&asset=" + asset + "&quantityQNT=" + quantityQNT + "&priceNQTPerShare=" + priceNQTPerShare + "&publicKey=" + publicKey;
+    return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=placeAskOrder`, data, {headers: headers});
+  }
+
+  placeBidOrder(chain: string, asset:number, priceNQTPerShare:number, quantityQNT:number): Observable<object> {
+    let publicKey = this.accountData.getPublicKey();
+    const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
+
+    let data = "chain=" + chain + "&asset=" + asset + "&quantityQNT=" + quantityQNT + "&priceNQTPerShare=" + priceNQTPerShare + "&publicKey=" + publicKey;
+    return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=placeBidOrder`, data, {headers: headers});
+  }
+
   broadcastTransaction(transactionBytes: string, prunableAttachmentJSON: object = null): Observable<object> {
     const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
     let data;
@@ -66,11 +82,15 @@ export class TransactionsProvider {
   }
 
   getTransaction(chain: number, fullHash: string): Observable<object> {
-    // return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getTransaction&chain=${chain}&fullHash=${fullHash}`)
-    //   .map((res:Response) => res.json())
-    //   .catch((error:any) => Observable.throw(error.json().error|| 'Server Error'));
-
     return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getTransaction&chain=${chain}&fullHash=${fullHash}`)
+  }
+
+  getExchanges(): Observable<object> {
+    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getAlias&chain=ignis&aliasName=ArdorLiteExchanges`)
+  }
+
+  getBundlerRates(): Observable<object> {
+    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getBundlerRates`);
   }
   
 

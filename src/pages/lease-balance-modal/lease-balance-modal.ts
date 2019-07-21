@@ -81,7 +81,7 @@ export class LeaseBalanceModalPage {
     this.translate.get('FAIL_LEASE').subscribe((res: string) => {
         this.failLease = res;
     });
-    this.translate.get('SUCCESS_LEASE').subscribe((res: string) => {
+    this.translate.get('SUCCESS_LEASE', {recipient: this.recipient}).subscribe((res: string) => {
         this.successLease = res;
     });
     this.translate.get('INCORRECT_PASS').subscribe((res: string) => {

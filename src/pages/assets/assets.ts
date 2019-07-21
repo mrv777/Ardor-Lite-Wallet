@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, ModalController } from 'ionic-angular';
 import { StockChart } from 'angular-highcharts';
 import { TranslateService } from '@ngx-translate/core';
 import { DecimalPipe } from '@angular/common';
@@ -7,6 +7,8 @@ import { DecimalPipe } from '@angular/common';
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { AssetsProvider } from '../../providers/assets/assets';
 import { SharedProvider } from '../../providers/shared/shared';
+import { AssetsModalPage } from '../assets-modal/assets-modal';
+import { CancelOrderModalPage } from '../cancel-order-modal/cancel-order-modal';
 
 
 @IonicPage()
@@ -24,16 +26,24 @@ export class AssetsPage {
 	accountAssets: boolean = true;
 	theme: string;
 
+	accountId: string;
 	balance: number;
 
 	chain: string = 'IGNIS';
 	chains: string[] = ['IGNIS', 'BITSWIFT'];
 	chainDecimals: number = 100000000;
-	trades: object[] = [];
 	decimals: number;
-	allTrades: boolean = true;
-	tradesOrdersPage: number = 1;
 	currentPrice: number;
+
+	trades: object[] = [];
+	openOrders: object[];
+  buyOrders: object[];
+  sellOrders: object[];
+
+  buyOrdersPage: number = 1;
+  sellOrdersPage: number = 1;
+  tradesOrdersPage: number = 1;
+	allTrades: boolean = true;
 
 	volumeString: string = 'Volume';
   priceString: string = 'Price';
@@ -44,11 +54,14 @@ export class AssetsPage {
   data: any[] = [];
   volume: any[] = [];
 
+  loading: boolean = true;
+
   constructor(
   	public navCtrl: NavController, 
   	public navParams: NavParams,
   	private alertCtrl: AlertController,
   	private toastCtrl: ToastController,
+  	private modalCtrl: ModalController,
   	public translate: TranslateService,
   	private dp: DecimalPipe,
   	public accountData: AccountDataProvider,
@@ -58,6 +71,7 @@ export class AssetsPage {
   }
 
   ionViewDidLoad() {
+  	this.accountId = this.accountData.getAccountID();
   	this.accountData.getTheme().then((theme) => {
       this.theme = theme;
     });
@@ -79,8 +93,9 @@ export class AssetsPage {
 
   loadAssets() {
   	this.assetsInfo = []; //Reset array
+  	this.loading = true;
   	if (this.accountAssets) {
-  	  this.assetsProvider.getAccountAssets(this.accountData.getAccountID())
+  	  this.assetsProvider.getAccountAssets(this.accountId)
   	  .subscribe(
 	        assets => {
 	          if (assets['errorDescription']) {
@@ -91,6 +106,7 @@ export class AssetsPage {
 	          		assetList[i]['quantity'] = assetList[i]['quantityQNT']/Math.pow(10, assetList[i]['decimals']);
 	          		this.assetsInfo.push( assetList[i] );
 	          	}
+	          	this.loading = false;
 	          }
 	        }
 	    );
@@ -117,6 +133,9 @@ export class AssetsPage {
 					            	asset['quantity'] = asset['quantityQNT']/Math.pow(10, asset['decimals']);
 					              this.assetsInfo.push( asset );
 					            }
+					            if (i == this.assets.length) {
+						          	this.loading = false;
+						          }
 					          }
 					      );
 					    }
@@ -147,7 +166,7 @@ export class AssetsPage {
 	            	this.decimals = Math.pow(10, asset['decimals']);
 	            	asset['quantity'] = asset['quantityQNT']/this.decimals;
 	              this.selectedAsset = asset;
-	              this.assetsProvider.getAccountAssets(this.accountData.getAccountID(), asset['asset'])
+	              this.assetsProvider.getAccountAssets(this.accountId, asset['asset'])
 					  	  .subscribe(
 						        accountAsset => {
 						        	if (accountAsset['quantityQNT']) {
@@ -157,11 +176,61 @@ export class AssetsPage {
 						        	}
 						        }
 						    );
+						    this.getOrders();
 	              this.getTrades();
 	              this.listActive = false;
 	            }
 	          }
 	      );
+  }
+
+  getOrders() { 
+  	// Get Buy and Sell orders
+    this.assetsProvider.getAskOrders(this.searchAssetID, this.chain).subscribe(orders => {
+    	if (orders && orders['askOrders'] && orders['askOrders'][0]){
+    		this.buyOrders = orders['askOrders'];
+    		let sum = 0;
+    		for (let i=0;i < this.buyOrders.length; i++) {
+    			this.buyOrders[i]['sum'] = sum + this.buyOrders[i]['quantityQNT']/this.decimals;
+    			sum = this.buyOrders[i]['sum'];
+    		}
+    	} else {
+    		this.buyOrders = [];
+    	}
+    });
+    this.assetsProvider.getBidOrders(this.searchAssetID, this.chain).subscribe(orders => {
+    	if (orders && orders['bidOrders'] && orders['bidOrders'][0]){
+    		this.sellOrders = orders['bidOrders'];
+    		let sum = 0;
+    		for (let i=0;i < this.sellOrders.length; i++) {
+    			this.sellOrders[i]['sum'] = sum + this.sellOrders[i]['quantityQNT']/this.decimals;
+    			sum = this.sellOrders[i]['sum'];
+    		}
+    	} else {
+    		this.sellOrders = [];
+    	}
+    });
+
+    //Get account's open orders
+    this.assetsProvider.getAccountCurrentAskOrders(this.searchAssetID, this.accountId, this.chain).subscribe(orders => {
+      if (orders && orders['askOrders'] && orders['askOrders'][0]){
+      	for (let i=0;i < orders['askOrders'].length; i++) {
+      		orders['askOrders'][i]['type'] = "Sell";
+      	}
+        this.openOrders = orders['askOrders'];
+      } else {
+        this.openOrders = [];
+      }
+
+      this.assetsProvider.getAccountCurrentBidOrders(this.searchAssetID, this.accountId, this.chain).subscribe(orders => {
+        if (orders && orders['bidOrders'] && orders['bidOrders'][0]){
+        	for (let i=0;i < orders['bidOrders'].length; i++) {
+	      		orders['bidOrders'][i]['type'] = "Buy";
+	      	}
+          this.openOrders.push(...orders['bidOrders']);
+        }
+      });
+    });
   }
 
   getTrades() {
@@ -172,7 +241,7 @@ export class AssetsPage {
 	  let dataVolume = [];
 
   	if (!this.allTrades) {
-  		accountTrades = this.accountData.getAccountID();
+  		accountTrades = this.accountId;
   	} else {
 	  	// Reset arrays for chart
 	    this.data = [];
@@ -236,6 +305,16 @@ export class AssetsPage {
     });
 
     toast.present();
+  }
+
+  showExchange(rate:number, max:number, type:string) {
+    let myModal = this.modalCtrl.create(AssetsModalPage, { asset: this.selectedAsset, chain: this.chain, assetDecimals: this.decimals, chainDecimals: this.chainDecimals, rate: rate, max: max, type: type });
+    myModal.present();
+  }
+
+  cancelOrder(order: number, chain: number, type: string) {
+    let myModal = this.modalCtrl.create(CancelOrderModalPage, { order: order, chain: chain, type: type });
+    myModal.present();
   }
 
   createChart() {

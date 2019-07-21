@@ -40,6 +40,7 @@ import { LeasingInfoPageModule } from '../pages/leasing-info/leasing-info.module
 import { CancelOrderModalPageModule } from '../pages/cancel-order-modal/cancel-order-modal.module';
 import { AccountInfoPageModule } from '../pages/account-info/account-info.module';
 import { AssetsPageModule } from '../pages/assets/assets.module';
+import { AssetsModalPageModule } from '../pages/assets-modal/assets-modal.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -102,7 +103,8 @@ jdenticon.config = {
     LeasingInfoPageModule,
     CancelOrderModalPageModule,
     AccountInfoPageModule,
-    AssetsPageModule
+    AssetsPageModule,
+    AssetsModalPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

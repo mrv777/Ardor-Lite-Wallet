@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { CoinExchangeProvider } from '../../providers/coin-exchange/coin-exchange';
 import { TransactionsProvider } from '../../providers/transactions/transactions';
+import { AssetsProvider } from '../../providers/assets/assets';
 
 @IonicPage()
 @Component({
@@ -20,6 +21,7 @@ export class CancelOrderModalPage {
   disableCancel: boolean = false;
   resultTxt: string = '';
   status: number;
+  type: string = 'ce';
 
   incorrectPass: string = 'Incorrect Passphrase';
   enterPin: string = 'Enter your PIN';
@@ -34,9 +36,12 @@ export class CancelOrderModalPage {
   fingerAvailable: boolean = false;
   guest: boolean = false;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private faio: FingerprintAIO, private pinDialog: PinDialog, public coinExchangeProvider: CoinExchangeProvider, public transactionsProvider: TransactionsProvider, public translate: TranslateService, public platform: Platform, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public accountData: AccountDataProvider, public viewCtrl: ViewController, private barcodeScanner: BarcodeScanner, private faio: FingerprintAIO, private pinDialog: PinDialog, public coinExchangeProvider: CoinExchangeProvider, public transactionsProvider: TransactionsProvider, public translate: TranslateService, public platform: Platform, private alertCtrl: AlertController, public assetsProvider: AssetsProvider) {
   	this.order = navParams.get('order');
     this.chain = navParams.get('chain');
+    if (navParams.get('type')) {
+      this.type = navParams.get('type');
+    }
   }
 
   ionViewDidLoad() {
@@ -83,8 +88,73 @@ export class CancelOrderModalPage {
   	  this.disableCancel = true;
       this.status = 0;
       this.accountData.setPublicKeyPassword(this.password);
-    
-      this.coinExchangeProvider.cancelCoinExchange(this.order, this.chain)
+
+      if (this.type == 'Sell'){
+        this.assetsProvider.cancelAskOrder(this.order, this.chain)
+        .subscribe(
+          unsignedBytes => {
+             if (unsignedBytes['errorDescription']) {
+                this.resultTxt = unsignedBytes['errorDescription'];
+                this.disableCancel = false;
+             } else {
+               let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'cancelAskOrder', { recipient: 0, amountNQT: 0 });
+               if (signedTx != 'failed') {
+                 this.transactionsProvider.broadcastTransaction(signedTx)
+                  .subscribe(
+                    broadcastResults => {
+                      console.log(broadcastResults);
+                      if (broadcastResults['fullHash'] != null) {
+                        this.resultTxt = `Successfully canceled order`;
+                        this.status = 1;
+                      } else {
+                        this.resultTxt = broadcastResults['errorDescription'];
+                        this.disableCancel = false;
+                        this.status = -1;
+                      }
+                    }
+                  );
+                } else {
+                    this.resultTxt = 'Cancel Failed - WARNING: Transaction returned from node is incorrect';
+                    this.status = -1;
+                    this.disableCancel = false;
+                 }
+             }
+          }
+        );
+      } else if (this.type == 'Buy'){
+        this.assetsProvider.cancelBidOrder(this.order, this.chain)
+        .subscribe(
+          unsignedBytes => {
+             if (unsignedBytes['errorDescription']) {
+                this.resultTxt = unsignedBytes['errorDescription'];
+                this.disableCancel = false;
+             } else {
+               let signedTx = this.accountData.verifyAndSignTransaction(unsignedBytes['unsignedTransactionBytes'], this.password, 'cancelBidOrder', { recipient: 0, amountNQT: 0 });
+               if (signedTx != 'failed') {
+                 this.transactionsProvider.broadcastTransaction(signedTx)
+                  .subscribe(
+                    broadcastResults => {
+                      console.log(broadcastResults);
+                      if (broadcastResults['fullHash'] != null) {
+                        this.resultTxt = `Successfully canceled order`;
+                        this.status = 1;
+                      } else {
+                        this.resultTxt = broadcastResults['errorDescription'];
+                        this.disableCancel = false;
+                        this.status = -1;
+                      }
+                    }
+                  );
+                } else {
+                    this.resultTxt = 'Cancel Failed - WARNING: Transaction returned from node is incorrect';
+                    this.status = -1;
+                    this.disableCancel = false;
+                 }
+             }
+          }
+        );
+      } else {
+        this.coinExchangeProvider.cancelCoinExchange(this.order, this.chain)
         .subscribe(
           unsignedBytes => {
              if (unsignedBytes['errorDescription']) {
@@ -115,6 +185,7 @@ export class CancelOrderModalPage {
              }
           }
         );
+      }
     } else {
       this.resultTxt = this.incorrectPass;
       this.status = -1;

@@ -54,6 +54,8 @@ export class SendTabPage {
   disableCurrency: boolean = false;
   currencyPlaceholder: string;
 
+  eAddresses: string[] = []; //List of known exchange addresses
+
   price: number = 0;
   currency: string = 'USD';
   currencies: string[] = ['BTC','ETH','USD','EUR','CNY','AUD'];
@@ -99,6 +101,18 @@ export class SendTabPage {
         });
       }
     }
+
+    this.transactions.getExchanges()
+    .subscribe(
+        eAccounts => {
+          if (eAccounts['errorDescription']) {
+            
+          } else {
+            const eAccountsURI = eAccounts['aliasURI'];
+            this.eAddresses = eAccountsURI.split("|");
+          }
+        }
+    );
 
     this.translate.get('NO_SAVED_CONTACTS').subscribe((res: string) => {
         this.noContacts = res;
@@ -184,6 +198,33 @@ export class SendTabPage {
 
   handleEnter() {
     this.keyboard.hide();
+  }
+
+  exchangeCheck() { 
+    if ((!this.message || this.message == '') && this.eAddresses.indexOf(this.recipient.toLowerCase()) != -1) {
+      let alert = this.alertCtrl.create({
+        title: 'Exchange Warning',
+        message: `It appears you are sending to an exchange without a message.  Exchanges typically require a message to credit the correct account.  Are you sure you want to continue without a message?`,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Continue',
+            handler: () => {
+              this.presentConfirm();
+            }
+          }
+        ]
+      });
+      alert.present();
+    } else {
+      this.presentConfirm();
+    }
   }
 
   presentConfirm() {

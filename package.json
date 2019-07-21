@@ -1,6 +1,6 @@
 {
   "name": "ardor",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "author": "MrV",
   "homepage": "",
   "private": true,
@@ -37,7 +37,7 @@
     "angular-highcharts": "^5.2.13",
     "ardorjs": "git+https://github.com/mrv777/ardorjs.git",
     "bip39": "^2.5.0",
-    "cordova-android": "7.1.4",
+    "cordova-android": "8.0.0",
     "cordova-browser": "~5.0.4",
     "cordova-clipboard": "^1.2.1",
     "cordova-ios": "^4.5.5",

@@ -423,13 +423,7 @@ export class CoinExchangePage {
   }
 
   showExchange(rate:number, max:number, type:string) {
-    let myModal;
-    // if (type == 'Buy') {
-    // 	myModal = this.modalCtrl.create(CoinExchangeModalPage, { exchangeChain: this.exchangeChainName, chain: this.chainName, rate: rate, max: max, type: type });
-    // } else {
-    // 	myModal = this.modalCtrl.create(CoinExchangeModalPage, { exchangeChain: this.chainName, chain: this.exchangeChainName, rate: rate, max: max, type: type });
-    // }
-    myModal = this.modalCtrl.create(CoinExchangeModalPage, { exchangeChain: this.exchangeChainName, chain: this.chainName, rate: rate, max: max, type: type });
+    let myModal = this.modalCtrl.create(CoinExchangeModalPage, { exchangeChain: this.exchangeChainName, chain: this.chainName, rate: rate, max: max, type: type });
     myModal.present();
   } 
 

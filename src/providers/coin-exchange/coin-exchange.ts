@@ -47,8 +47,4 @@ export class CoinExchangeProvider {
     );
   }
 
-  getBundlerRates(): Observable<object> {
-    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getBundlerRates`);
-  }
-
 }

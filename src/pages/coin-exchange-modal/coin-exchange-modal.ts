@@ -106,7 +106,7 @@ export class CoinExchangeModalPage {
       this.verifyPin = res;
     });
 
-    this.coinExchangeProvider.getBundlerRates()
+    this.transactionsProvider.getBundlerRates()
       .subscribe(
         rates => {
           this.rates = rates['rates'];

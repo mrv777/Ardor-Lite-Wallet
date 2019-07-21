@@ -524,7 +524,7 @@ export class AccountDataProvider {
     });
   }
 
-  getBalanceOnce(chain: number, accountID: string): Observable<object> {
+  getBalanceOnce(chain: any, accountID: string): Observable<object> {
     if (!this.NODE_URL) {
       this.setNode('mainnet/').then(() => {  
         return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getBalance&chain=${chain}&account=${accountID}`);
