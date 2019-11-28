@@ -1,8 +1,8 @@
 <ion-header no-border>
 
   <ion-navbar>
-    <ion-title *ngIf="type == 'Buy'">Buy {{asset.name}} with {{chainName}}</ion-title>
-    <ion-title *ngIf="type == 'Sell'">Sell {{asset.name}} for {{chainName}}</ion-title>
+    <ion-title *ngIf="type == 'Buy'">{{ 'BUY' | translate }} {{asset.name}} with {{chainName}}</ion-title>
+    <ion-title *ngIf="type == 'Sell'">{{ 'SELL' | translate }} {{asset.name}} for {{chainName}}</ion-title>
   </ion-navbar>
 
 </ion-header>

@@ -1,4 +1,10 @@
 {
+    "SHARED_KEY": "Clave P\u00fablica",
+    "ACTIVE_LEASE": "Activar el Alquiler",
+    "INFO_SHARED": "La clave espec\u00edfica para descifrar este mensaje cifrado sin tener que desvelar la Frase de Contrase\u00f1a de la cuenta.",
+    "ASSETS": "Activos",
+    "MY_ASSETS": "Mis activos",
+    "NOT_ENOUGH": "No dispone suficientes {{chainName}} para pagar la tasa",
     "LOGIN": "Iniciar Sesi\u00f3n",
     "LOGOUT": "Cerrar Sesi\u00f3n",
     "CONTACTS": "Contactos",

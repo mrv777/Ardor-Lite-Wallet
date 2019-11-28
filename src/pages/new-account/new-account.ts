@@ -81,7 +81,7 @@ export class NewAccountPage {
     this.verifyPass = [];
     this.verifyPage = true;
     let fakePassphrase = bip39.generateMnemonic();
-    let passphraseWords = fakePassphrase.split(" ").slice(0,6).concat(this.passphrase.split(" ").slice());
+    let passphraseWords = fakePassphrase.split(" ").slice(0,12).concat(this.passphrase.split(" ").slice());
     this.shuffledPass = this.shuffle(passphraseWords);
   }
 

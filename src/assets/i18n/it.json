@@ -1,4 +1,10 @@
 {
+    "SHARED_KEY": "Chiave condivisa",
+    "ACTIVE_LEASE": "Lease attivo",
+    "INFO_SHARED": "La chiave per decifrare questo specifico messaggio senza rivelare la passphrase dell'account.",
+    "ASSETS": "Assets",
+    "MY_ASSETS": "I miei Assets",
+    "NOT_ENOUGH": "{{chainName}} non sufficienti per coprire la tassa",
     "LOGIN": "Login",
     "LOGOUT": "Logout",
     "CONTACTS": "Contatti",

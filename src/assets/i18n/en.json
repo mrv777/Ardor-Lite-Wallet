@@ -154,5 +154,6 @@
     "INFO_SHARED": "The key to decrypt this specific encrypted message without having to reveal the account passphrase.",
     "ACTIVE_LEASE": "Active Lease",
     "ASSETS": "Assets",
-    "MY_ASSETS": "My Assets"
+    "MY_ASSETS": "My Assets",
+    "NOT_ENOUGH": "Not enough {{chainName}} to cover the fee"
 }

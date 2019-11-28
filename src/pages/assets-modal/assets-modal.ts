@@ -54,6 +54,7 @@ export class AssetsModalPage {
   incorrectPass: string = 'Incorrect Passphrase';
   enterPin: string = 'Enter your PIN';
   verifyPin: string = 'Verify your PIN';
+  notEnough: string = 'Not enough IGNIS to cover the fee';
 
   constructor(
   	public navCtrl: NavController, 
@@ -118,6 +119,9 @@ export class AssetsModalPage {
     this.translate.get('VERIFY_PIN').subscribe((res: string) => {
       this.verifyPin = res;
     });
+    this.translate.get('NOT_ENOUGH', {chainName: this.chainName}).subscribe((res: string) => {
+      this.notEnough = res;
+    });
 
     this.assetsProvider.getAccountAssets(this.accountID, this.asset['asset'])
 	  .subscribe(
@@ -155,7 +159,7 @@ export class AssetsModalPage {
 
             if (this.balance < this.fee) {
               this.disableExchange = true;
-              this.resultTxt = `Not enough ${this.chainName} to cover the fee`;
+              this.resultTxt = this.notEnough;
             }
           }
         );
