@@ -204,8 +204,11 @@ export class LeaseBalanceModalPage {
               .subscribe(
                 broadcastResults => {
                   if (broadcastResults['fullHash'] != null) {
-                    this.resultTxt = this.successLease;
-                    this.status = 1;
+                    this.translate.get('SUCCESS_LEASE', {recipient: recipient}).subscribe((res: string) => {
+                        this.successLease = res;
+                        this.resultTxt = this.successLease;
+                        this.status = 1;
+                    });
                   } else {
                     this.resultTxt = this.failLease;
                     this.status = -1;
