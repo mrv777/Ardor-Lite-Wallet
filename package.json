@@ -1,6 +1,6 @@
 {
   "name": "ardor",
-  "version": "2.4.5",
+  "version": "2.5.0",
   "author": "MrV",
   "homepage": "",
   "private": true,
@@ -46,7 +46,7 @@
     "cordova-plugin-fingerprint-aio": "^1.7.0",
     "cordova-plugin-headercolor": "^1.0.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
-    "cordova-plugin-ionic-webview": "^1.2.1",
+    "cordova-plugin-ionic-webview": "^4.1.3",
     "cordova-plugin-pin-dialog": "^0.1.3",
     "cordova-plugin-secure-storage-echo": "^5.0.0",
     "cordova-plugin-splashscreen": "^5.0.3",

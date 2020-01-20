@@ -50,10 +50,19 @@
 				<h2 style="text-align: center;">No Assets</h2>
 			</div>
 			<div *ngIf="assetsInfo && assetsInfo.length > 0">
-		    <ion-item *ngFor="let assetInfo of assetsInfo" (click)="setAsset(assetInfo.asset)">
-		    	<h2>{{assetInfo.name}}</h2>
-		      <div *ngIf="!accountAssets" class="smallTxt">{{assetInfo.description}}</div>
-		      <div *ngIf="accountAssets" class="smallTxt">{{ 'BALANCE' | translate }}: {{assetInfo.quantity | number : '1.0-8'}}</div>
+		    <ion-item *ngFor="let assetInfo of assetsInfo">
+		    	<div *ngIf="accountAssets" (click)="showTransfer(assetInfo)" style="float: right;width: 20%">
+			    	<button ion-button type="button">{{ 'SEND' | translate }}</button> 
+			    </div>
+		    	<div *ngIf="accountAssets" (click)="setAsset(assetInfo.asset)" style="width: 80%">
+			    	<h2>{{assetInfo.name}}</h2>
+			      <div class="smallTxt">{{ 'BALANCE' | translate }}: {{assetInfo.quantity | number : '1.0-8'}}</div>
+			    </div>
+
+			    <div *ngIf="!accountAssets" (click)="setAsset(assetInfo.asset)" style="width: 100%">
+			    	<h2>{{assetInfo.name}}</h2>
+			      <div class="smallTxt">{{assetInfo.description}}</div>
+			    </div>
 	    	</ion-item>
 	    </div>
 	  </ion-list> 

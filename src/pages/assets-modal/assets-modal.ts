@@ -26,9 +26,9 @@ export class AssetsModalPage {
   fee: Big;
   type: string;
   chainDecimals: number;
-  chainDecimalsPow: number;
+  chainDecimalsPow: number = 1;
   assetDecimals: number;
-  assetDecimalsPow: number;
+  assetDecimalsPow: number = 1;
   exchangeQuantity: Big;
 
   accountID: string;
@@ -79,10 +79,14 @@ export class AssetsModalPage {
     this.type = navParams.get('type');
 
     this.assetDecimals = navParams.get('assetDecimals');
-    this.assetDecimalsPow = Math.round( Math.log(this.assetDecimals) / Math.log(10) );
+    if (this.assetDecimals != 0) {
+      this.assetDecimalsPow = Math.round( Math.log(this.assetDecimals) / Math.log(10) );
+    }
 
     this.chainDecimals = navParams.get('chainDecimals');
-    this.chainDecimalsPow = Math.round( Math.log(this.chainDecimals) / Math.log(10) );
+    if (this.chainDecimals != 0) {
+      this.chainDecimalsPow = Math.round( Math.log(this.chainDecimals) / Math.log(10) );
+    }
   }
 
   ionViewDidLoad() {

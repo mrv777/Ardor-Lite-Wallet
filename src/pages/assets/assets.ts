@@ -8,6 +8,7 @@ import { AccountDataProvider } from '../../providers/account-data/account-data';
 import { AssetsProvider } from '../../providers/assets/assets';
 import { SharedProvider } from '../../providers/shared/shared';
 import { AssetsModalPage } from '../assets-modal/assets-modal';
+import { SendModalPage } from '../send-modal/send-modal';
 import { CancelOrderModalPage } from '../cancel-order-modal/cancel-order-modal';
 
 
@@ -305,6 +306,11 @@ export class AssetsPage {
     });
 
     toast.present();
+  }
+
+  showTransfer(asset: object) {
+    let myModal = this.modalCtrl.create(SendModalPage, { asset: asset, chain: this.chain, assetDecimals: this.decimals });
+    myModal.present();
   }
 
   showExchange(rate:number, max:number, type:string) {

@@ -1,0 +1,94 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Send {{name}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding [class]="theme">
+	<form [formGroup]="sendForm">
+	<ion-list *ngIf="status != 1">
+		<ion-row style="border-bottom: 0">
+      <ion-col col-12>
+				<ion-item>
+					<ion-label stacked color="primary">{{ 'TO' | translate }} <canvas *ngIf="recipient != null && recipient != ''" class="idIcon" width="30" height="30" [attr.data-jdenticon-value]="recipient"></canvas></ion-label>
+					<ion-input placeholder="{{ 'ACCOUNT_NUMBER_ALIAS' | translate }}" [(ngModel)]="recipient" [disabled]="disableSend" name="recipient" type="text" formControlName="recipientForm" (ngModelChange)="recipient = recipient.toUpperCase()">
+		   			</ion-input>
+		   			<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScanner()"> <ion-icon name="barcode"> </ion-icon> </button>
+		   			<button id="contactsIcon" ion-button clear color="dark" type="button" item-right (click)="openContacts()"> <ion-icon name="people"> </ion-icon> </button>
+		   			<ion-select [(ngModel)]="recipient" name="recipient" style="display:none;" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}" formControlName="recipientForm">
+			          <ion-option *ngFor="let contact of contacts" value="{{contact.account}}">
+			            <span *ngIf="contact.name != ''">{{contact.name}}</span>
+			            <span *ngIf="contact.name == ''">{{contact.account}}</span>
+			          </ion-option>
+			        </ion-select>
+				</ion-item>
+			</ion-col>
+		</ion-row>
+		<ion-row style="border-bottom: 0">
+      <ion-col col-12>
+				<ion-item>
+					<ion-label stacked color="primary">{{ 'AMOUNT' | translate }} ({{ 'AVAILABLE' | translate }}: {{max | number}})</ion-label>
+					<ion-input [(ngModel)]="amount" [disabled]="disableSend" name="amount" max="{{max}}" (keyup.enter)="handleEnter()" type="number" formControlName="amountForm">
+					</ion-input>
+				</ion-item>
+			</ion-col>
+		</ion-row>
+		<ion-row style="border-bottom: 0">
+      <ion-col col-12>
+				<ion-item>
+					<ion-label stacked color="primary">Pay fee with</ion-label>
+					<ion-select id="chainSelect" [(ngModel)]="chainName" interface="action-sheet" formControlName="chainForm" name="chainName" okText="{{ 'OK' | translate }}" cancelText="{{ 'CANCEL' | translate }}">
+	        <ion-option *ngFor="let arrayChain of chains" [value]="arrayChain">
+	          {{ arrayChain | uppercase }}
+	        </ion-option>
+	      </ion-select>
+				</ion-item>
+			</ion-col>
+		</ion-row>
+		<ion-row style="border-bottom: 0">
+      <ion-col col-12>
+				<ion-item>
+		      <ion-label *ngIf="!privateMsg" stacked color="primary">{{ 'P_MESSAGE' | translate }} ({{ 'OPTIONAL' | translate }})</ion-label>
+		      <ion-label *ngIf="privateMsg" stacked color="primary">{{ 'PRIVATE_MESSAGE' | translate }} ({{ 'OPTIONAL' | translate }})</ion-label>
+		      <ion-input [(ngModel)]="message" [disabled]="disableSend" name="message" type="text" formControlName="messageForm"></ion-input>
+		   <!--  <ion-toggle [(ngModel)]="privateMsg" (click)="setMsg()" formControlName="msgTypeForm"></ion-toggle> -->
+		    </ion-item>
+		  </ion-col>
+		</ion-row>
+		<ion-row style="border-bottom: 0">
+      <ion-col col-12>
+				<ion-item>
+					<ion-label stacked color="primary">{{ 'PASSPHRASE' | translate }}</ion-label>
+					<ion-input [(ngModel)]="password" [disabled]="disableSend" name="password" type="{{passwordType}}" formControlName="passwordForm">
+					</ion-input>
+
+					<button id="eyeIcon" ion-button clear color="dark" type="button" item-right (click)="togglePassword()"> <ion-icon *ngIf="passwordType == 'password'" name="eye"> </ion-icon><ion-icon *ngIf="passwordType == 'text'" name="eye-off"> </ion-icon> </button>
+					<button id="fingerIcon" *ngIf="fingerAvailable === true && hasPassphrase" ion-button clear color="dark" type="button" item-right (click)="showFingerprint()"> <ion-icon name="finger-print"></ion-icon> </button>
+					<button id="fingerIcon" *ngIf="usePin === true && hasPassphrase" ion-button clear color="dark" type="button" item-right (click)="showPin()"> <ion-icon name="keypad"></ion-icon> </button>
+					<button id="qrIcon" ion-button clear color="dark" type="button" item-right (click)="openBarcodeScannerPassword('password')"> <ion-icon name="barcode"> </ion-icon> </button>
+				</ion-item>
+			</ion-col>
+		</ion-row>
+    </ion-list>
+    <ion-row responsive-sm>
+      <ion-col [ngClass]="{'successBox' : (status == 1), 'failedBox':(status == -1)}">
+        {{resultTxt}}
+      </ion-col>
+    </ion-row>
+
+	<ion-row responsive-sm>
+		<ion-col>
+			<button ion-button [disabled]="disableSend || !sendForm.valid" (click)="presentConfirm()" type="submit" block>{{ 'SEND' | translate }}</button>
+		</ion-col>
+  </ion-row>
+  <ion-row responsive-sm>
+    	<ion-col>
+			<button ion-button color="light" (click)="closeModal()" block>{{ 'CLOSE' | translate }}</button>
+		</ion-col>
+    </ion-row>
+	</form>
+
+</ion-content>

@@ -1,0 +1,39 @@
+page-send-modal {
+	.successBox {
+  	background-color: #32db64;
+  	color: white;
+  	padding: 50px 10px;
+  	border-radius: 2px;
+  }
+
+  .failedBox {
+  	background-color: #f53d3d;
+  	color: white;
+  	padding: 10px;
+  	border-radius: 2px;
+  }
+
+  #qrIcon, #fingerIcon, #contactsIcon, #eyeIcon {
+      font-size: 1.3em;
+      margin: 0;
+      padding: 0 0.4em;
+      height: 100%;
+      color: #777;
+      top: 13px;
+      position: relative;
+  }
+
+  ion-content {
+      background-color: #fff;
+  }
+
+  .idIcon {
+      left: 35px;
+      top: -4px;
+      position: absolute;
+  }
+
+  .item-label-stacked .text-input-md, .item-label-floating .text-input-md, .item-label-stacked .text-input-ios, .item-label-floating .text-input-ios {
+      font-size: 12px;
+  }
+}

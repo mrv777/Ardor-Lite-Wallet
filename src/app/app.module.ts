@@ -41,6 +41,7 @@ import { CancelOrderModalPageModule } from '../pages/cancel-order-modal/cancel-o
 import { AccountInfoPageModule } from '../pages/account-info/account-info.module';
 import { AssetsPageModule } from '../pages/assets/assets.module';
 import { AssetsModalPageModule } from '../pages/assets-modal/assets-modal.module';
+import { SendModalPageModule } from '../pages/send-modal/send-modal.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -50,13 +51,13 @@ import { SharedProvider } from '../providers/shared/shared';
 import { CurrenciesProvider } from '../providers/currencies/currencies';
 import { CoinExchangeProvider } from '../providers/coin-exchange/coin-exchange';
 import { AliasesProvider } from '../providers/aliases/aliases';
+import { AssetsProvider } from '../providers/assets/assets';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 import jdenticon from 'jdenticon';
-import { AssetsProvider } from '../providers/assets/assets';
 
 jdenticon.config = {
   replaceMode: "observe"
@@ -108,7 +109,8 @@ jdenticon.config = {
     CancelOrderModalPageModule,
     AccountInfoPageModule,
     AssetsPageModule,
-    AssetsModalPageModule
+    AssetsModalPageModule,
+    SendModalPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

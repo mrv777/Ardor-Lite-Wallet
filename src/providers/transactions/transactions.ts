@@ -93,5 +93,20 @@ export class TransactionsProvider {
     return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getBundlerRates`);
   }
   
+  transferAsset(chain: string, recipient:string, asset: string, amount:number, message:string, privateMsg: boolean = false): Observable<object> {
+    let publicKey = this.accountData.getPublicKey();
+    const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
+
+    let data;
+    if (message != null && message != '' && privateMsg) {
+      data = "chain=" + chain + "&recipient=" + recipient + "&asset=" + asset + "&quantityQNT=" + amount + "&publicKey=" + publicKey + "&messageToEncrypt=" + message + "&encryptedMessageIsPrunable=true";
+    } else if (message != null && message != '') {
+      data = "chain=" + chain + "&recipient=" + recipient + "&asset=" + asset + "&quantityQNT=" + amount + "&publicKey=" + publicKey + "&message=" + message + "&messageIsPrunable=true";
+    } else {
+      data = "chain=" + chain + "&recipient=" + recipient + "&asset=" + asset + "&quantityQNT=" + amount + "&publicKey=" + publicKey;
+    }
+
+    return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=transferAsset`, data, {headers: headers});
+  }
 
 }
