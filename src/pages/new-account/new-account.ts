@@ -73,16 +73,52 @@ export class NewAccountPage {
         }
       });
      }
-    this.passphrase = bip39.generateMnemonic();
-    this.accountID = this.accountData.convertPasswordToAccount(this.passphrase);
+    //this.passphrase = bip39.generateMnemonic();
+    this.accountData.getLang().then((lang) => {
+      if (lang && lang != '') {
+        if (lang == 'es') {
+          this.passphrase = bip39.generateMnemonic(128, null, bip39.wordlists.spanish);
+        } else if (lang == 'ja') {
+          this.passphrase = bip39.generateMnemonic(128, null, bip39.wordlists.japanese);
+        } else if (lang == 'it') {
+          this.passphrase = bip39.generateMnemonic(128, null, bip39.wordlists.italian);
+        } else if (lang == 'ko') {
+          this.passphrase = bip39.generateMnemonic(128, null, bip39.wordlists.korean);
+        } else if (lang == 'fr') {
+          this.passphrase = bip39.generateMnemonic(128, null, bip39.wordlists.french);
+        } else {
+          this.passphrase = bip39.generateMnemonic(128);
+        }
+      } else {
+        this.passphrase = bip39.generateMnemonic(128);
+      }
+      this.accountID = this.accountData.convertPasswordToAccount(this.passphrase);
+    }); 
   }
 
   verifyPassphrase() {
     this.verifyPass = [];
     this.verifyPage = true;
     let fakePassphrase = bip39.generateMnemonic();
-    let passphraseWords = fakePassphrase.split(" ").slice(0,12).concat(this.passphrase.split(" ").slice());
-    this.shuffledPass = this.shuffle(passphraseWords);
+    this.accountData.getLang().then((lang) => {
+      if (lang && lang != '') {
+        if (lang == 'es') {
+          fakePassphrase = bip39.generateMnemonic(128, null, bip39.wordlists.spanish);
+        } else if (lang == 'ja') {
+          fakePassphrase = bip39.generateMnemonic(128, null, bip39.wordlists.japanese);
+        } else if (lang == 'it') {
+          fakePassphrase = bip39.generateMnemonic(128, null, bip39.wordlists.italian);
+        } else if (lang == 'ko') {
+          fakePassphrase = bip39.generateMnemonic(128, null, bip39.wordlists.korean);
+        } else if (lang == 'fr') {
+          fakePassphrase = bip39.generateMnemonic(128, null, bip39.wordlists.french);
+        } else {
+          fakePassphrase = bip39.generateMnemonic(128);
+        }
+      }
+      let passphraseWords = fakePassphrase.split(" ").slice(0,12).concat(this.passphrase.split(" ").slice());
+      this.shuffledPass = this.shuffle(passphraseWords);
+    });
   }
 
   addWordToVerifyArray(num: number) {
