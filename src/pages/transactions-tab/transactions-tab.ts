@@ -29,10 +29,11 @@ export class TransactionsTabPage {
   numToDisplay: number = 8;
   contacts: string[];
   contactNames: string[];
-  recentTxId: number;
+  recentTxId: string;
   recentUnconfirmedTxId: number;
   guest: boolean = false;
   newTX: boolean = false;
+  loaded: boolean = false;
 
   price: number = 0;
   currency: string = 'USD';
@@ -52,7 +53,13 @@ export class TransactionsTabPage {
   	// this.chain = this.accountData.getAccountChain();
 	  this.guest = this.accountData.isGuestLogin();
     this.transactionTypes = this.sharedProvider.getTransactionTypes();
-    this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => { 
+    this.subscriptionChain = this.sharedProvider.getChain().subscribe(sharedChain => {
+      this.loaded = false;
+      if (this.recentTxId){ // If there is a recent TX ID then it is not the initial load
+        this.accountData.setLastTX(this.accountID,this.chain,this.recentTxId); // Set Last Seen TX when changing changes
+        console.log(this.chain);
+        this.recentTxId = null;
+      }
       if (this.subscriptionUnconfirmedTxs) {
         this.subscriptionUnconfirmedTxs.unsubscribe();
       }
@@ -96,6 +103,7 @@ export class TransactionsTabPage {
 
 
   loadTxs() {
+    this.loaded = false;
   	this.accountData.getContacts().then((currentContacts) => {
         if (currentContacts != null) {
           this.contacts = [];
@@ -116,22 +124,49 @@ export class TransactionsTabPage {
   	this.subscriptionTx = this.accountData.getAccountTransactions(this.chain, this.accountID, this.numToDisplay, (this.numToDisplay * (this.p-1))).subscribe((transactions) => {
 	  	if (transactions['errorDescription']) {
         this.transactions = [];
+        this.total = 0;
       } else {
 	  	  this.transactions = transactions['transactions'];
-      }
-	  	if (transactions['transactions'][0] && transactions['transactions'][0]['fullHash']) {
-	  	 	this.recentTxId = this.transactions[0]['fullHash']; // Record the most recent TX id
-	  	}
-	  	this.total = transactions['transactions'].length;
-      for (let i=0;i < this.transactions.length; i++) {
-        if (this.transactions[i]['type'] != 0) {
-          let arrayType = this.transactions[i]['type']+4;
-          let arraySubType = this.transactions[i]['subtype'];
-          this.transactions[i]['typeName'] = this.transactionTypes[arrayType][arraySubType];
+        if (transactions['transactions'][0] && transactions['transactions'][0]['fullHash']) {
+          this.recentTxId = this.transactions[0]['fullHash']; // Record the most recent TX full hash
+          this.accountData.getLastTX(this.accountID,this.chain).then(
+            (tx) => {
+              if (tx && tx != null) {
+                if (tx != this.recentTxId) { // If the most recent TX is not the last one we seen, then we need to mark the new txs and record the newest one we've seen now
+                  this.loadTXList(tx);
+                } else {
+                  this.loadTXList('');
+                }
+              } else {
+                this.loadTXList('');
+              }
+            },
+            error => this.loadTXList('')
+          );
+        } else {
+          this.loaded = true; // If there are 0 transactions then no need to load the list, but we should state its loaded
         }
-	      this.transactions[i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.transactions[i]['timestamp'])*1000);
-	    } 
+        this.total = transactions['transactions'].length;
+        }
 	  });
+  }
+
+  loadTXList(lastSeenTx: string) {
+    let lastSeenTxId = lastSeenTx;
+    for (let i=0;i < this.transactions.length; i++) {
+      if (this.transactions[i]['type'] != 0) {
+        let arrayType = this.transactions[i]['type']+4;
+        let arraySubType = this.transactions[i]['subtype'];
+        this.transactions[i]['typeName'] = this.transactionTypes[arrayType][arraySubType];
+      }
+      this.transactions[i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.transactions[i]['timestamp'])*1000);
+      if(lastSeenTxId != '' && lastSeenTxId != this.transactions[i]['fullHash']) {
+        this.transactions[i]['newTx'] = true;
+      } else if (lastSeenTxId == this.transactions[i]['fullHash']) { // We are caught up so we don't need to mark any more txs as new
+        lastSeenTxId = '';
+      }
+    }
+    this.loaded = true;
   }
 
   addNewContact(account:string) {
@@ -187,6 +222,7 @@ export class TransactionsTabPage {
     this.subscriptionUnconfirmedTxs.unsubscribe();
     this.subscriptionChain.unsubscribe();
     this.subscriptionTx.unsubscribe();
+    this.accountData.setLastTX(this.accountID,this.chain,this.recentTxId); // Set Last Seen TX when leaving
   }
 
 }

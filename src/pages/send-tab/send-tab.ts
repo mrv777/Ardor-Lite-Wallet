@@ -299,7 +299,7 @@ export class SendTabPage {
             this.transactions.broadcastTransaction(signedTx, attachment)
             .subscribe(
               broadcastResults => {
-                console.log(broadcastResults);
+                //console.log(broadcastResults);
                 if (broadcastResults['fullHash'] != null) {
                   this.translate.get('SUCCESS_SEND', {recipient: recipient, amountBig: amountBig, chainName: chainName}).subscribe((res: string) => {
                       this.successSend = res;

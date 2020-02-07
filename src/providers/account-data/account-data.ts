@@ -413,6 +413,16 @@ export class AccountDataProvider {
     this.storage.set(`DefaultCurrency`, account);
   }
 
+  setLastTX(account: string, chain:number, tx: string): void {
+    this.storage.set(`${account}${chain}ardorLastTx`, tx);
+  }
+
+  getLastTX(account: string, chain:number): Promise<string> {
+    return this.storage.get(`${account}${chain}ardorLastTx`).then((value) => {
+        return value;
+    });
+  }
+
   setTheme(theme: string): void {
     this.storage.set(`Theme`, theme);
     this.THEME.next(theme);
