@@ -2,6 +2,7 @@
   <ion-list *ngIf="transactions == null || !loaded">
     <ion-item>
       <h5>
+        <ion-spinner></ion-spinner> <br />
         {{ 'LOADING_TXS' | translate }}
       </h5>
     </ion-item>

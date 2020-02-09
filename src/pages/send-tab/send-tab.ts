@@ -102,14 +102,25 @@ export class SendTabPage {
       }
     }
 
-    this.transactions.getExchanges()
+    this.transactions.getArdorExchanges()
     .subscribe(
         eAccounts => {
           if (eAccounts['errorDescription']) {
             
           } else {
             const eAccountsURI = eAccounts['aliasURI'];
-            this.eAddresses = eAccountsURI.split("|");
+            this.eAddresses['ARDR'] = eAccountsURI.split("|");
+          }
+        }
+    );
+    this.transactions.getIgnisExchanges()
+    .subscribe(
+        eAccounts => {
+          if (eAccounts['errorDescription']) {
+            
+          } else {
+            const eAccountsURI = eAccounts['aliasURI'];
+            this.eAddresses['IGNIS'] = eAccountsURI.split("|");
           }
         }
     );
@@ -200,11 +211,42 @@ export class SendTabPage {
     this.keyboard.hide();
   }
 
+  // Check if they are trying to send to a known exchange account without a message.  If not, then continue to check if they are sending to an exchange account on a different chain
   exchangeCheck() { 
-    if ((!this.message || this.message == '') && this.eAddresses.indexOf(this.recipient.toLowerCase()) != -1) {
+    if ((!this.message || this.message == '') && (this.eAddresses['ARDR'].indexOf(this.recipient.toLowerCase()) != -1 || this.eAddresses['IGNIS'].indexOf(this.recipient.toLowerCase()) != -1)) {
       let alert = this.alertCtrl.create({
         title: 'Exchange Warning',
         message: `It appears you are sending to an exchange without a message.  Exchanges typically require a message to credit the correct account.  Are you sure you want to continue without a message?`,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'Continue',
+            handler: () => {
+              this.incorrectExchangeCheck();
+            }
+          }
+        ]
+      });
+      alert.present();
+    } else {
+      this.incorrectExchangeCheck();
+    }
+  }
+
+  // Check if they are trying to send to an exchange account that has been identified for a different chain.  If not then continue to confirmation of amount and recipient
+
+  incorrectExchangeCheck() {
+    if ((this.chainName == 'ARDR' && this.eAddresses['ARDR'].indexOf(this.recipient.toLowerCase()) == -1 && this.eAddresses['IGNIS'].indexOf(this.recipient.toLowerCase()) != -1) || 
+       (this.chainName == 'IGNIS' && this.eAddresses['ARDR'].indexOf(this.recipient.toLowerCase()) != -1 && this.eAddresses['IGNIS'].indexOf(this.recipient.toLowerCase()) == -1)) {
+      let alert = this.alertCtrl.create({
+        title: 'Chain Warning',
+        message: `It appears you are sending to an exchange deposit address that is for a different token then you are sending. Are you sure you want to continue with this transaction?`,
         buttons: [
           {
             text: 'Cancel',
@@ -383,7 +425,7 @@ export class SendTabPage {
 
   openBarcodeScanner() {
     this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
-      this.recipient = barcodeData['text'];
+      this.recipient = barcodeData['text'].toUpperCase();
     }, (err) => {
         // An error occurred
     });

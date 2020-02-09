@@ -291,7 +291,7 @@ export class LeaseBalanceModalPage {
 
   openBarcodeScanner() {
     this.barcodeScanner.scan({prompt : this.qrText, disableSuccessBeep: true}).then((barcodeData) => {
-      this.recipient = barcodeData['text'];
+      this.recipient = barcodeData['text'].toUpperCase();
     }, (err) => {
         // An error occurred
     });

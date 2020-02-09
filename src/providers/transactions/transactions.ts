@@ -85,8 +85,11 @@ export class TransactionsProvider {
     return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getTransaction&chain=${chain}&fullHash=${fullHash}`)
   }
 
-  getExchanges(): Observable<object> {
-    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getAlias&chain=ignis&aliasName=ArdorLiteExchanges`)
+  getArdorExchanges(): Observable<object> {
+    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getAlias&chain=ignis&aliasName=ArdorLiteArdorExchanges`)
+  }
+  getIgnisExchanges(): Observable<object> {
+    return this.http.get(`${this.accountData.getNodeFromMemory()}nxt?requestType=getAlias&chain=ignis&aliasName=ArdorLiteIgnisExchanges`)
   }
 
   getBundlerRates(): Observable<object> {
