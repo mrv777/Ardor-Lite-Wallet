@@ -205,7 +205,7 @@
 						<ng-container *ngFor="let trade of trades | paginate: { id: 'trades_pages',
 			                                                  itemsPerPage: '10',
 			                                                  currentPage: tradesOrdersPage }">
-							<ion-row>
+							<ion-row [ngClass]="{'buyTrade' : trade.tradeType == 'buy', 'sellTrade' : trade.tradeType == 'sell'}">
 							<ion-col>{{trade.date | date:'M/d/yy H:mm'}}</ion-col>
 							<ion-col *ngIf="trade.quantity >= 0.001">{{trade.quantity | number : '1.0-3'}}</ion-col>
 							<ion-col *ngIf="trade.quantity < 0.001"><0.001</ion-col>
