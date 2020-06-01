@@ -5,6 +5,9 @@
 	<div id="loader" *ngIf="!error">
 		<ion-spinner></ion-spinner>	<br />
 		{{ 'LOADING_ACCOUNTS' | translate }}
+		<p *ngIf="nodeRetryCount > 0">
+			Trying another node
+		</p>
 	</div>
 	<div id="loader" *ngIf="error">
 		{{error}} <br />

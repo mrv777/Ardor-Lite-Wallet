@@ -38,6 +38,7 @@ export class TxDetailsModalPage {
       let arrayType = this.tx['type']+4;
       let arraySubType = this.tx['subtype'];
       this.tx['typeName'] = this.transactionTypes[arrayType][arraySubType];
+      this.tx['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.tx['timestamp'])*1000);
 
       this.decimals = Math.pow(10, this.sharedProvider.getConstants()['chainProperties'][this.chain]['decimals']);
       if (this.tx['type'] == 2 && this.tx['subtype'] == 1) {

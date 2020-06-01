@@ -106,7 +106,7 @@ export class SendTabPage {
     .subscribe(
         eAccounts => {
           if (eAccounts['errorDescription']) {
-            
+            this.eAddresses['ARDR'] = '';
           } else {
             const eAccountsURI = eAccounts['aliasURI'];
             this.eAddresses['ARDR'] = eAccountsURI.split("|");
@@ -117,7 +117,7 @@ export class SendTabPage {
     .subscribe(
         eAccounts => {
           if (eAccounts['errorDescription']) {
-            
+            this.eAddresses['IGNIS'] = '';
           } else {
             const eAccountsURI = eAccounts['aliasURI'];
             this.eAddresses['IGNIS'] = eAccountsURI.split("|");
@@ -213,7 +213,7 @@ export class SendTabPage {
 
   // Check if they are trying to send to a known exchange account without a message.  If not, then continue to check if they are sending to an exchange account on a different chain
   exchangeCheck() { 
-    if ((!this.message || this.message == '') && (this.eAddresses['ARDR'].indexOf(this.recipient.toLowerCase()) != -1 || this.eAddresses['IGNIS'].indexOf(this.recipient.toLowerCase()) != -1)) {
+    if (this.eAddresses && (!this.message || this.message == '') && (this.eAddresses['ARDR'].indexOf(this.recipient.toLowerCase()) != -1 || this.eAddresses['IGNIS'].indexOf(this.recipient.toLowerCase()) != -1)) {
       let alert = this.alertCtrl.create({
         title: 'Exchange Warning',
         message: `It appears you are sending to an exchange without a message.  Exchanges typically require a message to credit the correct account.  Are you sure you want to continue without a message?`,
@@ -240,9 +240,9 @@ export class SendTabPage {
   }
 
   // Check if they are trying to send to an exchange account that has been identified for a different chain.  If not then continue to confirmation of amount and recipient
-
   incorrectExchangeCheck() {
-    if ((this.chainName == 'ARDR' && this.eAddresses['ARDR'].indexOf(this.recipient.toLowerCase()) == -1 && this.eAddresses['IGNIS'].indexOf(this.recipient.toLowerCase()) != -1) || 
+    if (this.eAddresses &&
+       (this.chainName == 'ARDR' && this.eAddresses['ARDR'].indexOf(this.recipient.toLowerCase()) == -1 && this.eAddresses['IGNIS'].indexOf(this.recipient.toLowerCase()) != -1) || 
        (this.chainName == 'IGNIS' && this.eAddresses['ARDR'].indexOf(this.recipient.toLowerCase()) != -1 && this.eAddresses['IGNIS'].indexOf(this.recipient.toLowerCase()) == -1)) {
       let alert = this.alertCtrl.create({
         title: 'Chain Warning',

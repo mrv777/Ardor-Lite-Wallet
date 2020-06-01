@@ -79,6 +79,15 @@
 
 	    <ion-row>
 	      <ion-col col-4>
+	      	{{ 'DATE' | translate }}: 
+	      </ion-col>
+	      <ion-col col-8>
+	      	{{tx['date'] | date:'M/d/y H:mm'}}
+	      </ion-col>
+	    </ion-row>
+
+	    <ion-row>
+	      <ion-col col-4>
 	      	{{ 'HEIGHT' | translate }}: 
 	      </ion-col>
 	      <ion-col col-8>

@@ -309,7 +309,8 @@ export class AssetsPage {
   }
 
   showTransfer(asset: object) {
-    let myModal = this.modalCtrl.create(SendModalPage, { asset: asset, chain: this.chain, assetDecimals: this.decimals });
+  	let transferDecimals = Math.pow(10, asset['decimals']);
+    let myModal = this.modalCtrl.create(SendModalPage, { asset: asset, chain: this.chain, assetDecimals: transferDecimals });
     myModal.present();
   }
 

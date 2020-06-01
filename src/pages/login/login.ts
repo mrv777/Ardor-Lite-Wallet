@@ -35,6 +35,7 @@ export class LoginPage {
   guest: boolean = false;
   loading: boolean = true;
   firstTimeLoading: boolean = false;
+  nodeRetryCount: number = 0;
 
   qrText: string = 'Place QR code inside the scan area';
   unknownAccount: string = 'Alias not found, or incorrect account address';
@@ -90,6 +91,7 @@ export class LoginPage {
       this.accountData.checkNode().subscribe(
         (nodeStatus) => {
           if (nodeStatus['blockchainState'] == "UP_TO_DATE") {
+            this.nodeRetryCount = 0;
             this.error = null;
             this.shared.getConstantsHttp().subscribe((sharedData) => {
               this.shared.setConstants(sharedData);
@@ -117,14 +119,22 @@ export class LoginPage {
                 this.loading = false;
               }
             });
+          } else if (this.nodeRetryCount == 0) { // Try a new node one time before displaying an error
+            this.nodeRetryCount = 1;
+            this.setNode();
           } else {
             this.error = "Node error or out of sync";
             this.loading = false;
           }
         },
         (err) => {
-          this.error = "Node not online";
-          this.loading = false;
+          if (this.nodeRetryCount == 0) { // Try a new node one time before displaying an error
+            this.nodeRetryCount = 1;
+            this.setNode();
+          } else {
+            this.error = "Node not online";
+            this.loading = false;
+          }
         });
     });
   }

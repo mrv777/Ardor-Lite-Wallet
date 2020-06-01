@@ -183,7 +183,7 @@
 	                                                      itemsPerPage: '10',
 	                                                      currentPage: tradesOrdersPage }">
     					<!-- <ion-row [ngClass]="{'yourTrade' : trade.accountRS == accountId}"> -->
-    					<ion-row>
+    					<ion-row [ngClass]="{'buyTrade' : trade.tradeType == 'buy', 'sellTrade' : trade.tradeType == 'sell'}">
 								<ion-col>{{trade.date | date:'M/d H:mm'}}</ion-col>
 								<!-- <ion-col>{{trade.type}}</ion-col> -->
 								<ion-col>{{trade.price | number : '1.0-6'}}</ion-col>

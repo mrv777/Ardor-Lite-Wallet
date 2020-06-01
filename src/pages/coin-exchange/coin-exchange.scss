@@ -116,6 +116,13 @@ page-coin-exchange {
         background-color: rgba(17, 98, 161, 0.3);
     }
 
+    ion-grid ion-grid ion-row.buyTrade {
+        background-color: rgba(50, 219, 100, 0.2);
+    }
+    ion-grid ion-grid ion-row.sellTrade {
+        background-color: rgba(245, 61, 61, 0.2);
+    }
+
     .closeButton {
         color: #f43d3d;
     }

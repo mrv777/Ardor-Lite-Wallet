@@ -78,8 +78,9 @@ export class SendModalPage {
       this.max = this.asset['quantity'];
       this.assetDecimals = this.asset['decimals'];
       if (this.assetDecimals != 0) {
-    		this.assetDecimalsPow = Math.round( Math.log(this.assetDecimals) / Math.log(10) );
+    		this.assetDecimalsPow = Math.pow(10, this.assetDecimals);
     	}
+
 
       this.name = this.asset['name'];
     }

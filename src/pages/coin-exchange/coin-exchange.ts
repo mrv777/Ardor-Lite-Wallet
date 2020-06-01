@@ -238,21 +238,52 @@ export class CoinExchangePage {
       		this.trades.push(...trades[i]['trades']);
        	}
 
-       	for (let i=0;i < this.trades.length; i++) {
-  		    this.trades[i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.trades[i]['timestamp'])*1000);
-  		    this.trades[i]['price'] = parseFloat((1/this.trades[i]['exchangeRate']).toFixed(8));
-  		    
-  		    dataTemp.push([this.trades[i]['date'].getTime(), this.trades[i]['price'], this.trades[i]['price'], this.trades[i]['price'], this.trades[i]['price']]);
-  		    
-  		    this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.exchangeDecimals;
-  		    //this.trades[i]['quantity'] = (parseFloat(this.trades[i]['quantityQNT'])/this.decimals)/(1/this.trades[i]['exchangeRate']);
-  		    dataVolume.push([this.trades[i]['date'].getTime(), parseFloat(this.trades[i]['quantity'].toFixed(8))]);
-    		}
+        for (let i=this.trades.length-1;i >= 0; i--) {
+          if (i < this.trades.length-1) {
+            if (this.trades[i]['exchangeRate'] < this.trades[i+1]['exchangeRate']) {
+              this.trades[i]['tradeType'] = "buy";
+            } else if (this.trades[i]['exchangeRate'] == this.trades[i+1]['exchangeRate']) {
+              this.trades[i]['tradeType'] = this.trades[i+1]['tradeType'];
+            } else {
+              this.trades[i]['tradeType'] = "sell";
+            }
+          } else {
+            this.trades[this.trades.length-1]['tradeType'] = "";
+          }
 
-    		this.data = dataTemp.reverse();
-    		this.volume = dataVolume.reverse();
+          this.trades[i]['date'] = new Date((new Date("2018-01-01T00:00:00Z").getTime()/1000 + this.trades[i]['timestamp'])*1000);
+          this.trades[i]['price'] = parseFloat((1/this.trades[i]['exchangeRate']).toFixed(8));
+          
 
-    		this.trades.sort(function(b,a) {return (a['date'] > b['date']) ? 1 : ((b['date'] > a['date']) ? -1 : 0);} ); 
+          // let txChain = this.chain;
+          // if (this.exchangeChain == 1) { // If the exchange chain is Ardor, then we need to use that
+          //   txChain = this.exchangeChain;
+          // }
+          // this.transactions.getTransaction(txChain, this.trades[i]['orderFullHash']).subscribe(
+          //   tradeTx => {
+          //     if (tradeTx['chain'] == this.trades[this.tradeTxNum]['chain']) {
+          //       this.trades[this.tradeTxNum]['tradeType'] = "buy";
+          //     } else {
+          //       this.trades[this.tradeTxNum]['tradeType'] = "sell";
+          //     }
+          //     this.tradeTxNum++;
+          //   },
+          //   (err) => {
+          //     this.error = "Could not get trade type";
+          //     this.tradeTxNum++;
+          // });
+          
+          
+          this.data.push([this.trades[i]['date'].getTime(), this.trades[i]['price'], this.trades[i]['price'], this.trades[i]['price'], this.trades[i]['price']]);
+          
+          this.trades[i]['quantity'] = (this.trades[i]['quantityQNT']*this.trades[i]['exchangeRate'])/this.exchangeDecimals;
+          this.volume.push([this.trades[i]['date'].getTime(), parseFloat(this.trades[i]['quantity'].toFixed(8))]);
+        }
+
+    		//this.data = dataTemp.reverse();
+    		//this.volume = dataVolume.reverse();
+
+    		//this.trades.sort(function(b,a) {return (a['date'] > b['date']) ? 1 : ((b['date'] > a['date']) ? -1 : 0);} ); 
 
     		this.createChart();
         this.loaded = true;
