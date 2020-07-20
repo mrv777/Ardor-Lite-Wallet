@@ -1,11 +1,12 @@
 page-send-offline-tx {
-	#qrIcon {
-        font-size: 1.75em;
-        margin: 0;
-        padding: 0 0.4em;
-        height: 100%;
-        color: #777;
-    	position: relative;
+    #qrIcon, #fingerIcon, #contactsIcon, #eyeIcon {
+      font-size: 1.3em;
+      margin: 0;
+      padding: 0 0.4em;
+      height: 100%;
+      color: #777;
+      top: 13px;
+      position: relative;
     }
 
     .header button {

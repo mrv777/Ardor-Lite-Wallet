@@ -505,6 +505,16 @@ export class AccountDataProvider {
     }
   }
 
+  signTransaction(unsignedTransactionBytes: string, password: string): string  {
+    let signPassword;
+      if (!password || password == '') {
+        signPassword = this.PASSWORD;
+      } else {
+        signPassword = password;
+      }
+     return ardorjs.signTransactionBytes(unsignedTransactionBytes, signPassword);
+  }
+
   getAccount(accountID: string) : Observable<object> {
     return this.http.get(`${this.getNodeFromMemory()}nxt?requestType=getAccount&account=${accountID}`);
   }

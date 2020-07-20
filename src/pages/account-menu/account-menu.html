@@ -26,4 +26,7 @@
     <ion-item *ngIf="!guest" tappable (click)="presentRemove()">
     	<label>{{ 'REMOVE_ACCOUNT' | translate }}</label>
     </ion-item>
+    <ion-item tappable (click)="offlineTx()">
+        <label>{{ 'OFFLINE_TX' | translate }}</label>
+    </ion-item>
 </ion-list>

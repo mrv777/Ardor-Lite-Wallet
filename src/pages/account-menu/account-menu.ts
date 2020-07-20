@@ -8,6 +8,7 @@ import { AccountInfoPage } from '../account-info/account-info';
 import { RenameAccountPage } from '../rename-account/rename-account';
 import { AccountSettingsPage } from '../account-settings/account-settings';
 import { LeaseBalanceModalPage } from '../lease-balance-modal/lease-balance-modal';
+import { SendOfflineTxPage } from '../send-offline-tx/send-offline-tx';
 
 @IonicPage()
 @Component({
@@ -89,6 +90,18 @@ export class AccountMenuPage {
     myModal.onDidDismiss(data => {
       if (data == true) {
         this.viewCtrl.dismiss('settings');
+      } else {
+        this.viewCtrl.dismiss('NoChange');
+      }
+    });
+  }
+
+  offlineTx() {
+    let myModal = this.modalCtrl.create(SendOfflineTxPage, { sign: true });
+    myModal.present();
+    myModal.onDidDismiss(data => {
+      if (data == true) {
+        this.viewCtrl.dismiss('offlineTx');
       } else {
         this.viewCtrl.dismiss('NoChange');
       }

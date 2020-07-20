@@ -62,11 +62,16 @@ export class TransactionsProvider {
     return this.http.post(`${this.accountData.getNodeFromMemory()}nxt?requestType=placeBidOrder`, data, {headers: headers});
   }
 
-  broadcastTransaction(transactionBytes: string, prunableAttachmentJSON: object = null): Observable<object> {
+  broadcastTransaction(transactionBytes: string, prunableAttachmentJSON: any = null): Observable<object> {
     const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded'});
     let data;
     if (prunableAttachmentJSON) {
-      let pruneableData = JSON.stringify(prunableAttachmentJSON);
+      let pruneableData
+      if (typeof prunableAttachmentJSON === 'object' && prunableAttachmentJSON !== null){
+        pruneableData = JSON.stringify(prunableAttachmentJSON);
+      } else {
+        pruneableData = prunableAttachmentJSON;
+      }
       data = "transactionBytes=" + transactionBytes + "&prunableAttachmentJSON=" + pruneableData;
     } else {
       data = "transactionBytes=" + transactionBytes;
