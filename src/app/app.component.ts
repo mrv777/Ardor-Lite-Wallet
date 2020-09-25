@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TranslateService } from '@ngx-translate/core';
 import { HeaderColor } from '@ionic-native/header-color';
+import { Deeplinks } from '@ionic-native/deeplinks';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -11,6 +12,7 @@ import { ContactsPage } from '../pages/contacts/contacts';
 import { CoinExchangePage } from '../pages/coin-exchange/coin-exchange';
 import { AboutPage } from '../pages/about/about';
 import { AssetsPage } from '../pages/assets/assets';
+import { SendOfflineTxPage } from '../pages/send-offline-tx/send-offline-tx';
 
 import { AccountDataProvider } from '../providers/account-data/account-data';
 
@@ -33,7 +35,7 @@ export class MyApp {
 
   backButtonPressedOnceToExit: boolean = false;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private menuCtrl: MenuController, private ionicApp: IonicApp, private toastCtrl: ToastController, public accountData: AccountDataProvider, private translate: TranslateService, private headerColor: HeaderColor) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private menuCtrl: MenuController, private ionicApp: IonicApp, private toastCtrl: ToastController, public accountData: AccountDataProvider, private translate: TranslateService, private headerColor: HeaderColor, private deeplinks: Deeplinks) {
     this.initializeApp();
 
     translate.setDefaultLang('en');
@@ -49,6 +51,28 @@ export class MyApp {
       this.headerColor.tint('#1162a1');
       this.accountData.getActiveTheme().subscribe(val => this.theme = val);
       this.splashScreen.hide();
+
+      if (this.platform.is('cordova')) {
+        this.deeplinks.routeWithNavController(this.nav, {
+          //'/about-us': AboutPage
+        }).subscribe((match) => {
+          console.log('Successfully routed', match);
+          let linkPath = match['$link']['url'];
+          if (linkPath.search("tx/") > 0) {
+            this.nav.push(SendOfflineTxPage, { sign: true, tx: linkPath.split('tx/')[1] } );
+          } else {
+            this.nav.push(SendOfflineTxPage);
+          }
+        }, (nomatch) => {
+          console.warn('Unmatched Route', nomatch);
+          let linkPath = nomatch['$link']['url'];
+          if (linkPath.search("tx/") > 0) {
+            this.nav.push(SendOfflineTxPage, { sign: true, tx: linkPath.split('tx/')[1] } );
+          } else {
+            this.nav.push(SendOfflineTxPage);
+          }
+        });
+      }
 
       this.platform.registerBackButtonAction(() => {
         this.translate.get('PRESS_EXIT').subscribe((res: string) => {

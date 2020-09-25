@@ -155,7 +155,8 @@ export class LoginPage {
             }
   	      } else {
   	        if (account && account['unconfirmedBalanceNQT']) {
-  	          this.accounts[this.loopIndex]['balance'] = account['unconfirmedBalanceNQT'];
+              let account_decimals = Math.pow(10, this.shared.getConstants()['chainProperties'][this.accounts[this.loopIndex]['chain']]['decimals'])
+  	          this.accounts[this.loopIndex]['balance'] = account['unconfirmedBalanceNQT']/account_decimals;
   	        } else {
   	          this.accounts[this.loopIndex]['balance'] = 0;
   	        }

@@ -53,6 +53,9 @@ export class SendOfflineTxPage {
     if (navParams.get('sign')) {
       this.sign = true;
     }
+    if (navParams.get('tx')) {
+      this.tx = navParams.get('tx');
+    }
   }
 
   ionViewWillEnter() {
@@ -179,8 +182,8 @@ export class SendOfflineTxPage {
       this.txBytes = this.tx.split("||")[0];
       this.txAttachment = this.tx.split("||")[1];
 
-      if (this.sign) {
-        if (this.password && this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) { //If we are siging make sure passphrase is for the correct account
+      if (this.sign && this.password) {
+        if (this.accountData.convertPasswordToAccount(this.password) == this.accountData.getAccountID()) { //If we are siging make sure passphrase is for the correct account
           this.txBytes = this.accountData.signTransaction(this.txBytes, this.password);
           this.onSend();
         } else {

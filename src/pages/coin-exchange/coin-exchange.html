@@ -83,7 +83,7 @@
 	                                                      currentPage: sellOrdersPage }">
 						<ion-row [ngClass]="{'yourTrade' : order.accountRS == accountId}">
 							<ion-col col-0 col-md-4 class="hidden-sm">{{order.accountRS}}</ion-col>
-							<ion-col col-5 col-md-2><a (click)="showExchange(order.bidNQTPerCoin/decimals,order.sum,'Sell')">{{order.bidNQTPerCoin/decimals | number : '1.0-6'}}</a></ion-col>
+							<ion-col col-5 col-md-2><a (click)="showExchange(order.bidNQTPerCoin/decimals,order.sum,'Sell')">{{order.bidNQTPerCoin/exchangeDecimals | number : '1.0-6'}}</a></ion-col>
 							<ion-col col-7 col-md-3 *ngIf="order.quantityQNT/decimals >= 0.001">{{(order.quantityQNT/decimals) | number : '1.0-3'}}</ion-col>
 							<ion-col col-7 col-md-3 *ngIf="order.quantityQNT/decimals < 0.001"><0.001</ion-col>
 							<ion-col col-0 col-md-3 class="hidden-sm" *ngIf="order.exchangeQNT/exchangeDecimals >= 0.001">{{order.exchangeQNT/exchangeDecimals | number : '1.0-3'}}</ion-col>
